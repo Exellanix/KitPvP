@@ -1,5 +1,6 @@
 package event.player;
 
+import me.exellanix.idk.Util.AlterItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,27 +33,15 @@ public class JoinStuff implements Listener {
 		((PlayerInventory) inv).setLeggings(air);
 		((PlayerInventory) inv).setBoots(air);
 
-		ItemStack chest = nameItem(Material.CHEST, ChatColor.GREEN + "" + ChatColor.BOLD + "Kit Selector");
+		ItemStack chest = AlterItem.nameItem(Material.CHEST, ChatColor.GREEN + "" + ChatColor.BOLD + "Kit Selector");
 		inv.setItem(0, chest);
-		ItemStack arrow = nameItem(Material.ARROW, ChatColor.YELLOW + "" + ChatColor.BOLD + "Warps");
+		ItemStack arrow = AlterItem.nameItem(Material.ARROW, ChatColor.YELLOW + "" + ChatColor.BOLD + "Warps");
 		inv.setItem(7, arrow);
-		ItemStack hub = nameItem(Material.WATCH, ChatColor.GOLD + "" + ChatColor.BOLD + "Hub");
+		ItemStack hub = AlterItem.nameItem(Material.WATCH, ChatColor.GOLD + "" + ChatColor.BOLD + "Hub");
 		inv.setItem(4, hub);
-		ItemStack duel = nameItem(Material.DIAMOND_SWORD, ChatColor.AQUA + "" + ChatColor.BOLD + "Duel Arena");
+		ItemStack duel = AlterItem.nameItem(Material.DIAMOND_SWORD, ChatColor.AQUA + "" + ChatColor.BOLD + "Duel Arena");
 		inv.setItem(8, duel);
 
-	}
-
-	private ItemStack nameItem(ItemStack item, String name) {
-		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(name);
-
-		item.setItemMeta(meta);
-		return item;
-	}
-
-	private ItemStack nameItem(Material item, String name) {
-		return nameItem(new ItemStack(item), name);
 	}
 
 	public void setupScoreboard(Player p) {

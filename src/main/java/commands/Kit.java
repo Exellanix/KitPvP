@@ -1,5 +1,6 @@
 package commands;
 
+import me.exellanix.idk.Kits;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -32,46 +33,34 @@ public class Kit implements CommandExecutor, Listener {
 							ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Kits");
 
 					// PvP
-					ItemStack kitPvpSword = nameItem(Material.DIAMOND_SWORD,
-							ChatColor.AQUA + "" + ChatColor.BOLD + "PvP");
-					inv.setItem(0, kitPvpSword);
+					inv.setItem(0, Kits.PVP.getIcon());
+
 					// Archer
-					ItemStack kitArcherBow = nameItem(Material.BOW,
-							ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Archer");
-					inv.setItem(1, kitArcherBow);
+					inv.setItem(1, Kits.ARCHER.getIcon());
+
 					// Zeus
-					ItemStack kitZeusAxe = nameItem(Material.DIAMOND_AXE,
-							ChatColor.YELLOW + "" + ChatColor.BOLD + "Thor");
-					inv.setItem(2, kitZeusAxe);
+					inv.setItem(2, Kits.THOR.getIcon());
 
 					// Kangaroo
-					ItemStack kitJumperFeather = nameItem(Material.FIREWORK,
-							ChatColor.RED + "" + ChatColor.BOLD + "Kangaroo");
-					inv.setItem(3, kitJumperFeather);
+					inv.setItem(3, Kits.KANGAROO.getIcon());
+
 					// Switcher
-					ItemStack kitSwitcherSnowball = nameItem(Material.SNOW_BALL,
-							ChatColor.WHITE + "" + ChatColor.BOLD + "Switcher");
-					inv.setItem(4, kitSwitcherSnowball);
+					inv.setItem(4, Kits.SWITCHER.getIcon());
+
 					// Fisherman
-					ItemStack kitFishermanRod = nameItem(Material.FISHING_ROD,
-							ChatColor.GRAY + "" + ChatColor.BOLD + "Fisherman");
-					inv.setItem(5, kitFishermanRod);
+					inv.setItem(5, Kits.FISHERMAN.getIcon());
+
 					// Pot Master
-					ItemStack kitPotMaster = nameItem(Material.POTION,
-							ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Pot Master");
-					inv.setItem(6, kitPotMaster);
+					inv.setItem(6, Kits.POTMASTER.getIcon());
+
 					// Survivor
-					ItemStack kitSurvivor = nameItem(Material.APPLE,
-							ChatColor.GREEN + "" + ChatColor.BOLD + "Survivor");
-					inv.setItem(7, kitSurvivor);
-					// Pyromancer 
-					ItemStack kitPyromancer = nameItem(Material.BLAZE_POWDER,
-							ChatColor.DARK_RED + "" + ChatColor.BOLD + "Pyromancer");
-					inv.setItem(8, kitPyromancer);
+					inv.setItem(7, Kits.SURVIVOR.getIcon());
+
+					// Pyromancer
+					inv.setItem(8, Kits.PYROMANCER.getIcon());
+
 					// re-crafter
-					ItemStack kitrecrafter = nameItem(Material.BOWL,
-							ChatColor.DARK_BLUE + "" + ChatColor.BOLD + "Re-crafter");
-					inv.setItem(9, kitrecrafter);
+					inv.setItem(9, Kits.RECRAFTER.getIcon());
 
 					player.openInventory(inv);
 
@@ -105,20 +94,7 @@ public class Kit implements CommandExecutor, Listener {
 		return false;
 	}
 
-	private ItemStack nameItem(ItemStack item, String name) {
-		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(name);
-
-		item.setItemMeta(meta);
-		return item;
-	}
-
-	private ItemStack nameItem(Material item, String name) {
-		return nameItem(new ItemStack(item), name);
-	}
-
 	// Hotbar Clicks
-
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
@@ -150,7 +126,7 @@ public class Kit implements CommandExecutor, Listener {
 
 		if (p.getItemInHand().getType() == Material.DIAMOND_SWORD
 				&& (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR)) {
-			if (p.getItemInHand().getItemMeta().getDisplayName().contains("Duel Arena")) {
+			if (p.getItemInHand().getItemMeta().getDisplayName() != null && p.getItemInHand().getItemMeta().getDisplayName().contains("Duel Arena")) {
 
 				p.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Coming soon!");
 			}
@@ -158,39 +134,6 @@ public class Kit implements CommandExecutor, Listener {
 	}
 
 	public void giveKit(Player player, String s) {
-		switch (s) {
-		case "pvp":
-			InventoryClick.pvpKit(player);
-			break;
-		case "archer":
-			InventoryClick.archerKit(player);
-			break;
-		case "zeus":
-			InventoryClick.thorKit(player);
-			break;
-		case "kangaroo":
-			InventoryClick.kangarooKit(player);
-			break;
-		case "switcher":
-			InventoryClick.switcherKit(player);
-			break;
-		case "fisherman":
-			InventoryClick.fishermanKit(player);
-			break;
-		case "potmaster":
-			InventoryClick.potmasterKit(player);
-			break;
-		case "survivor":
-			InventoryClick.survivorKit(player);
-			break;
-		case "pyromancer":
-			InventoryClick.pyromancerKit(player);
-		case "recrafter":
-			InventoryClick.recrafterKit(player);
-			break;
-		default:
-			player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "That kit does not exist!");
-			break;
-		}
+		Kits.equipKit(Kits.getKit(s.toUpperCase()), player);
 	}
 }
