@@ -1,0 +1,32 @@
+###################################
+# KitPvP plugin with other stuff! #
+# Made by Exellanix               #
+###################################
+
+########
+# KITS #
+########
+
+kits:
+  pvp:
+  thor:
+#In hearts!
+    axe-cooldown: 20
+  feather:
+#In hearts!
+    jump-cooldown: 20
+  archer:
+  switcher:
+  fisherman:
+#In hearts!
+    rod-cooldown: 0
+
+###############
+# OTHER STUFF #
+###############
+other:
+#In hearts!
+  soupregen-amount: 3
+#######
+# END #
+#######

@@ -1,0 +1,15 @@
+main: me.exellanix.idk.Main
+version: 2.8
+name: idk
+description: The KitPvP plugin for ExellPvP
+commands:
+  panda:
+      description: Gives the player a majestic animal!
+      usage: /panda
+  kit:
+      description: Gives a list of kits to choose!
+      usage: /<command> 
+      aliases: [kits, k, pvpkits, pvpkit]
+  repair:
+      desription: Repairs a players armor!
+      usage: /<command>
