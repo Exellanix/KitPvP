@@ -1,4 +1,4 @@
-package me.exellanix.idk.Util;
+package me.exellanix.kitpvp.Util;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

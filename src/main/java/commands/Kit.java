@@ -1,6 +1,6 @@
 package commands;
 
-import me.exellanix.idk.Kits;
+import me.exellanix.kitpvp.Kits;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -12,10 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import event.inventory.InventoryClick;
 import net.md_5.bungee.api.ChatColor;
 
 public class Kit implements CommandExecutor, Listener {
@@ -34,7 +31,6 @@ public class Kit implements CommandExecutor, Listener {
 
 					// PvP
 					inv.setItem(0, Kits.PVP.getIcon());
-
 					// Archer
 					inv.setItem(1, Kits.ARCHER.getIcon());
 

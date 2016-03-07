@@ -1,11 +1,10 @@
-main: me.exellanix.idk.Main
-version: 2.8
-name: idk
+main: me.exellanix.kitpvp.Main
+version: 3.0
+name: KitPvP
+author: Exellanix
+authors: [Mac_Genius]
 description: The KitPvP plugin for ExellPvP
 commands:
-  panda:
-      description: Gives the player a majestic animal!
-      usage: /panda
   kit:
       description: Gives a list of kits to choose!
       usage: /<command> 

@@ -1,4 +1,4 @@
-package me.exellanix.idk;
+package me.exellanix.kitpvp;
 
 import java.util.logging.Logger;
 
