@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.exellanix.idk.Main;
+import me.exellanix.kitpvp.Main;
 
 public class Soup implements CommandExecutor {
 
@@ -16,7 +16,7 @@ public class Soup implements CommandExecutor {
 		Player p = (Player) sender;
 		if(cmd.getName().equalsIgnoreCase("soup")) {
 			if(sender instanceof Player) {
-				if(p.hasPermission("idk.soup")) {
+				if(p.hasPermission("kitpvp.soup")) {
 					
 				}else{
 					p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You don't have permission!");

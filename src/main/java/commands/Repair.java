@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import me.exellanix.idk.Main;
+import me.exellanix.kitpvp.Main;
 
 public class Repair implements CommandExecutor {
 	private ArrayList<Material> repairable = new ArrayList<>();

@@ -1,7 +1,7 @@
-package me.exellanix.idk;
+package me.exellanix.kitpvp;
 
 import com.google.common.collect.Maps;
-import me.exellanix.idk.Util.AlterItem;
+import me.exellanix.kitpvp.Util.AlterItem;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
