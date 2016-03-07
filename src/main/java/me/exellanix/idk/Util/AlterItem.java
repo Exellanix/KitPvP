@@ -20,4 +20,17 @@ public class AlterItem {
     public static ItemStack nameItem(Material item, String name) {
         return nameItem(new ItemStack(item), name);
     }
+
+    public static boolean itemsEqual(ItemStack first, ItemStack second) {
+        if (first != null && second != null) {
+            if (first.getType() == second.getType()) {
+                if (first.hasItemMeta() && second.hasItemMeta()) {
+                    if (first.getItemMeta().equals(second.getItemMeta())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

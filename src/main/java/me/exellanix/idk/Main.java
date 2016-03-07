@@ -2,6 +2,8 @@ package me.exellanix.idk;
 
 import java.util.logging.Logger;
 
+import me.exellanix.idk.kit_abilities.AbilityManager;
+import me.exellanix.idk.kit_abilities.PyroFire;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -24,6 +26,7 @@ import event.player.SoupRegen;
 public class Main extends JavaPlugin {
 	
 	public static Plugin plugin;
+	private static AbilityManager abilityManager;
 	
 	public void onEnable() {
 		PluginDescriptionFile pdfFile = getDescription();
@@ -34,7 +37,9 @@ public class Main extends JavaPlugin {
 		saveDefaultConfig();
 		generateFood(); 
 		plugin = this;
-		
+
+		abilityManager = new AbilityManager();
+		registerDefaultAbilities();
 		logger.info(pdfFile.getName() + " has been enabled! (V." + pdfFile.getVersion());
 	}
 
@@ -54,12 +59,12 @@ public class Main extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 
 		pm.registerEvents(new InventoryClick(), this);
-		pm.registerEvents(new AxeStrike(), this);
+		//pm.registerEvents(new AxeStrike(), this);
 		pm.registerEvents(new SoupRegen(), this);
 		pm.registerEvents(new PlayerDeathInv(), this);
 		pm.registerEvents(new Kit(), this);
 		pm.registerEvents(new JoinStuff(), this);
-		pm.registerEvents(new RodHook(), this);
+		//pm.registerEvents(new RodHook(), this);
 		pm.registerEvents(new FeatherJump(), this);
 		pm.registerEvents(new Blood(), this);
 		pm.registerEvents(new SnowballSwitch(), this);
@@ -75,5 +80,14 @@ public class Main extends JavaPlugin {
 			}
 		},0, 20);
 	}
-	
+
+	public static AbilityManager getAbilityManager() {
+		return abilityManager;
+	}
+
+	private void registerDefaultAbilities() {
+		abilityManager.registerAbility(new me.exellanix.idk.kit_abilities.AxeStrike());
+		abilityManager.registerAbility(new me.exellanix.idk.kit_abilities.RodHook());
+		abilityManager.registerAbility(new PyroFire());
+	}
 }
