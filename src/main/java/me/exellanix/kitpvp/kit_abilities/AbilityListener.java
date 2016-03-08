@@ -1,6 +1,6 @@
-package me.exellanix.idk.kit_abilities;
+package me.exellanix.kitpvp.kit_abilities;
 
-import me.exellanix.idk.Main;
+import me.exellanix.kitpvp.KitPvP;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -13,8 +13,8 @@ public class AbilityListener implements Listener {
     @EventHandler
     public void playerUseItem(PlayerInteractEvent e) {
         if (e.getItem() != null) {
-            if (Main.getAbilityManager().isAbility(e.getItem())) {
-                Ability ability = Main.getAbilityManager().getAbility(e.getItem());
+            if (KitPvP.getAbilityManager().isAbility(e.getItem())) {
+                Ability ability = KitPvP.getAbilityManager().getAbility(e.getItem());
                 if (ability.hasAction(e.getAction())) {
                     ability.activateAbility(e.getPlayer());
                 }

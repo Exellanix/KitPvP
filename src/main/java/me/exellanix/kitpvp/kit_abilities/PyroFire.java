@@ -1,4 +1,4 @@
-package me.exellanix.idk.kit_abilities;
+package me.exellanix.kitpvp.kit_abilities;
 
 import me.exellanix.idk.Main;
 import net.md_5.bungee.api.ChatColor;
@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -421,22 +420,22 @@ public class PyroFire implements Ability, Listener {
 
     private Block getBlock(Block in, int depth) {
         if (depth > 2) {
-            //Main.plugin.getLogger().info("block not found");
+            //KitPvP.plugin.getLogger().info("block not found");
             return null;
         }
         if (in.getType() != Material.AIR && in.getType() != Material.FIRE) {
             Location loc = in.getLocation();
             loc.setY(loc.getY() + 1);
-            //Main.plugin.getLogger().info("up");
+            //KitPvP.plugin.getLogger().info("up");
             return getBlock(loc.getBlock(), depth + 1);
         }
         Location loc = in.getLocation();
         loc.setY(loc.getY() - 1);
         if (loc.getBlock().getType() != Material.AIR && loc.getBlock().getType() != Material.FIRE) {
-            //Main.plugin.getLogger().info("block found");
+            //KitPvP.plugin.getLogger().info("block found");
             return in;
         } else {
-            //Main.plugin.getLogger().info("down");
+            //KitPvP.plugin.getLogger().info("down");
             return getBlock(loc.getBlock(), depth + 1);
         }
     }

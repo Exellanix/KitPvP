@@ -1,13 +1,12 @@
 package commands;
 
+import me.exellanix.kitpvp.KitPvP;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import me.exellanix.kitpvp.Main;
 
 public class Soup implements CommandExecutor {
 
@@ -32,7 +31,7 @@ public class Soup implements CommandExecutor {
 	}
 	
 	public void delay(final Player p) {
-		Bukkit.getServer().getScheduler().runTaskLater(Main.plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().runTaskLater(KitPvP.plugin, new Runnable() {
 			public void run() {
 			}
 		}, 100L);

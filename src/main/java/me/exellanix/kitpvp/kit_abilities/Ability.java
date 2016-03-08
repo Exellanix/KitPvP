@@ -1,4 +1,4 @@
-package me.exellanix.idk.kit_abilities;
+package me.exellanix.kitpvp.kit_abilities;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;

@@ -1,7 +1,7 @@
-package me.exellanix.idk.kit_abilities;
+package me.exellanix.kitpvp.kit_abilities;
 
-import me.exellanix.idk.Main;
-import me.exellanix.idk.Util.AlterItem;
+import me.exellanix.kitpvp.KitPvP;
+import me.exellanix.kitpvp.Util.AlterItem;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,12 +17,12 @@ public class AbilityManager {
     public AbilityManager() {
         registeredAbilities = new ArrayList<>();
         listener = new AbilityListener();
-        Main.plugin.getServer().getPluginManager().registerEvents(listener, Main.plugin);
+        KitPvP.plugin.getServer().getPluginManager().registerEvents(listener, KitPvP.plugin);
     }
 
     public void registerAbility(Ability ability) {
         if (ability instanceof Listener) {
-            Main.plugin.getServer().getPluginManager().registerEvents((Listener) ability, Main.plugin);
+            KitPvP.plugin.getServer().getPluginManager().registerEvents((Listener) ability, KitPvP.plugin);
         }
         registeredAbilities.add(ability);
     }

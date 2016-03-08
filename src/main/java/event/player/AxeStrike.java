@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import me.exellanix.kitpvp.KitPvP;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -14,7 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import me.exellanix.kitpvp.Main;
 import net.md_5.bungee.api.ChatColor;
 
 public class AxeStrike implements Listener {
@@ -32,11 +32,11 @@ public class AxeStrike implements Listener {
 
 			} else {
 				long cooldownTime = System.currentTimeMillis() - cooldown.get(p);
-				if (cooldownTime >= Main.plugin.getConfig().getInt("kits.thor.axe-cooldown") * 1000) {
+				if (cooldownTime >= KitPvP.plugin.getConfig().getInt("kits.thor.axe-cooldown") * 1000) {
 					activateLightning(p);
 				} else {
 					p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You can not use that for another "
-							+ (Main.plugin.getConfig().getInt("kits.thor.axe-cooldown") - (cooldownTime / 1000))
+							+ (KitPvP.plugin.getConfig().getInt("kits.thor.axe-cooldown") - (cooldownTime / 1000))
 							+ " seconds!");
 				}
 			}
@@ -61,7 +61,7 @@ public class AxeStrike implements Listener {
 
 				}
 				cooldown.put(p, System.currentTimeMillis());
-				Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, new Runnable() {
+				KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, new Runnable() {
 					@Override
 					public void run() {
 						p.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Your axe is ready to strike!");

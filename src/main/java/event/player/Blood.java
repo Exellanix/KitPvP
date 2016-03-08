@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import me.exellanix.kitpvp.Main;
+import me.exellanix.kitpvp.KitPvP;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 
@@ -29,7 +29,7 @@ public class Blood implements Listener {
 		
 		for (int i = 0; i < 10; i++) {
 
-			Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, new Runnable() {
+			KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, new Runnable() {
 
 				public void run() {
 					for (Player p : Bukkit.getOnlinePlayers()) {

@@ -1,5 +1,5 @@
-main: me.exellanix.kitpvp.Main
-version: 3.0
+main: me.exellanix.kitpvp.KitPvP
+version: 3.2
 name: KitPvP
 author: Exellanix
 authors: [Mac_Genius]

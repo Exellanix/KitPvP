@@ -2,8 +2,8 @@ package me.exellanix.kitpvp;
 
 import java.util.logging.Logger;
 
-import me.exellanix.idk.kit_abilities.AbilityManager;
-import me.exellanix.idk.kit_abilities.PyroFire;
+import me.exellanix.kitpvp.kit_abilities.AbilityManager;
+import me.exellanix.kitpvp.kit_abilities.PyroFire;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -14,16 +14,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import commands.Kit;
 import commands.Repair;
 import event.inventory.InventoryClick;
-import event.player.AxeStrike;
 import event.player.Blood;
 import event.player.FeatherJump;
 import event.player.JoinStuff;
 import event.player.PlayerDeathInv;
-import event.player.RodHook;
 import event.player.SnowballSwitch;
 import event.player.SoupRegen;
 
-public class Main extends JavaPlugin {
+public class KitPvP extends JavaPlugin {
 	
 	public static Plugin plugin;
 	private static AbilityManager abilityManager;
@@ -86,8 +84,8 @@ public class Main extends JavaPlugin {
 	}
 
 	private void registerDefaultAbilities() {
-		abilityManager.registerAbility(new me.exellanix.idk.kit_abilities.AxeStrike());
-		abilityManager.registerAbility(new me.exellanix.idk.kit_abilities.RodHook());
+		abilityManager.registerAbility(new me.exellanix.kitpvp.kit_abilities.AxeStrike());
+		abilityManager.registerAbility(new me.exellanix.kitpvp.kit_abilities.RodHook());
 		abilityManager.registerAbility(new PyroFire());
 	}
 }

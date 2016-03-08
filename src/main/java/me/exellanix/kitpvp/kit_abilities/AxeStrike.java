@@ -1,6 +1,6 @@
-package me.exellanix.idk.kit_abilities;
+package me.exellanix.kitpvp.kit_abilities;
 
-import me.exellanix.idk.Main;
+import me.exellanix.kitpvp.KitPvP;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -52,7 +52,7 @@ public class AxeStrike implements Ability {
 
                     }
                     cooldown.put(player, System.currentTimeMillis());
-                    Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, () -> {
+                    KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
                         cooldown.remove(player);
                         player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Your axe is ready to strike!");
                     }, 400);
@@ -63,7 +63,7 @@ public class AxeStrike implements Ability {
         } else {
             long cooldownTime = System.currentTimeMillis() - cooldown.get(player);
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You can not use that for another "
-                    + (Main.plugin.getConfig().getInt("kits.thor.axe-cooldown") - (cooldownTime / 1000))
+                    + (KitPvP.plugin.getConfig().getInt("kits.thor.axe-cooldown") - (cooldownTime / 1000))
                     + " seconds!");
         }
     }

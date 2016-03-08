@@ -1,6 +1,6 @@
-package me.exellanix.idk.kit_abilities;
+package me.exellanix.kitpvp.kit_abilities;
 
-import me.exellanix.idk.Util.AlterItem;
+import me.exellanix.kitpvp.Util.AlterItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

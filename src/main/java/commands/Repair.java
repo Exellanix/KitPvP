@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import me.exellanix.kitpvp.Main;
+import me.exellanix.kitpvp.KitPvP;
 
 public class Repair implements CommandExecutor {
 	private ArrayList<Material> repairable = new ArrayList<>();
@@ -118,7 +118,7 @@ public class Repair implements CommandExecutor {
 	}
 
 	public void delay(final Player p) {
-		Bukkit.getServer().getScheduler().runTaskLater(Main.plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().runTaskLater(KitPvP.plugin, new Runnable() {
 			public void run() {
 				repairAll(p);
 				p.sendMessage(ChatColor.GREEN + "Repaired!");
