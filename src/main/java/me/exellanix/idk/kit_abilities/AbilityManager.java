@@ -46,6 +46,15 @@ public class AbilityManager {
         return null;
     }
 
+    public Ability getAbility(String name) {
+        for (Ability a : registeredAbilities) {
+            if (a.getName().equals(name.toUpperCase())) {
+                return a;
+            }
+        }
+        return null;
+    }
+
     public boolean isAbility(ItemStack item) {
         for (Ability a : registeredAbilities) {
             if (AlterItem.itemsEqual(a.getItem(), item)) {

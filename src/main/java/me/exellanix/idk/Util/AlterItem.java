@@ -28,6 +28,8 @@ public class AlterItem {
                     if (first.getItemMeta().equals(second.getItemMeta())) {
                         return true;
                     }
+                } else {
+                    return true;
                 }
             }
         }

@@ -20,10 +20,12 @@ import java.util.List;
  */
 public class RodHook implements Ability, Listener {
     private ItemStack item;
-    List<Action> actions;
+    private List<Action> actions;
+    private String name;
 
     public RodHook() {
         setup();
+        name = "RODHOOK";
     }
 
     @Override
@@ -42,6 +44,11 @@ public class RodHook implements Ability, Listener {
     @Override
     public boolean hasAction(Action action) {
         return actions.contains(action);
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     private void setup() {
