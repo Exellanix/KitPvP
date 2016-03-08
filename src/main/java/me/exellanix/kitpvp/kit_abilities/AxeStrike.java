@@ -24,9 +24,11 @@ public class AxeStrike implements Ability {
     private ItemStack item;
     private List<Action> actions;
     private HashMap<Player, Long> cooldown = new HashMap<>();
+    private String name;
 
     public AxeStrike() {
         setup();
+        name = "AXESTRIKE";
     }
 
     @Override
@@ -76,6 +78,11 @@ public class AxeStrike implements Ability {
     @Override
     public boolean hasAction(Action action) {
         return actions.contains(action);
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public void setup() {

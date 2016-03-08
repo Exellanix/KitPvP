@@ -1,15 +1,18 @@
 package me.exellanix.kitpvp.kit_abilities;
 
-import me.exellanix.idk.Main;
+import me.exellanix.kitpvp.KitPvP;
 import net.md_5.bungee.api.ChatColor;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.PacketPlayOutBlockChange;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -20,16 +23,16 @@ import java.util.List;
 /**
  * Created by Mac on 3/6/2016.
  */
-public class PyroFire implements Ability, Listener {
+public class PyroFire implements Ability {
     private ItemStack item;
     private List<Action> actions;
-    private ArrayList<Player> fireProtect;
     private HashMap<Player, Long> cooldown;
+    private String name;
 
     public PyroFire() {
         setup();
-        fireProtect = new ArrayList<>();
         cooldown = new HashMap<>();
+        name = "PYROFIRE";
     }
 
     @Override
@@ -42,37 +45,35 @@ public class PyroFire implements Ability, Listener {
         if (!cooldown.containsKey(player)) {
             Location location = getStartLocation(player.getLocation().getBlock(), 0);
             //Location location = player.getLocation();
-            cooldown.put(player, System.currentTimeMillis());
-            Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, () -> {
+            KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
                 cooldown.remove(player);
                 player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "You can now use Fire again!");
             }, 400);
             if (location != null) {
-                fireProtect.add(player);
-                Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, () -> {
-                    fireProtect.remove(player);
-                }, 70);
                 ArrayList<ArrayList<Block>> list = setupBlocks(location);
                 for (int i = 0; i < 5; i++) {
                     final int index = i;
-                    Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, () -> {
+                    KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
                         for (Block b : list.get(index)) {
                             Block temp = getBlock(b, 0);
                             if (temp != null) {
-                                temp.setType(Material.FIRE);
-                                player.setFireTicks(0);
+                                if (!cooldown.containsKey(player)) {
+                                    cooldown.put(player, System.currentTimeMillis());
+                                }
+                                setFire(temp, player);
+                                sendPacket(temp, 11, player, 55);
                             }
                         }
-                    }, i * 3);
-                    Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, () -> {
+                    }, i * 2);
+                    KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
                         for (Block b : list.get(index)) {
                             Block temp = getBlock(b, 0);
                             if (temp != null) {
-                                temp.setType(Material.AIR);
-                                player.setFireTicks(0);
+                                setFire(temp, player);
+                                sendPacket(temp, 0, player, 0);
                             }
                         }
-                    }, (i * 3) + 6);
+                    }, (i * 2) + 4);
                 }
 
             } else {
@@ -94,6 +95,11 @@ public class PyroFire implements Ability, Listener {
     @Override
     public boolean hasAction(Action action) {
         return actions.contains(action);
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
 
@@ -420,34 +426,46 @@ public class PyroFire implements Ability, Listener {
 
     private Block getBlock(Block in, int depth) {
         if (depth > 2) {
-            //KitPvP.plugin.getLogger().info("block not found");
             return null;
         }
         if (in.getType() != Material.AIR && in.getType() != Material.FIRE) {
             Location loc = in.getLocation();
             loc.setY(loc.getY() + 1);
-            //KitPvP.plugin.getLogger().info("up");
             return getBlock(loc.getBlock(), depth + 1);
         }
         Location loc = in.getLocation();
         loc.setY(loc.getY() - 1);
         if (loc.getBlock().getType() != Material.AIR && loc.getBlock().getType() != Material.FIRE) {
-            //KitPvP.plugin.getLogger().info("block found");
             return in;
         } else {
-            //KitPvP.plugin.getLogger().info("down");
             return getBlock(loc.getBlock(), depth + 1);
         }
     }
 
-    @EventHandler
-    public void onFire(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player) {
-            if (fireProtect.contains(event.getEntity())) {
-                if (event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK || event.getCause() == EntityDamageEvent.DamageCause.FIRE) {
-                    event.getEntity().setFireTicks(0);
-                    event.setDamage(0);
-                    event.setCancelled(true);
+    private void sendPacket(Block block, int id, Player player, int alternateId) {
+        BlockPosition position = new BlockPosition(block.getX(), block.getY(), block.getZ());
+        PacketPlayOutBlockChange blockChange1 = new PacketPlayOutBlockChange(((CraftWorld)block.getWorld()).getHandle(), position);
+        blockChange1.block = net.minecraft.server.v1_8_R3.Block.getByCombinedId(id);
+
+        PacketPlayOutBlockChange blockChange2 = new PacketPlayOutBlockChange(((CraftWorld)block.getWorld()).getHandle(), position);
+        blockChange2.block = net.minecraft.server.v1_8_R3.Block.getByCombinedId(alternateId);
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (p.getWorld().equals(block.getWorld())) {
+                if (p.equals(player)) {
+                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(blockChange2);
+                } else {
+                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(blockChange1);
+                }
+            }
+        }
+    }
+
+    private void setFire(Block b, Player player) {
+        for (Entity p : player.getNearbyEntities(20, 20, 20)) {
+            if (p instanceof Player && !p.equals(player)) {
+                if (p.getLocation().getBlock().equals(b)) {
+                    p.setFireTicks(100);
                 }
             }
         }

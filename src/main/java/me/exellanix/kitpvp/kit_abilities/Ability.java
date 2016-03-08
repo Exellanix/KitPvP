@@ -17,4 +17,6 @@ public interface Ability {
     List<Action> getActions();
 
     boolean hasAction(Action action);
+
+    String getName();
 }

@@ -1,6 +1,9 @@
 package commands;
 
-import me.exellanix.kitpvp.Kits;
+import me.exellanix.kitpvp.menus.KitSelect;
+
+import me.exellanix.kitpvp.KitPvP;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -11,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -25,41 +27,7 @@ public class Kit implements CommandExecutor, Listener {
 				// /kit kitName <player> -> 2
 				Player player = (Player) sender;
 				if (args.length == 0) {
-
-					Inventory inv = Bukkit.createInventory(null, 18,
-							ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Kits");
-
-					// PvP
-					inv.setItem(0, Kits.PVP.getIcon());
-					// Archer
-					inv.setItem(1, Kits.ARCHER.getIcon());
-
-					// Zeus
-					inv.setItem(2, Kits.THOR.getIcon());
-
-					// Kangaroo
-					inv.setItem(3, Kits.KANGAROO.getIcon());
-
-					// Switcher
-					inv.setItem(4, Kits.SWITCHER.getIcon());
-
-					// Fisherman
-					inv.setItem(5, Kits.FISHERMAN.getIcon());
-
-					// Pot Master
-					inv.setItem(6, Kits.POTMASTER.getIcon());
-
-					// Survivor
-					inv.setItem(7, Kits.SURVIVOR.getIcon());
-
-					// Pyromancer
-					inv.setItem(8, Kits.PYROMANCER.getIcon());
-
-					// re-crafter
-					inv.setItem(9, Kits.RECRAFTER.getIcon());
-
-					player.openInventory(inv);
-
+					KitPvP.registerEvent(new KitSelect(player));
 					return true;
 				} else if (args.length == 1) {
 					String kitName = args[0].toLowerCase();
@@ -97,8 +65,7 @@ public class Kit implements CommandExecutor, Listener {
 		if (p.getItemInHand().getType() == Material.CHEST
 				&& (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR)) {
 			if (p.getItemInHand().getItemMeta().getDisplayName().contains("Kit Selector")) {
-
-				p.chat("/kits");
+                KitPvP.registerEvent(new KitSelect(p));
 			}
 		}
 	}
@@ -130,6 +97,11 @@ public class Kit implements CommandExecutor, Listener {
 	}
 
 	public void giveKit(Player player, String s) {
-		Kits.equipKit(Kits.getKit(s.toUpperCase()), player);
+		me.exellanix.kitpvp.kits.Kit k = KitPvP.getKitManager().getKitFromString(s.toUpperCase());
+		if (k != null) {
+			k.equipKit(player);
+		} else {
+			player.sendMessage("That kit doesn't seem to exist.");
+		}
 	}
 }
