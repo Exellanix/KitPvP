@@ -18,7 +18,7 @@ public class PlayerDeathInv implements Listener {
 	public void onPlayerRespawn(PlayerRespawnEvent e) {
 		if (e.getPlayer() instanceof Player) {
 			Player player = (Player) e.getPlayer();
-			KitPvP.getPlayerKits().remove(player);
+			KitPvP.getSingleton().getPlayerKits().remove(player);
 			player.setMaxHealth(20);
 			DefaultInvConfigurations.useJoinInv(player);
 		}

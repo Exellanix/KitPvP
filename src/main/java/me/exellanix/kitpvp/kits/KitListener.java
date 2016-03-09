@@ -13,7 +13,7 @@ public class KitListener implements Listener {
     @EventHandler
     public void throwOutItem(PlayerDropItemEvent event) {
         if (event.getItemDrop() != null) {
-            Kit kit = KitPvP.getPlayerKits().get(event.getPlayer());
+            Kit kit = KitPvP.getSingleton().getPlayerKits().get(event.getPlayer());
             if (kit != null) {
                 if (kit.hasWeapon(event.getItemDrop().getItemStack())) {
                     event.setCancelled(true);

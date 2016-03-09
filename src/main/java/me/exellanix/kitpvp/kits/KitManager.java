@@ -17,8 +17,8 @@ public class KitManager {
     public KitManager() {
         registeredKits = new ArrayList<>();
         registerDefaultKits();
-        KitPvP.registerEvent(new KitListener());
-        KitPvP.plugin.getServer().getScheduler().runTaskTimerAsynchronously(KitPvP.plugin, LoadExternalJar::loadJars, 0, 10);
+        KitPvP.getSingleton().registerEvent(new KitListener());
+        KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskTimerAsynchronously(KitPvP.getSingleton().plugin, LoadExternalJar::loadJars, 0, 10);
     }
 
     public ArrayList<Kit> getRegisteredKits() {
@@ -34,6 +34,10 @@ public class KitManager {
         registeredKits.add(kit);
     }
 
+    public void unregisterAllKits() {
+        registeredKits = new ArrayList<>();
+    }
+
     public boolean isRegistered(Kit kit) {
         return registeredKits.contains(kit);
     }
@@ -47,7 +51,7 @@ public class KitManager {
         if (kit.isFree()) {
             return true;
         } else {
-            return KitPvP.getPluginDatabase().hasPaidKit(player, kit);
+            return KitPvP.getSingleton().getPluginDatabase().hasPaidKit(player, kit);
         }
     }
 
@@ -89,7 +93,7 @@ public class KitManager {
         return null;
     }
 
-    private void registerDefaultKits() {
+    public void registerDefaultKits() {
         for (Kit k : DefaultKits.getDefaultKits()) {
             registeredKits.add(k);
         }

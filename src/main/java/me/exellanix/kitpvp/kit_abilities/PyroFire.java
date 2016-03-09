@@ -46,7 +46,7 @@ public class PyroFire implements Ability {
             Location location = getStartLocation(player.getLocation().getBlock(), 0);
 
             if (location != null) {
-                KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
+                KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, () -> {
                     cooldown.remove(player);
                     if (player.getInventory().contains(item)) {
                         player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "You can now use Fire again!");
@@ -55,7 +55,7 @@ public class PyroFire implements Ability {
                 ArrayList<ArrayList<Block>> list = setupBlocks(location);
                 for (int i = 0; i < 5; i++) {
                     final int index = i;
-                    KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
+                    KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, () -> {
                         for (Block b : list.get(index)) {
                             Block temp = getBlock(b, 0);
                             if (temp != null) {
@@ -67,7 +67,7 @@ public class PyroFire implements Ability {
                             }
                         }
                     }, i * 2);
-                    KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
+                    KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, () -> {
                         for (Block b : list.get(index)) {
                             Block temp = getBlock(b, 0);
                             if (temp != null) {

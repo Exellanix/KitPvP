@@ -4,11 +4,73 @@ name: KitPvP
 author: Exellanix
 authors: [Mac_Genius]
 description: The KitPvP plugin for ExellPvP
+permissions:
+  kitpvp.kitpvp.*:
+    description: Gives access to the kitpvp commands
+    children:
+      kitpvp.kitpvp.command: true
+      kitpvp.kitpvp.reload: true
+  kitpvp.kitpvp.command:
+    description: Allows players to do /kitpvp
+    default: true
+  kitpvp.kitpvp.reload:
+    description: Allows players to reload the plugin
+    default: op
+  kitpvp.kit.*:
+    description: Gives access to all kit functions
+    children:
+      kitpvp.kit.command: true
+      kitpvp.kit.setothers: true
+      kitpvp.kit.bypass: true
+  kitpvp.kit.command:
+    description: Allows a player to do /kit
+    default: op
+  kitpvp.kit.setothers:
+    description: Allows a player to set another player's kit
+    default: op
+  kitpvp.kit.bypass:
+    description: Allows a player to do /kit multiple times
+    default: op
+  kitpvp.repair.*:
+    description: Allows a player to repair all items
+    children:
+      kitpvp.repair.command: true
+      kitpvp.repair.weapon: true
+      kitpvp.repair.armor: true
+      kitpvp.repair.equipment: true
+  kitpvp.repair.command:
+    description: Allows players to access the /repair command
+    default: op
+  kitpvp.repair.weapon:
+    description: Allows players to repair their weapon
+    default: op
+  kitpvp.repair.armor:
+    description: Allows players to repair their armor
+    default: op
+  kitpvp.repair.equipment:
+    description: Allows players to repair their armor
+    default: op
+  kitpvp.region.*:
+    description: Allows players to have access to all region functions
+    children:
+      kitpvp.region.bypasskitselect: true
+  kitpvp.region.bypasskitselect:
+    description: Allows players to leave an area without selecting a kit
+    default: op
 commands:
   kit:
-      description: Gives a list of kits to choose!
-      usage: /<command> 
-      aliases: [kits, k, pvpkits, pvpkit]
+    description: Gives a list of kits to choose!
+    usage: /<command>
+    permission: kitpvp.kit.command
+    permission-message: You do not have permission to do that.
+    aliases: [kits, k, pvpkits, pvpkit]
   repair:
-      desription: Repairs a players armor!
-      usage: /<command>
+    desription: Repairs a players armor!
+    usage: /<command>
+    permission: kitpvp.repair.command
+    permission-message: You do not have permission to do that.
+  kitpvp:
+    description: Handles the main commands for the plugin
+    usage: /<command>
+    permission: kitpvp.kitpvp.command
+    permission-message: You do not have permission to do that.

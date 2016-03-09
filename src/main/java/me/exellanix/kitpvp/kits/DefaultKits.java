@@ -61,7 +61,7 @@ public class DefaultKits {
         weapons.add(diamondSword);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        Ability soup = KitPvP.getAbilityManager().getAbility("SOUPREGEN");
+        Ability soup = KitPvP.getSingleton().getAbilityManager().getAbility("SOUPREGEN");
         if (soup != null) {
             abilities.add(soup);
         }
@@ -107,7 +107,7 @@ public class DefaultKits {
         Armor armor = new Armor(chainHelmet, chainChestplate, chainLeggings, chainBoots);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        Ability soup = KitPvP.getAbilityManager().getAbility("SOUPREGEN");
+        Ability soup = KitPvP.getSingleton().getAbilityManager().getAbility("SOUPREGEN");
         if (soup != null) {
             abilities.add(soup);
         }
@@ -185,11 +185,11 @@ public class DefaultKits {
         Armor armor = new Armor(leatherHelmet, ironChestplate, ironLeggings, leatherBoots);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        Ability soup = KitPvP.getAbilityManager().getAbility("SOUPREGEN");
+        Ability soup = KitPvP.getSingleton().getAbilityManager().getAbility("SOUPREGEN");
         if (soup != null) {
             abilities.add(soup);
         }
-        Ability axeStrike = KitPvP.getAbilityManager().getAbility("AXESTRIKE");
+        Ability axeStrike = KitPvP.getSingleton().getAbilityManager().getAbility("AXESTRIKE");
         if (axeStrike != null) {
             abilities.add(axeStrike);
         }
@@ -229,7 +229,7 @@ public class DefaultKits {
         Armor armor = new Armor(ironHelmet, ironChestplate, ironLeggings, ironBoots);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        Ability soup = KitPvP.getAbilityManager().getAbility("SOUPREGEN");
+        Ability soup = KitPvP.getSingleton().getAbilityManager().getAbility("SOUPREGEN");
         if (soup != null) {
             abilities.add(soup);
         }
@@ -275,11 +275,11 @@ public class DefaultKits {
         Armor armor = new Armor(ironHelmet, ironChestplate, ironLeggings, ironBoots);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        Ability soup = KitPvP.getAbilityManager().getAbility("SOUPREGEN");
+        Ability soup = KitPvP.getSingleton().getAbilityManager().getAbility("SOUPREGEN");
         if (soup != null) {
             abilities.add(soup);
         }
-        Ability snowballA = KitPvP.getAbilityManager().getAbility("SNOWBALLSWITCHER");
+        Ability snowballA = KitPvP.getSingleton().getAbilityManager().getAbility("SNOWBALLSWITCHER");
         if (snowballA != null) {
             abilities.add(snowballA);
         }
@@ -356,7 +356,7 @@ public class DefaultKits {
         Armor armor = new Armor(ironHelmet, ironChestplate, ironLeggings, ironBoots);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        Ability soup = KitPvP.getAbilityManager().getAbility("SOUPREGEN");
+        Ability soup = KitPvP.getSingleton().getAbilityManager().getAbility("SOUPREGEN");
         if (soup != null) {
             abilities.add(soup);
         }
@@ -514,7 +514,7 @@ public class DefaultKits {
         Armor armor = new Armor(helmet, chestplate, leggings, boots);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        Ability soup = KitPvP.getAbilityManager().getAbility("SOUPREGEN");
+        Ability soup = KitPvP.getSingleton().getAbilityManager().getAbility("SOUPREGEN");
         if (soup != null) {
             abilities.add(soup);
         }
@@ -562,7 +562,7 @@ public class DefaultKits {
         inv[11] = new ItemStack(Material.RED_MUSHROOM, 64);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        Ability soup = KitPvP.getAbilityManager().getAbility("SOUPREGEN");
+        Ability soup = KitPvP.getSingleton().getAbilityManager().getAbility("SOUPREGEN");
         if (soup != null) {
             abilities.add(soup);
         }

@@ -16,7 +16,7 @@ public class Database {
     }
 
     public void addPaidKit(Player player, Kit kit) {
-        if (KitPvP.plugin.getConfig().getBoolean("Use-MySQL")) {
+        if (KitPvP.getSingleton().plugin.getConfig().getBoolean("Use-MySQL")) {
 
         } else {
             LocalHandler.addPaidKit(player, kit);
@@ -24,7 +24,7 @@ public class Database {
     }
 
     public void removePaidKit(Player player, Kit kit) {
-        if (KitPvP.plugin.getConfig().getBoolean("Use-MySQL")) {
+        if (KitPvP.getSingleton().plugin.getConfig().getBoolean("Use-MySQL")) {
 
         } else {
             LocalHandler.removePaidKit(player, kit);
@@ -32,7 +32,7 @@ public class Database {
     }
 
     public boolean hasPaidKit(Player player, Kit kit) {
-        if (KitPvP.plugin.getConfig().getBoolean("Use-MySQL")) {
+        if (KitPvP.getSingleton().plugin.getConfig().getBoolean("Use-MySQL")) {
             return false;
         } else {
             return LocalHandler.hasPaidKit(player, kit);

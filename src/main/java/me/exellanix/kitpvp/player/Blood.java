@@ -29,7 +29,7 @@ public class Blood implements Listener {
 		
 		for (int i = 0; i < 10; i++) {
 
-			KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, new Runnable() {
+			KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, new Runnable() {
 
 				public void run() {
 					for (Player p : Bukkit.getOnlinePlayers()) {

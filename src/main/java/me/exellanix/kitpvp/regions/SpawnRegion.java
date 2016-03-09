@@ -22,32 +22,32 @@ public class SpawnRegion implements Region, Listener {
     public SpawnRegion() {
         setup();
         border = new Border(selection.getFirst(), selection.getSecond(), 3);
-        KitPvP.plugin.getServer().getScheduler().runTaskTimerAsynchronously(KitPvP.plugin, () -> {
+        KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskTimerAsynchronously(KitPvP.getSingleton().plugin, () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (isInside(p)) {
+                if (isInside(p) && !p.hasPermission("kitpvp.region.bypasskitselect")) {
                     if (border.getNorth().isInside(p)) {
-                        if (!KitPvP.getPlayerKits().containsKey(p)) {
+                        if (!KitPvP.getSingleton().getPlayerKits().containsKey(p)) {
                             Vector vector = new Vector(0, 1, 1.2);
                             p.playSound(p.getLocation(), Sound.NOTE_BASS_GUITAR, 1, .8f);
                             p.setVelocity(vector);
                             p.sendMessage("Please choose a kit before leaving spawn!");
                         }
                     } else if (border.getSouth().isInside(p)) {
-                        if (!KitPvP.getPlayerKits().containsKey(p)) {
+                        if (!KitPvP.getSingleton().getPlayerKits().containsKey(p)) {
                             Vector vector = new Vector(0, 1, -1.2);
                             p.playSound(p.getLocation(), Sound.NOTE_BASS_GUITAR, 1, .8f);
                             p.setVelocity(vector);
                             p.sendMessage("Please choose a kit before leaving spawn!");
                         }
                     } else if (border.getEast().isInside(p)) {
-                        if (!KitPvP.getPlayerKits().containsKey(p)) {
+                        if (!KitPvP.getSingleton().getPlayerKits().containsKey(p)) {
                             Vector vector = new Vector(-1.2, 1, 0);
                             p.playSound(p.getLocation(), Sound.NOTE_BASS_GUITAR, 1, .8f);
                             p.setVelocity(vector);
                             p.sendMessage("Please choose a kit before leaving spawn!");
                         }
                     } else if (border.getWest().isInside(p)) {
-                        if (!KitPvP.getPlayerKits().containsKey(p)) {
+                        if (!KitPvP.getSingleton().getPlayerKits().containsKey(p)) {
                             Vector vector = new Vector(1.2, 1, 0);
                             p.playSound(p.getLocation(), Sound.NOTE_BASS_GUITAR, 1, .8f);
                             p.setVelocity(vector);

@@ -54,7 +54,7 @@ public class AxeStrike implements Ability {
 
                     }
                     cooldown.put(player, System.currentTimeMillis());
-                    KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
+                    KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, () -> {
                         cooldown.remove(player);
                         player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Your axe is ready to strike!");
                     }, 400);
@@ -65,7 +65,7 @@ public class AxeStrike implements Ability {
         } else {
             long cooldownTime = System.currentTimeMillis() - cooldown.get(player);
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You can not use that for another "
-                    + (KitPvP.plugin.getConfig().getInt("kits.thor.axe-cooldown") - (cooldownTime / 1000))
+                    + (KitPvP.getSingleton().plugin.getConfig().getInt("kits.thor.axe-cooldown") - (cooldownTime / 1000))
                     + " seconds!");
         }
     }

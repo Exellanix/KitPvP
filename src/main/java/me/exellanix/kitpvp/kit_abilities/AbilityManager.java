@@ -17,18 +17,23 @@ public class AbilityManager {
     public AbilityManager() {
         registeredAbilities = new ArrayList<>();
         listener = new AbilityListener();
-        KitPvP.plugin.getServer().getPluginManager().registerEvents(listener, KitPvP.plugin);
+        KitPvP.getSingleton().getServer().getPluginManager().registerEvents(listener, KitPvP.getSingleton());
+        registerDefaultAbilities();
     }
 
     public void registerAbility(Ability ability) {
         if (ability instanceof Listener) {
-            KitPvP.plugin.getServer().getPluginManager().registerEvents((Listener) ability, KitPvP.plugin);
+            KitPvP.getSingleton().plugin.getServer().getPluginManager().registerEvents((Listener) ability, KitPvP.getSingleton());
         }
         registeredAbilities.add(ability);
     }
 
     public void unregisterAbility(Ability ability) {
         registeredAbilities.remove(ability);
+    }
+
+    public void unregisterAllAbilities() {
+        registeredAbilities = new ArrayList<>();
     }
 
     public ArrayList<Ability> getAbilities() {
@@ -62,5 +67,13 @@ public class AbilityManager {
             }
         }
         return false;
+    }
+
+    public void registerDefaultAbilities() {
+        registerAbility(new PyroFire());
+        registerAbility(new SoupRegen());
+        registerAbility(new SnowballSwitch());
+        registerAbility(new AxeStrike());
+        registerAbility(new RodHook());
     }
 }

@@ -18,7 +18,7 @@ public class RegionManager {
     public void registerRegion(Region region) {
         if (!registeredRegions.contains(region)) {
             if (region instanceof Listener) {
-                KitPvP.registerEvent((Listener) region);
+                KitPvP.getSingleton().registerEvent((Listener) region);
             }
             registeredRegions.add(region);
         }

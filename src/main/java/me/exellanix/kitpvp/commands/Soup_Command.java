@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Soup implements CommandExecutor {
+public class Soup_Command implements CommandExecutor {
 
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -31,7 +31,7 @@ public class Soup implements CommandExecutor {
 	}
 	
 	public void delay(final Player p) {
-		Bukkit.getServer().getScheduler().runTaskLater(KitPvP.plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, new Runnable() {
 			public void run() {
 			}
 		}, 100L);

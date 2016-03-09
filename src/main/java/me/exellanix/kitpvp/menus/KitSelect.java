@@ -29,7 +29,7 @@ public class KitSelect implements Listener {
     }
 
     private void openInventory() {
-        int size = KitPvP.getKitManager().getKitIconsOwn(player).size();
+        int size = KitPvP.getSingleton().getKitManager().getKitIconsOwn(player).size();
         Inventory inv;
         if (size <= 18) {
             inv = Bukkit.createInventory(player, 18, ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Kits");
@@ -43,7 +43,7 @@ public class KitSelect implements Listener {
             inv = Bukkit.createInventory(player, 54, ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Kits");
         }
 
-        ArrayList<ItemStack> kits = KitPvP.getKitManager().getKitIconsOwn(player);
+        ArrayList<ItemStack> kits = KitPvP.getSingleton().getKitManager().getKitIconsOwn(player);
         for (int i = 0; i < size; i++) {
             inv.setItem(i, kits.get(i));
         }
@@ -54,12 +54,12 @@ public class KitSelect implements Listener {
     @EventHandler
     public void playerClick(InventoryClickEvent event) {
         if (event.getViewers().contains(player)) {
-            ArrayList<ItemStack> kits = KitPvP.getKitManager().getKitIconsOwn(player);
+            ArrayList<ItemStack> kits = KitPvP.getSingleton().getKitManager().getKitIconsOwn(player);
             if (kits.contains(event.getCurrentItem())) {
                 MenuSounds.clickButton(player);
-                Kit kit = KitPvP.getKitManager().getKitFromIcon(event.getCurrentItem());
+                Kit kit = KitPvP.getSingleton().getKitManager().getKitFromIcon(event.getCurrentItem());
                 kit.equipKit(player);
-                KitPvP.getPlayerKits().put(player, kit);
+                KitPvP.getSingleton().getPlayerKits().put(player, kit);
                 player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + kit.getName() + ChatColor.WHITE + "" + ChatColor.BOLD + "!");
                 event.setCancelled(true);
                 player.closeInventory();

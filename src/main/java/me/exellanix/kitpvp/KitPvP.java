@@ -1,7 +1,8 @@
 package me.exellanix.kitpvp;
 
-import me.exellanix.kitpvp.commands.Repair;
-import me.exellanix.kitpvp.external_jars.LoadExternalJar;
+import me.exellanix.kitpvp.commands.KitPvP_Command;
+import me.exellanix.kitpvp.commands.Kit_Command;
+import me.exellanix.kitpvp.commands.Repair_Command;
 import me.exellanix.kitpvp.player.Blood;
 import me.exellanix.kitpvp.player.FeatherJump;
 import me.exellanix.kitpvp.player.JoinStuff;
@@ -35,15 +36,15 @@ import java.util.logging.Logger;
 
 public class KitPvP extends JavaPlugin {
 	
-	public static Plugin plugin;
-	private static AbilityManager abilityManager;
-	private static KitManager kitManager;
-	private static RegionManager regionManager;
-    private static HashMap<Player, Kit> playerKits;
-    private static CustomYML flatStorage;
-    private static Database database;
-    private static Economy econ;
-    private static KitPvP instance;
+	public Plugin plugin;
+	private AbilityManager abilityManager;
+	private KitManager kitManager;
+	private RegionManager regionManager;
+    private HashMap<Player, Kit> playerKits;
+    private CustomYML flatStorage;
+    private Database database;
+    private Economy econ;
+    private static KitPvP singleton;
 	
 	public void onEnable() {
         if (!setupEconomy()) {
@@ -51,6 +52,7 @@ public class KitPvP extends JavaPlugin {
             getLogger().warning("Make sure you have an economy plugin installed!");
             plugin.getServer().getPluginManager().disablePlugin(this);
         } else {
+            singleton = this;
             PluginDescriptionFile pdfFile = getDescription();
             Logger logger = Logger.getLogger("Minecraft");
 
@@ -64,14 +66,13 @@ public class KitPvP extends JavaPlugin {
             abilityManager = new AbilityManager();
             kitManager = new KitManager();
             playerKits = new HashMap<>();
-            registerDefaultAbilities();
             regionManager = new RegionManager();
             registerDefaultRegions();
 
             flatStorage = new CustomYML(this, "playerkits.yml");
             flatStorage.saveDefaultConfig();
             database = new Database(flatStorage);
-            instance = this;
+
 
             logger.info(pdfFile.getName() + " has been enabled! (V." + pdfFile.getVersion());
         }
@@ -86,14 +87,15 @@ public class KitPvP extends JavaPlugin {
 	}
 
 	public void registerCommands() {
-		getCommand("kit").setExecutor(new me.exellanix.kitpvp.commands.Kit());
-		getCommand("repair").setExecutor(new Repair());
+		getCommand("kit").setExecutor(new Kit_Command());
+		getCommand("repair").setExecutor(new Repair_Command());
+        getCommand("kitpvp").setExecutor(new KitPvP_Command());
 	}
 	public void registerEvents() {
 		PluginManager pm = getServer().getPluginManager();
 
 		pm.registerEvents(new PlayerDeathInv(), this);
-		pm.registerEvents(new me.exellanix.kitpvp.commands.Kit(), this);
+		pm.registerEvents(new Kit_Command(), this);
 		pm.registerEvents(new JoinStuff(), this);
 		pm.registerEvents(new FeatherJump(), this);
 		pm.registerEvents(new Blood(), this);
@@ -110,31 +112,23 @@ public class KitPvP extends JavaPlugin {
 		},0, 20);
 	}
 
-	public static AbilityManager getAbilityManager() {
+	public AbilityManager getAbilityManager() {
 		return abilityManager;
 	}
 
-	private void registerDefaultAbilities() {
-		abilityManager.registerAbility(new AxeStrike());
-		abilityManager.registerAbility(new RodHook());
-		abilityManager.registerAbility(new PyroFire());
-        abilityManager.registerAbility(new SoupRegen());
-        abilityManager.registerAbility(new SnowballSwitch());
-	}
-
-	public static KitManager getKitManager() {
+	public KitManager getKitManager() {
 		return kitManager;
 	}
 
-	public static void registerEvent(Listener listener) {
+	public void registerEvent(Listener listener) {
 		plugin.getServer().getPluginManager().registerEvents(listener, plugin);
 	}
 
-	public static HashMap<Player, Kit> getPlayerKits() {
+	public HashMap<Player, Kit> getPlayerKits() {
 		return playerKits;
 	}
 
-	public static RegionManager getRegionManager() {
+	public RegionManager getRegionManager() {
 		return regionManager;
 	}
 
@@ -142,11 +136,11 @@ public class KitPvP extends JavaPlugin {
         regionManager.registerRegion(new SpawnRegion());
     }
 
-    public static Database getPluginDatabase() {
+    public Database getPluginDatabase() {
         return database;
     }
 
-    public static Economy getEconomy() {
+    public Economy getEconomy() {
         return econ;
     }
 
@@ -162,7 +156,7 @@ public class KitPvP extends JavaPlugin {
         return econ != null;
     }
 
-    public static KitPvP getInstance() {
-        return instance;
+    public static KitPvP getSingleton() {
+        return singleton;
     }
 }

@@ -17,8 +17,8 @@ public class AbilityListener implements Listener {
     @EventHandler
     public void playerUseItem(PlayerInteractEvent e) {
         if (e.getItem() != null) {
-            if (KitPvP.getAbilityManager().isAbility(e.getItem())) {
-                Ability ability = KitPvP.getAbilityManager().getAbility(e.getItem());
+            if (KitPvP.getSingleton().getAbilityManager().isAbility(e.getItem())) {
+                Ability ability = KitPvP.getSingleton().getAbilityManager().getAbility(e.getItem());
                 if (ability.hasAction(e.getAction())) {
                     PlayerActivateAbilityEvent event = new PlayerActivateAbilityEvent(e.getPlayer(), ability);
                     Bukkit.getServer().getPluginManager().callEvent(event);
@@ -33,7 +33,7 @@ public class AbilityListener implements Listener {
     @EventHandler
     public void throwOutItem(PlayerDropItemEvent event) {
         if (event.getItemDrop() != null) {
-            if (KitPvP.getAbilityManager().isAbility(event.getItemDrop().getItemStack())) {
+            if (KitPvP.getSingleton().getAbilityManager().isAbility(event.getItemDrop().getItemStack())) {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You cannot drop this item.");
             }

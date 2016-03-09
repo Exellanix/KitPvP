@@ -11,8 +11,6 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarFile;
 
@@ -26,7 +24,7 @@ public class LoadExternalJar {
         if (jarNames == null) {
             jarNames = new ConcurrentHashMap<>();
         }
-        File file = new File(KitPvP.plugin.getDataFolder(), "kits");
+        File file = new File(KitPvP.getSingleton().plugin.getDataFolder(), "kits");
         if (!file.exists()) {
             file.mkdir();
         }
@@ -38,31 +36,13 @@ public class LoadExternalJar {
                     if (modified || !jarNames.containsKey(f.getName())) {
                         KitYML kit = getKitYML(new JarFile(f));
                         if (kit.getMain() != null) {
-
-                            URL[] urls = {f.toURI().toURL()};
-                            URLClassLoader child = new URLClassLoader(urls, KitPvP.plugin.getClass().getClassLoader());
-                            Class classToLoad = Class.forName(kit.getMain(), true, child);
-                            Class<?> superClass = classToLoad.getSuperclass();
-                            if (superClass.getName().equals("me.exellanix.kitpvp.external_jars.ExternalKit")) {
-                                Method method = classToLoad.getDeclaredMethod("enable");
-                                Object instance = classToLoad.newInstance();
-                                Object result = method.invoke(instance);
-                                if (modified) {
-                                    KitPvP.plugin.getLogger().info("The kit \"" + kit.getName() + "\" has been modified.");
-                                } else {
-                                    KitPvP.plugin.getLogger().info("Loading kit \"" + kit.getName() + "\".");
-                                }
-                                jarNames.put(f.getName(), f.lastModified());
-                            } else {
-                                KitPvP.plugin.getLogger().warning("Could not load the kit " + kit.getName() + ". Please make sure the kit extends ExternalKit.");
-                            }
-
+                            loadFile(f, kit, modified);
                         } else {
-                            KitPvP.plugin.getLogger().warning("Could not load " + f.getName() + ".");
+                            KitPvP.getSingleton().plugin.getLogger().warning("Could not load " + f.getName() + ".");
                         }
                     }
                 }
-            } catch (IOException | IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -97,6 +77,57 @@ public class LoadExternalJar {
             }
         }
         return false;
+    }
+
+    private static void loadFile(File f, KitYML kit, boolean modified) {
+        try {
+            URL[] urls = {f.toURI().toURL()};
+            URLClassLoader child = new URLClassLoader(urls, KitPvP.getSingleton().plugin.getClass().getClassLoader());
+            Class classToLoad = Class.forName(kit.getMain(), true, child);
+            Class<?> superClass = classToLoad.getSuperclass();
+            if (superClass.getName().equals("me.exellanix.kitpvp.external_jars.ExternalKit")) {
+                Method method = classToLoad.getDeclaredMethod("enable");
+                Object instance = classToLoad.newInstance();
+                Object result = method.invoke(instance);
+                if (modified) {
+                    KitPvP.getSingleton().plugin.getLogger().info("The kit \"" + kit.getName() + "\" has been modified.");
+                } else {
+                    KitPvP.getSingleton().plugin.getLogger().info("Loading kit \"" + kit.getName() + "\".");
+                }
+                jarNames.put(f.getName(), f.lastModified());
+            } else {
+                KitPvP.getSingleton().plugin.getLogger().warning("Could not load the kit " + kit.getName() + ". Please make sure the kit extends ExternalKit.");
+            }
+        } catch (MalformedURLException | IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void reloadJars() {
+        if (jarNames == null) {
+            jarNames = new ConcurrentHashMap<>();
+        }
+        File file = new File(KitPvP.getSingleton().plugin.getDataFolder(), "kits");
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        File[] files = file.listFiles();
+        if (files != null && files.length > 0) {
+            KitPvP.getSingleton().getKitManager().unregisterAllKits();
+            try {
+                for (File f : files) {
+                    KitYML kit = getKitYML(new JarFile(f));
+                    if (kit.getMain() != null) {
+                        loadFile(f, kit, false);
+                    } else {
+                        KitPvP.getSingleton().plugin.getLogger().warning("Could not load " + f.getName() + ".");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
 }

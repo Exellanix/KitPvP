@@ -2,6 +2,7 @@ package me.exellanix.kitpvp.commands;
 
 import java.util.ArrayList;
 
+import me.exellanix.kitpvp.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,10 +16,10 @@ import org.bukkit.potion.PotionEffectType;
 
 import me.exellanix.kitpvp.KitPvP;
 
-public class Repair implements CommandExecutor {
+public class Repair_Command implements CommandExecutor {
 	private ArrayList<Material> repairable = new ArrayList<>();
 
-	public Repair() {
+	public Repair_Command() {
 		repairable.add(Material.DIAMOND_AXE);
 		repairable.add(Material.IRON_AXE);
 		repairable.add(Material.WOOD_AXE);
@@ -81,23 +82,38 @@ public class Repair implements CommandExecutor {
 	}
 
 	public void repairAll(Player p) {
-		for (int i = 0; i < p.getInventory().getSize(); i++) {
-			if (repairable.contains(p.getInventory().getItem(i).getType())) {
-				ItemStack item = p.getInventory().getItem(i);
-				item.setDurability((short) 0);
-				p.getInventory().setItem(i, item);
-				ItemStack boots = p.getInventory().getBoots();
-				ItemStack chestplate = p.getInventory().getChestplate();
-				ItemStack leggings = p.getInventory().getLeggings();
-				ItemStack helmet = p.getInventory().getHelmet();
-				boots.setDurability((short) 0);
-				chestplate.setDurability((short) 0);
-				leggings.setDurability((short) 0);
-				helmet.setDurability((short) 0);
-
+		ArrayList<String> out = new ArrayList<>();
+		if (p.hasPermission("kitpvp.repair.armor")) {
+			ItemStack boots = p.getInventory().getBoots();
+			ItemStack chestplate = p.getInventory().getChestplate();
+			ItemStack leggings = p.getInventory().getLeggings();
+			ItemStack helmet = p.getInventory().getHelmet();
+			boots.setDurability((short) 0);
+			chestplate.setDurability((short) 0);
+			leggings.setDurability((short) 0);
+			helmet.setDurability((short) 0);
+		}
+		if (p.hasPermission("kitpvp.repair.weapon")) {
+			if (KitPvP.getSingleton().getPlayerKits().containsKey(p)) {
+				Kit kit = KitPvP.getSingleton().getPlayerKits().get(p);
+				for (int i = 0; i < kit.getWeapons().size(); i++) {
+					p.getInventory().setItem(i, kit.getWeapons().get(i));
+				}
 			}
 		}
-
+		int startFrom = 0;
+		if (KitPvP.getSingleton().getPlayerKits().containsKey(p)) {
+			startFrom = KitPvP.getSingleton().getPlayerKits().get(p).getWeapons().size();
+		}
+		if (p.hasPermission("kitpvp.repair.equipment")) {
+			for (int i = startFrom; i < p.getInventory().getSize(); i++) {
+				if (repairable.contains(p.getInventory().getItem(i).getType())) {
+					ItemStack item = p.getInventory().getItem(i);
+					item.setDurability((short) 0);
+					p.getInventory().setItem(i, item);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -105,12 +121,27 @@ public class Repair implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
 			if (cmd.getName().equalsIgnoreCase("repair")) {
-				p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 100, 100)));
-				p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 100, 1)));
-				p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 100, 255)));
-				p.sendMessage(ChatColor.AQUA + "Repairing...");
-				delay(p);
-
+				if (p.hasPermission("kitpvp.repair.command") || (p.hasPermission("kitpvp.repair.armor") && p.hasPermission("kitpvp.repair.weapon") && p.hasPermission("kitpvp.repair.equipment"))) {
+					int canFix = 0;
+					if (p.hasPermission("kitpvp.repair.armor")) {
+						canFix++;
+					} if (p.hasPermission("kitpvp.repair.weapon")) {
+						canFix++;
+					} if (p.hasPermission("kitpvp.repair.equipment")) {
+						canFix++;
+					}
+					if (canFix > 0) {
+						p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 100, 100)));
+						p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 100, 1)));
+						p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 100, 255)));
+						p.sendMessage(ChatColor.AQUA + "Repairing...");
+						delay(p);
+					} else {
+						p.sendMessage("You do not have the ability to repair any of your equipment.");
+					}
+				} else {
+					p.sendMessage(cmd.getPermissionMessage());
+				}
 				return true;
 			}
 		}
@@ -118,7 +149,7 @@ public class Repair implements CommandExecutor {
 	}
 
 	public void delay(final Player p) {
-		Bukkit.getServer().getScheduler().runTaskLater(KitPvP.plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, new Runnable() {
 			public void run() {
 				repairAll(p);
 				p.sendMessage(ChatColor.GREEN + "Repaired!");

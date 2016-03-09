@@ -44,6 +44,6 @@ public class PlayerActivateAbilityEvent extends PlayerEvent implements Cancellab
     }
 
     public Kit getKit() {
-        return KitPvP.getPlayerKits().get(getPlayer());
+        return KitPvP.getSingleton().getPlayerKits().get(getPlayer());
     }
 }

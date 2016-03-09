@@ -15,7 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class Kit implements CommandExecutor, Listener {
+public class Kit_Command implements CommandExecutor, Listener {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("kit")) {
@@ -24,40 +24,41 @@ public class Kit implements CommandExecutor, Listener {
 				// /kit kitName -> 1
 				// /kit kitName <player> -> 2
 				Player player = (Player) sender;
-				if (args.length == 0) {
-					if (!KitPvP.getPlayerKits().containsKey(player)) {
-						KitPvP.registerEvent(new KitSelect(player));
+				if (args.length == 0 && player.hasPermission("kitpvp.kit.command")) {
+					if (!KitPvP.getSingleton().getPlayerKits().containsKey(player) || player.hasPermission("kitpvp.kit.bypass")) {
+						KitPvP.getSingleton().registerEvent(new KitSelect(player));
 					} else {
 						player.sendMessage("You have already chosen your kit!");
 					}
 					return true;
-				} else if (args.length == 1) {
+				} else if (args.length == 1 && player.hasPermission("kitpvp.kit.command")) {
 					String kitName = args[0].toLowerCase();
-					if (!KitPvP.getPlayerKits().containsKey(player)) {
+					if (!KitPvP.getSingleton().getPlayerKits().containsKey(player) || player.hasPermission("kitpvp.kit.bypass")) {
 						giveKit(player, kitName);
 					} else {
 						player.sendMessage("You have already chosen your kit!");
 					}
 					return true;
 
-				} else if (args.length == 2) {
-					String kitname = args[0].toLowerCase();
-					Player pl = null;
-					for (Player p : Bukkit.getOnlinePlayers()) {
-						if (p.getName().equals(args[1])) {
-							pl = p;
-							break;
-						}
-					}
+				} else if (args.length == 2 && player.hasPermission("kitpvp.kit.setothers")) {
+                    String kitname = args[0].toLowerCase();
+                    Player pl = null;
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getName().equals(args[1])) {
+                            pl = p;
+                            break;
+                        }
+                    }
 
-					if (pl != null) {
-						giveKit(pl, kitname);
-					} else {
-						player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "That player is not online!");
-					}
-
+                    if (pl != null) {
+                        giveKit(pl, kitname);
+                    } else {
+                        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "That player is not online!");
+                    }
 					return true;
-				}
+				} else {
+                    player.sendMessage(cmd.getPermissionMessage());
+                }
 
 			}
 		}
@@ -71,7 +72,7 @@ public class Kit implements CommandExecutor, Listener {
 		if (p.getItemInHand().getType() == Material.CHEST
 				&& (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR)) {
 			if (p.getItemInHand().getItemMeta().getDisplayName().contains("Kit Selector")) {
-                KitPvP.registerEvent(new KitSelect(p));
+                KitPvP.getSingleton().registerEvent(new KitSelect(p));
 			}
 		}
 	}
@@ -102,8 +103,8 @@ public class Kit implements CommandExecutor, Listener {
 		} else if (p.getItemInHand().getType() == Material.EMERALD
                 && (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR)) {
             if (p.getItemInHand().getItemMeta().getDisplayName() != null && p.getItemInHand().getItemMeta().getDisplayName().contains("Kit Shop")) {
-                if (KitPvP.getKitManager().getKitIconsBuy(p).size() != 0) {
-                    KitPvP.registerEvent(new BuyKit(p));
+                if (KitPvP.getSingleton().getKitManager().getKitIconsBuy(p).size() != 0) {
+                    KitPvP.getSingleton().registerEvent(new BuyKit(p));
                 } else {
                     p.sendMessage(ChatColor.BOLD + "You have bought all of the available kits!");
                 }
@@ -112,11 +113,11 @@ public class Kit implements CommandExecutor, Listener {
 	}
 
 	public void giveKit(Player player, String s) {
-		me.exellanix.kitpvp.kits.Kit k = KitPvP.getKitManager().getKitFromString(s.toUpperCase());
+		me.exellanix.kitpvp.kits.Kit k = KitPvP.getSingleton().getKitManager().getKitFromString(s.toUpperCase());
 		if (k != null) {
-            if (KitPvP.getKitManager().hasKit(player, k)) {
+            if (KitPvP.getSingleton().getKitManager().hasKit(player, k)) {
                 k.equipKit(player);
-                KitPvP.getPlayerKits().put(player, k);
+                KitPvP.getSingleton().getPlayerKits().put(player, k);
                 player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + k.getName() + org.bukkit.ChatColor.WHITE + "" + org.bukkit.ChatColor.BOLD + "!");
             } else {
                 player.sendMessage(ChatColor.BOLD + "You need to buy that kit to use it!");
