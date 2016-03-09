@@ -2,6 +2,7 @@ package me.exellanix.kitpvp.kits;
 
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.AlterItem;
+import me.exellanix.kitpvp.external_jars.LoadExternalJar;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,6 +18,7 @@ public class KitManager {
         registeredKits = new ArrayList<>();
         registerDefaultKits();
         KitPvP.registerEvent(new KitListener());
+        KitPvP.plugin.getServer().getScheduler().runTaskTimerAsynchronously(KitPvP.plugin, LoadExternalJar::loadJars, 0, 10);
     }
 
     public ArrayList<Kit> getRegisteredKits() {
@@ -24,6 +26,11 @@ public class KitManager {
     }
 
     public void registerKit(Kit kit) {
+        for (Kit k : new ArrayList<>(registeredKits)) {
+            if (kit.getName().equals(k.getName())) {
+                unregisterKit(k);
+            }
+        }
         registeredKits.add(kit);
     }
 

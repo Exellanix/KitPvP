@@ -73,7 +73,6 @@ public class KitPvP extends JavaPlugin {
             database = new Database(flatStorage);
             instance = this;
 
-            LoadExternalJar.loadJars();
             logger.info(pdfFile.getName() + " has been enabled! (V." + pdfFile.getVersion());
         }
 	}

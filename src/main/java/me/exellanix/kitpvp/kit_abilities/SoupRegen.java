@@ -28,6 +28,9 @@ public class SoupRegen implements Ability {
 
     @Override
     public void activateAbility(Player player) {
+        if (player.getHealth() == 0) {
+            return;
+        }
         if (player.getHealth() < 20) {
 
             if (player.getHealth() + 6 > 20) {

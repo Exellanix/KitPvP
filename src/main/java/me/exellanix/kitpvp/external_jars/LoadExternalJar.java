@@ -12,17 +12,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarFile;
 
 /**
  * Created by Mac on 3/8/2016.
  */
 public class LoadExternalJar {
-    private static ArrayList<String> jarNames;
+    private static ConcurrentHashMap<String, Long> jarNames;
 
     public static void loadJars() {
         if (jarNames == null) {
-            jarNames = new ArrayList<>();
+            jarNames = new ConcurrentHashMap<>();
         }
         File file = new File(KitPvP.plugin.getDataFolder(), "kits");
         if (!file.exists()) {
@@ -32,23 +34,32 @@ public class LoadExternalJar {
         if (files != null && files.length > 0) {
             try {
                 for (File f : files) {
-                    KitYML kit = getKitYML(new JarFile(f));
-                    if (kit.getMain() != null) {
+                    boolean modified = beenModified(f);
+                    if (modified || !jarNames.containsKey(f.getName())) {
+                        KitYML kit = getKitYML(new JarFile(f));
+                        if (kit.getMain() != null) {
 
-                        URL[] urls = {f.toURI().toURL()};
-                        URLClassLoader child = new URLClassLoader(urls, KitPvP.plugin.getClass().getClassLoader());
-                        Class classToLoad = Class.forName(kit.getMain(), true, child);
-                        Class<?> superClass = classToLoad.getSuperclass();
-                        if (superClass.getName().equals("me.exellanix.kitpvp.external_jars.ExternalKit")) {
-                            Method method = classToLoad.getDeclaredMethod("enable");
-                            Object instance = classToLoad.newInstance();
-                            Object result = method.invoke(instance);
+                            URL[] urls = {f.toURI().toURL()};
+                            URLClassLoader child = new URLClassLoader(urls, KitPvP.plugin.getClass().getClassLoader());
+                            Class classToLoad = Class.forName(kit.getMain(), true, child);
+                            Class<?> superClass = classToLoad.getSuperclass();
+                            if (superClass.getName().equals("me.exellanix.kitpvp.external_jars.ExternalKit")) {
+                                Method method = classToLoad.getDeclaredMethod("enable");
+                                Object instance = classToLoad.newInstance();
+                                Object result = method.invoke(instance);
+                                if (modified) {
+                                    KitPvP.plugin.getLogger().info("The kit \"" + kit.getName() + "\" has been modified.");
+                                } else {
+                                    KitPvP.plugin.getLogger().info("Loading kit \"" + kit.getName() + "\".");
+                                }
+                                jarNames.put(f.getName(), f.lastModified());
+                            } else {
+                                KitPvP.plugin.getLogger().warning("Could not load the kit " + kit.getName() + ". Please make sure the kit extends ExternalKit.");
+                            }
+
                         } else {
-                            KitPvP.plugin.getLogger().warning("Could not load the kit " + kit.getName() + ". Please make sure the kit extends ExternalKit.");
+                            KitPvP.plugin.getLogger().warning("Could not load " + f.getName() + ".");
                         }
-
-                    } else {
-                        KitPvP.plugin.getLogger().warning("Could not load " + f.getName() + ".");
                     }
                 }
             } catch (IOException | IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
@@ -58,7 +69,7 @@ public class LoadExternalJar {
         }
     }
 
-    public static ArrayList<String> getJarNames() {
+    public static ConcurrentHashMap<String, Long> getJarNames() {
         return jarNames;
     }
 
@@ -77,6 +88,15 @@ public class LoadExternalJar {
             in.close();
         } catch (IOException e) {}
         return kit;
+    }
+
+    private static boolean beenModified(File file) {
+        if (jarNames.containsKey(file.getName())) {
+            if (jarNames.get(file.getName()) != file.lastModified()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
