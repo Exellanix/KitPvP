@@ -44,12 +44,14 @@ public class PyroFire implements Ability {
     public void activateAbility(Player player) {
         if (!cooldown.containsKey(player)) {
             Location location = getStartLocation(player.getLocation().getBlock(), 0);
-            //Location location = player.getLocation();
-            KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
-                cooldown.remove(player);
-                player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "You can now use Fire again!");
-            }, 400);
+
             if (location != null) {
+                KitPvP.plugin.getServer().getScheduler().runTaskLater(KitPvP.plugin, () -> {
+                    cooldown.remove(player);
+                    if (player.getInventory().contains(item)) {
+                        player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "You can now use Fire again!");
+                    }
+                }, 400);
                 ArrayList<ArrayList<Block>> list = setupBlocks(location);
                 for (int i = 0; i < 5; i++) {
                     final int index = i;

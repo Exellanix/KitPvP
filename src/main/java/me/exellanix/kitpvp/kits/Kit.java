@@ -18,11 +18,15 @@ public interface Kit {
 
     ArrayList<ItemStack> getWeapons();
 
+    boolean hasWeapon(ItemStack weapon);
+
     ArrayList<Ability> getAbilities();
 
     void addAbility(Ability ability);
 
     void removeAbility(Ability ability);
+
+    boolean hasAbility(Ability ability);
 
     ItemStack getIcon();
 

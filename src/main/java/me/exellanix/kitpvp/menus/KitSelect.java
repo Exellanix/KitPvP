@@ -3,8 +3,9 @@ package me.exellanix.kitpvp.menus;
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.kits.Kit;
 
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -28,7 +29,7 @@ public class KitSelect implements Listener {
     }
 
     private void openInventory() {
-        int size = KitPvP.getKitManager().getKitIcons(player).size();
+        int size = KitPvP.getKitManager().getKitIconsOwn(player).size();
         Inventory inv;
         if (size <= 18) {
             inv = Bukkit.createInventory(player, 18, ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Kits");
@@ -42,7 +43,7 @@ public class KitSelect implements Listener {
             inv = Bukkit.createInventory(player, 54, ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Kits");
         }
 
-        ArrayList<ItemStack> kits = KitPvP.getKitManager().getKitIcons(player);
+        ArrayList<ItemStack> kits = KitPvP.getKitManager().getKitIconsOwn(player);
         for (int i = 0; i < size; i++) {
             inv.setItem(i, kits.get(i));
         }
@@ -53,10 +54,13 @@ public class KitSelect implements Listener {
     @EventHandler
     public void playerClick(InventoryClickEvent event) {
         if (event.getViewers().contains(player)) {
-            ArrayList<ItemStack> kits = KitPvP.getKitManager().getKitIcons(player);
+            ArrayList<ItemStack> kits = KitPvP.getKitManager().getKitIconsOwn(player);
             if (kits.contains(event.getCurrentItem())) {
+                MenuSounds.clickButton(player);
                 Kit kit = KitPvP.getKitManager().getKitFromIcon(event.getCurrentItem());
                 kit.equipKit(player);
+                KitPvP.getPlayerKits().put(player, kit);
+                player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + kit.getName() + ChatColor.WHITE + "" + ChatColor.BOLD + "!");
                 event.setCancelled(true);
                 player.closeInventory();
                 HandlerList.unregisterAll(this);

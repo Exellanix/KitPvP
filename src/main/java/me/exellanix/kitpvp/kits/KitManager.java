@@ -1,5 +1,6 @@
 package me.exellanix.kitpvp.kits;
 
+import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.AlterItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,6 +16,7 @@ public class KitManager {
     public KitManager() {
         registeredKits = new ArrayList<>();
         registerDefaultKits();
+        KitPvP.registerEvent(new KitListener());
     }
 
     public ArrayList<Kit> getRegisteredKits() {
@@ -35,13 +37,27 @@ public class KitManager {
 
     public boolean hasKit(Player player, Kit kit) {
         // TODO add support for paid kits
-        return true;
+        if (kit.isFree()) {
+            return true;
+        } else {
+            return KitPvP.getPluginDatabase().hasPaidKit(player, kit);
+        }
     }
 
-    public ArrayList<ItemStack> getKitIcons(Player player) {
+    public ArrayList<ItemStack> getKitIconsOwn(Player player) {
         ArrayList<ItemStack> icons = new ArrayList<>();
         for (Kit k : registeredKits) {
             if (hasKit(player, k)) {
+                icons.add(k.getIcon());
+            }
+        }
+        return icons;
+    }
+
+    public ArrayList<ItemStack> getKitIconsBuy(Player player) {
+        ArrayList<ItemStack> icons = new ArrayList<>();
+        for (Kit k : registeredKits) {
+            if (!hasKit(player, k)) {
                 icons.add(k.getIcon());
             }
         }

@@ -1,6 +1,8 @@
-package event.player;
+package me.exellanix.kitpvp.player;
 
+import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.AlterItem;
+import me.exellanix.kitpvp.inventory.DefaultInvConfigurations;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -25,22 +29,7 @@ public class JoinStuff implements Listener {
 		inv.clear();
 		p.setMaxHealth(20);
 		setupScoreboard(p);
-
-		ItemStack air = new ItemStack(Material.AIR);
-		((PlayerInventory) inv).setHelmet(air);
-		((PlayerInventory) inv).setChestplate(air);
-		((PlayerInventory) inv).setLeggings(air);
-		((PlayerInventory) inv).setBoots(air);
-
-		ItemStack chest = AlterItem.nameItem(Material.CHEST, ChatColor.GREEN + "" + ChatColor.BOLD + "Kit Selector");
-		inv.setItem(0, chest);
-		ItemStack arrow = AlterItem.nameItem(Material.ARROW, ChatColor.YELLOW + "" + ChatColor.BOLD + "Warps");
-		inv.setItem(7, arrow);
-		ItemStack hub = AlterItem.nameItem(Material.WATCH, ChatColor.GOLD + "" + ChatColor.BOLD + "Hub");
-		inv.setItem(4, hub);
-		ItemStack duel = AlterItem.nameItem(Material.DIAMOND_SWORD, ChatColor.AQUA + "" + ChatColor.BOLD + "Duel Arena");
-		inv.setItem(8, duel);
-
+        DefaultInvConfigurations.useJoinInv(p);
 	}
 
 	public void setupScoreboard(Player p) {
@@ -85,4 +74,13 @@ public class JoinStuff implements Listener {
 		p.sendMessage(" ");
 	}
 
+	@EventHandler
+	public void playerLeave(PlayerQuitEvent event) {
+		KitPvP.getPlayerKits().remove(event.getPlayer());
+	}
+
+	@EventHandler
+	public void playerKick(PlayerKickEvent event) {
+		KitPvP.getPlayerKits().remove(event.getPlayer());
+	}
 }

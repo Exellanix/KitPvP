@@ -1,4 +1,4 @@
-package commands;
+package me.exellanix.kitpvp.commands;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package event.player;
+package me.exellanix.kitpvp.player;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;

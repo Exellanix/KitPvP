@@ -235,7 +235,6 @@ public class DefaultKits {
         }
         ArrayList<ItemStack> weapons = new ArrayList<>();
         weapons.add(diamondSword);
-        weapons.add(feather);
         inv[0] = diamondSword;
         inv[1] = feather;
 
@@ -286,7 +285,6 @@ public class DefaultKits {
         }
         ArrayList<ItemStack> weapons = new ArrayList<>();
         weapons.add(diamondSword);
-        weapons.add(snowball);
         inv[0] = diamondSword;
         inv[1] = snowball;
 
@@ -523,7 +521,6 @@ public class DefaultKits {
 
         ArrayList<ItemStack> weapons = new ArrayList<>();
         weapons.add(sword);
-        weapons.add(item);
         inv[0] = sword;
         inv[1] = item;
 

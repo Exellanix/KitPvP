@@ -1,5 +1,6 @@
 package me.exellanix.kitpvp.kits;
 
+import me.exellanix.kitpvp.Util.AlterItem;
 import me.exellanix.kitpvp.kit_abilities.Ability;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -56,6 +57,16 @@ public class BasicKit implements Kit {
     }
 
     @Override
+    public boolean hasWeapon(ItemStack weapon) {
+        for (ItemStack w : weapons) {
+            if (AlterItem.itemsEqual(w, weapon)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public ArrayList<Ability> getAbilities() {
         return abilities;
     }
@@ -72,6 +83,11 @@ public class BasicKit implements Kit {
         if (abilities.contains(ability)) {
             abilities.remove(ability);
         }
+    }
+
+    @Override
+    public boolean hasAbility(Ability ability) {
+        return abilities.contains(ability);
     }
 
     @Override

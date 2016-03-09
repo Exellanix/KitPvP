@@ -27,6 +27,18 @@ kits:
 other:
 #In hearts!
   soupregen-amount: 3
+
+###############
+#    MySQL    #
+###############
+Use-MySQL: false
+
+database: kitpvp
+ip: localhost
+port: 0000
+username: root
+password: password
+
 #######
 # END #
 #######

@@ -2,6 +2,7 @@ package me.exellanix.kitpvp.kit_abilities;
 
 import me.exellanix.kitpvp.KitPvP;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +20,11 @@ public class AbilityListener implements Listener {
             if (KitPvP.getAbilityManager().isAbility(e.getItem())) {
                 Ability ability = KitPvP.getAbilityManager().getAbility(e.getItem());
                 if (ability.hasAction(e.getAction())) {
-                    ability.activateAbility(e.getPlayer());
+                    PlayerActivateAbilityEvent event = new PlayerActivateAbilityEvent(e.getPlayer(), ability);
+                    Bukkit.getServer().getPluginManager().callEvent(event);
+                    if (!event.isCancelled()) {
+                        ability.activateAbility(e.getPlayer());
+                    }
                 }
             }
         }

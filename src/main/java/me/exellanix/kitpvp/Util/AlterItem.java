@@ -4,6 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+
 /**
  * Created by Mac on 3/6/2016.
  */
@@ -34,5 +36,11 @@ public class AlterItem {
             }
         }
         return false;
+    }
+
+    public static void addLore(ItemStack item, ArrayList<String> lore) {
+        ItemMeta meta = item.getItemMeta();
+        meta.setLore(lore);
+        item.setItemMeta(meta);
     }
 }

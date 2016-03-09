@@ -1,10 +1,10 @@
-package commands;
-
-import me.exellanix.kitpvp.menus.KitSelect;
+package me.exellanix.kitpvp.commands;
 
 import me.exellanix.kitpvp.KitPvP;
-
+import me.exellanix.kitpvp.menus.BuyKit;
+import me.exellanix.kitpvp.menus.KitSelect;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,8 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import net.md_5.bungee.api.ChatColor;
 
 public class Kit implements CommandExecutor, Listener {
 
@@ -27,11 +25,19 @@ public class Kit implements CommandExecutor, Listener {
 				// /kit kitName <player> -> 2
 				Player player = (Player) sender;
 				if (args.length == 0) {
-					KitPvP.registerEvent(new KitSelect(player));
+					if (!KitPvP.getPlayerKits().containsKey(player)) {
+						KitPvP.registerEvent(new KitSelect(player));
+					} else {
+						player.sendMessage("You have already chosen your kit!");
+					}
 					return true;
 				} else if (args.length == 1) {
 					String kitName = args[0].toLowerCase();
-					giveKit(player, kitName);
+					if (!KitPvP.getPlayerKits().containsKey(player)) {
+						giveKit(player, kitName);
+					} else {
+						player.sendMessage("You have already chosen your kit!");
+					}
 					return true;
 
 				} else if (args.length == 2) {
@@ -93,13 +99,28 @@ public class Kit implements CommandExecutor, Listener {
 
 				p.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Coming soon!");
 			}
-		}
+		} else if (p.getItemInHand().getType() == Material.EMERALD
+                && (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR)) {
+            if (p.getItemInHand().getItemMeta().getDisplayName() != null && p.getItemInHand().getItemMeta().getDisplayName().contains("Kit Shop")) {
+                if (KitPvP.getKitManager().getKitIconsBuy(p).size() != 0) {
+                    KitPvP.registerEvent(new BuyKit(p));
+                } else {
+                    p.sendMessage(ChatColor.BOLD + "You have bought all of the available kits!");
+                }
+            }
+        }
 	}
 
 	public void giveKit(Player player, String s) {
 		me.exellanix.kitpvp.kits.Kit k = KitPvP.getKitManager().getKitFromString(s.toUpperCase());
 		if (k != null) {
-			k.equipKit(player);
+            if (KitPvP.getKitManager().hasKit(player, k)) {
+                k.equipKit(player);
+                KitPvP.getPlayerKits().put(player, k);
+                player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + k.getName() + org.bukkit.ChatColor.WHITE + "" + org.bukkit.ChatColor.BOLD + "!");
+            } else {
+                player.sendMessage(ChatColor.BOLD + "You need to buy that kit to use it!");
+            }
 		} else {
 			player.sendMessage("That kit doesn't seem to exist.");
 		}

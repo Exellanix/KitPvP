@@ -1,4 +1,4 @@
-package commands;
+package me.exellanix.kitpvp.commands;
 
 import me.exellanix.kitpvp.KitPvP;
 import org.bukkit.Bukkit;
