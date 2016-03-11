@@ -18,12 +18,18 @@ public class MenuContainer implements Listener {
 
     public MenuContainer(Player player) {
         this.player = player;
+        inventory = new MenuInventory();
     }
 
     public void displayMenu(MenuInventory inv) {
-        if (inv.size() > inventory.size()) {
+        if (player.getOpenInventory() == null) {
             Inventory inventory = Bukkit.createInventory(player, inv.size(), inv.getTitle());
             inventory.setContents(inv.getItems());
+            player.openInventory(inventory);
+        } else if (inv.size() > inventory.size()) {
+            Inventory inventory = Bukkit.createInventory(player, inv.size(), inv.getTitle());
+            inventory.setContents(inv.getItems());
+            player.openInventory(inventory);
         }
     }
 
@@ -32,7 +38,13 @@ public class MenuContainer implements Listener {
     }
 
     @EventHandler
-    public void playerClick(InventoryClickEvent event) {}
+    public void playerClick(InventoryClickEvent event) {
+        if (event.getCurrentItem() != null) {
+            if (event.getWhoClicked().equals(player)) {
+                inventory.getButton(event.getCurrentItem()).onClick();
+            }
+        }
+    }
 
     @EventHandler
     public void close(InventoryCloseEvent event) {

@@ -1,5 +1,6 @@
 package me.exellanix.kitpvp.kits;
 
+import me.exellanix.kitpvp.config.KitConfiguration;
 import me.exellanix.kitpvp.kit_abilities.Ability;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
  */
 public interface Kit {
     String getName();
+
+    String getDisplayName();
 
     Armor getArmor();
 
@@ -42,9 +45,13 @@ public interface Kit {
 
     int getPrice();
 
-    public ArrayList<String> getKitAlias();
+    ArrayList<String> getKitAlias();
 
-    public void setKitAlias(ArrayList<String> kitAlias);
+    void setKitAlias(ArrayList<String> kitAlias);
 
-    public boolean hasAlias(String s);
+    boolean hasAlias(String s);
+
+    KitConfiguration getConfig();
+
+    void setConfig(KitConfiguration config);
 }

@@ -2,11 +2,13 @@ package me.exellanix.kitpvp.kits;
 
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.AlterItem;
+import me.exellanix.kitpvp.config.KitConfiguration;
 import me.exellanix.kitpvp.kit_abilities.Ability;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+
+import net.milkbowl.vault.chat.Chat;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -14,11 +16,13 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Mac on 3/6/2016.
  */
 public class DefaultKits {
+    private static int switchSnowball = -1;
 
     public static ArrayList<Kit> getDefaultKits() {
         ArrayList<Kit> kits = new ArrayList<>();
@@ -69,9 +73,17 @@ public class DefaultKits {
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("PVP");
 
+        ItemStack icon = AlterItem.nameItem(Material.DIAMOND_SWORD,
+                ChatColor.AQUA + "" + ChatColor.BOLD + "PvP");
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "With your wits and piercing sword, you");
+        lore.add(ChatColor.GRAY + "will exterminate all of your enemies!");
+        AlterItem.addLore(icon, lore);
+
         BasicKit pvp = new BasicKit(weapons, abilities, armor, org.bukkit.ChatColor.AQUA
-                + "" + org.bukkit.ChatColor.BOLD + "PvP", AlterItem.nameItem(Material.DIAMOND_SWORD,
-                ChatColor.AQUA + "" + ChatColor.BOLD + "PvP"), true, 20, 0);
+                + "" + org.bukkit.ChatColor.BOLD + "PvP", icon, true, 20, 0);
         pvp.setInventory(inventory);
         pvp.setKitAlias(nameAlias);
 
@@ -121,6 +133,12 @@ public class DefaultKits {
 
         ItemStack icon = AlterItem.nameItem(Material.BOW,
                 ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Archer");
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "With your powerful bow and infinite arrows your");
+        lore.add(ChatColor.GRAY + "enemies will never have the chance to hit you!");
+        AlterItem.addLore(icon, lore);
 
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("ARCHER");
@@ -202,6 +220,16 @@ public class DefaultKits {
         ItemStack icon = AlterItem.nameItem(Material.DIAMOND_AXE,
                 ChatColor.YELLOW + "" + ChatColor.BOLD + "Thor");
 
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Call upon the wrath of the Gods and");
+        lore.add(ChatColor.GRAY + "rain down lightning on your enemies!");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Kit Info:");
+        lore.add(ChatColor.GRAY + "  - Right click the axe to summon");
+        lore.add(ChatColor.GRAY + "    lightning where you are looking.");
+        AlterItem.addLore(icon, lore);
+
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("THOR");
 
@@ -242,6 +270,12 @@ public class DefaultKits {
 
         ItemStack icon = AlterItem.nameItem(Material.FIREWORK,
                 ChatColor.RED + "" + ChatColor.BOLD + "Kangaroo");
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "With a powerful jump like this,");
+        lore.add(ChatColor.GRAY + "no one can compete with you!");
+        AlterItem.addLore(icon, lore);
 
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("KANGAROO");
@@ -293,6 +327,16 @@ public class DefaultKits {
         ItemStack icon = AlterItem.nameItem(Material.SNOW_BALL,
                 ChatColor.WHITE + "" + ChatColor.BOLD + "Switcher");
 
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Confuse your enemy by switching places with him,");
+        lore.add(ChatColor.GRAY + "then destroy him while he is incapacitated!");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Kit Info:");
+        lore.add(ChatColor.GRAY + "  - Receive a snowball every 8 seconds with");
+        lore.add(ChatColor.GRAY + "    a maximum of 16.");
+        AlterItem.addLore(icon, lore);
+
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("SWITCHER");
         nameAlias.add("SWITCH");
@@ -300,6 +344,53 @@ public class DefaultKits {
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
         kit.setInventory(inv);
         kit.setKitAlias(nameAlias);
+
+        KitConfiguration config = new KitConfiguration(false, "Switcher");
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("refill", 8);
+        config.saveDefaultSettings(values);
+        kit.setConfig(config);
+
+        if (switchSnowball != -1) {
+            KitPvP.getSingleton().getServer().getScheduler().cancelTask(switchSnowball);
+        }
+
+        switchSnowball = KitPvP.getSingleton().getServer().getScheduler().runTaskTimerAsynchronously(KitPvP.getSingleton(), () -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (KitPvP.getSingleton().getPlayerKits().containsKey(p)) {
+                    if (KitPvP.getSingleton().getPlayerKits().get(p).equals(kit)) {
+                        int amount = 0;
+                        int location = -1;
+                        int index = 0;
+                        for (ItemStack itemStack : p.getInventory().getContents()) {
+                            if (AlterItem.itemsEqual(itemStack, snowball)) {
+                                amount += itemStack.getAmount();
+                                if (location == -1) {
+                                    location = index;
+                                }
+                            }
+                            index++;
+                        }
+                        if (amount < 16 && amount > 0) {
+                            ItemStack stack = p.getInventory().getItem(location);
+                            stack.setAmount(stack.getAmount() + 1);
+                            p.getInventory().setItem(location, stack);
+                            p.playSound(p.getLocation(), Sound.ITEM_PICKUP, 1, 1);
+                        } else if (amount == 0) {
+                            for (int i = 0; i < 36; i++) {
+                                if (p.getInventory().getItem(i) == null) {
+                                    ItemStack snowB = AlterItem.copyItem(snowball);
+                                    snowB.setAmount(1);
+                                    p.getInventory().setItem(i, snowB);
+                                    p.playSound(p.getLocation(), Sound.ITEM_PICKUP, 1, 1);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }, 0, ((int) kit.getConfig().getSettings().get("refill")) * 20).getTaskId();
 
         return kit;
     }
@@ -371,6 +462,13 @@ public class DefaultKits {
         ItemStack icon = AlterItem.nameItem(Material.FISHING_ROD,
                 ChatColor.GRAY + "" + ChatColor.BOLD + "Fisherman");
 
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Your enemy trying to escape your wrath?");
+        lore.add(ChatColor.GRAY + "Snatch them back with the specially crafted");
+        lore.add(ChatColor.GRAY + "fishing rod!");
+        AlterItem.addLore(icon, lore);
+
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("FISHERMAN");
         nameAlias.add("FISHER");
@@ -414,6 +512,13 @@ public class DefaultKits {
 
         ItemStack icon = AlterItem.nameItem(Material.POTION,
                 ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Pot Master");
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Heal yourself with potions, but be careful");
+        lore.add(ChatColor.GRAY + "where you throw them, you don't want to help");
+        lore.add(ChatColor.GRAY + "the other players!");
+        AlterItem.addLore(icon, lore);
 
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("POTMASTER");
@@ -459,6 +564,12 @@ public class DefaultKits {
 
         ItemStack icon = AlterItem.nameItem(Material.APPLE,
                 ChatColor.GREEN + "" + ChatColor.BOLD + "Survivor");
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "With 100 points of health, taking you");
+        lore.add(ChatColor.GRAY + "down won't be easy!");
+        AlterItem.addLore(icon, lore);
 
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("SURVIVOR");
@@ -533,6 +644,16 @@ public class DefaultKits {
         ItemStack icon = AlterItem.nameItem(Material.BLAZE_POWDER,
                 ChatColor.DARK_RED + "" + ChatColor.BOLD + "Pyromancer");
 
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Take out your enemies with ");
+        lore.add(ChatColor.GRAY + "a burst of scalding lava!");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Kit Info:");
+        lore.add(ChatColor.GRAY + "  - Right click the blaze powder to");
+        lore.add(ChatColor.GRAY + "    spawn scalding lava around you.");
+        AlterItem.addLore(icon, lore);
+
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("PYROMANCER");
         nameAlias.add("PYRO");
@@ -576,6 +697,16 @@ public class DefaultKits {
 
         ItemStack icon = AlterItem.nameItem(Material.BOWL,
                 ChatColor.DARK_BLUE + "" + ChatColor.BOLD + "Re-crafter");
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Did someone call for more soup?");
+        lore.add(ChatColor.GRAY + "Craft up an extra batch as fast as you can!");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Kit Info:");
+        lore.add(ChatColor.GRAY + "  - Receive 64 extra bowls and mushrooms");
+        lore.add(ChatColor.GRAY + "    to craft more mushroom soup.");
+        AlterItem.addLore(icon, lore);
 
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("RECRAFTER");

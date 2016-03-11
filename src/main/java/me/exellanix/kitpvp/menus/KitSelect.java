@@ -60,7 +60,7 @@ public class KitSelect implements Listener {
                 Kit kit = KitPvP.getSingleton().getKitManager().getKitFromIcon(event.getCurrentItem());
                 kit.equipKit(player);
                 KitPvP.getSingleton().getPlayerKits().put(player, kit);
-                player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + kit.getName() + ChatColor.WHITE + "" + ChatColor.BOLD + "!");
+                player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + kit.getDisplayName() + ChatColor.WHITE + "" + ChatColor.BOLD + "!");
                 event.setCancelled(true);
                 player.closeInventory();
                 HandlerList.unregisterAll(this);

@@ -1,6 +1,7 @@
 package me.exellanix.kitpvp.kit_abilities;
 
 import me.exellanix.kitpvp.KitPvP;
+import me.exellanix.kitpvp.config.KitConfiguration;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayOutBlockChange;
@@ -28,6 +29,7 @@ public class PyroFire implements Ability {
     private List<Action> actions;
     private HashMap<Player, Long> cooldown;
     private String name;
+    private KitConfiguration config;
 
     public PyroFire() {
         setup();
@@ -51,7 +53,7 @@ public class PyroFire implements Ability {
                     if (player.getInventory().contains(item)) {
                         player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "You can now use Fire again!");
                     }
-                }, 400);
+                }, (int) getConfig().getSettings().get("cooldown") * 20);
                 ArrayList<ArrayList<Block>> list = setupBlocks(location);
                 for (int i = 0; i < 5; i++) {
                     final int index = i;
@@ -104,6 +106,16 @@ public class PyroFire implements Ability {
         return name;
     }
 
+    @Override
+    public KitConfiguration getConfig() {
+        return config;
+    }
+
+    @Override
+    public void setConfig(KitConfiguration config) {
+        this.config = config;
+    }
+
 
     private void setup() {
         ItemStack item = new ItemStack(Material.BLAZE_POWDER);
@@ -116,6 +128,13 @@ public class PyroFire implements Ability {
         list.add(Action.RIGHT_CLICK_AIR);
         list.add(Action.RIGHT_CLICK_BLOCK);
         this.actions = list;
+
+        KitConfiguration config = new KitConfiguration(true, "PyroFire");
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("damage", 8);
+        values.put("cooldown", 10);
+        config.saveDefaultSettings(values);
+        this.config = config;
     }
 
     private Location getStartLocation(Block in, int depth) {
@@ -467,7 +486,7 @@ public class PyroFire implements Ability {
         for (Entity p : player.getNearbyEntities(20, 20, 20)) {
             if (p instanceof Player && !p.equals(player)) {
                 if (p.getLocation().getBlock().equals(b)) {
-                    p.setFireTicks(100);
+                    p.setFireTicks((int) getConfig().getSettings().get("damage") * 10);
                 }
             }
         }

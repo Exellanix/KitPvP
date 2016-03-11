@@ -1,6 +1,7 @@
 package me.exellanix.kitpvp.kits;
 
 import me.exellanix.kitpvp.Util.AlterItem;
+import me.exellanix.kitpvp.config.KitConfiguration;
 import me.exellanix.kitpvp.kit_abilities.Ability;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -22,6 +23,7 @@ public class BasicKit implements Kit {
     private ItemStack[] inventory;
     private int health;
     private int price;
+    private KitConfiguration configuration;
 
     public BasicKit(ArrayList<ItemStack> weapons, ArrayList<Ability> abilities,
                     Armor armor, String name, ItemStack icon, boolean isFree, int health, int price) {
@@ -38,6 +40,20 @@ public class BasicKit implements Kit {
 
     @Override
     public String getName() {
+        char[] array = name.toCharArray();
+        String newName = "";
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == '§') {
+                i += 1;
+            } else {
+                newName += array[i];
+            }
+        }
+        return newName;
+    }
+
+    @Override
+    public String getDisplayName() {
         return name;
     }
 
@@ -146,6 +162,16 @@ public class BasicKit implements Kit {
     @Override
     public boolean hasAlias(String s) {
         return kitAlias.contains(s);
+    }
+
+    @Override
+    public KitConfiguration getConfig() {
+        return configuration;
+    }
+
+    @Override
+    public void setConfig(KitConfiguration config) {
+        configuration = config;
     }
 
     public void setHealth(int health) {

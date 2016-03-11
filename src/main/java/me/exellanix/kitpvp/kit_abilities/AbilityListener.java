@@ -24,6 +24,8 @@ public class AbilityListener implements Listener {
                     Bukkit.getServer().getPluginManager().callEvent(event);
                     if (!event.isCancelled()) {
                         ability.activateAbility(e.getPlayer());
+                    } else {
+                        e.setCancelled(true);
                     }
                 }
             }
@@ -35,7 +37,9 @@ public class AbilityListener implements Listener {
         if (event.getItemDrop() != null) {
             if (KitPvP.getSingleton().getAbilityManager().isAbility(event.getItemDrop().getItemStack())) {
                 event.setCancelled(true);
-                event.getPlayer().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You cannot drop this item.");
+                if (!KitPvP.getSingleton().getPlayerKits().get(event.getPlayer()).getWeapons().contains(event.getItemDrop().getItemStack())) {
+                    event.getPlayer().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You cannot drop this item.");
+                }
             }
         }
     }

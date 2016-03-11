@@ -1,6 +1,7 @@
 package me.exellanix.kitpvp.kit_abilities;
 
 import me.exellanix.kitpvp.Util.AlterItem;
+import me.exellanix.kitpvp.config.KitConfiguration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,6 +24,7 @@ public class RodHook implements Ability, Listener {
     private ItemStack item;
     private List<Action> actions;
     private String name;
+    private KitConfiguration config;
 
     public RodHook() {
         setup();
@@ -51,6 +54,16 @@ public class RodHook implements Ability, Listener {
         return name;
     }
 
+    @Override
+    public KitConfiguration getConfig() {
+        return config;
+    }
+
+    @Override
+    public void setConfig(KitConfiguration config) {
+        this.config = config;
+    }
+
     private void setup() {
         ItemStack rod = new ItemStack(Material.FISHING_ROD);
         ItemMeta meta = rod.getItemMeta();
@@ -62,6 +75,12 @@ public class RodHook implements Ability, Listener {
         list.add(Action.RIGHT_CLICK_BLOCK);
         list.add(Action.RIGHT_CLICK_AIR);
         this.actions = list;
+
+        KitConfiguration config = new KitConfiguration(true, "RodHook");
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("pull-strength", .25);
+        config.saveDefaultSettings(values);
+        this.config = config;
     }
 
     @EventHandler
@@ -73,8 +92,8 @@ public class RodHook implements Ability, Listener {
                 if (AlterItem.itemsEqual(this.item, p.getItemInHand())) {
                     p.sendMessage(ChatColor.GREEN + "GET OVER HERE!");
                     Vector v = p.getLocation().getDirection();
-                    v.multiply(-.25);
-                    v.setY(.25);
+                    v.multiply(-1 * ((double) getConfig().getSettings().get("pull-strength")));
+                    v.setY(-1 * ((double) getConfig().getSettings().get("pull-strength")));
                     caught.setVelocity(v);
                 }
             }

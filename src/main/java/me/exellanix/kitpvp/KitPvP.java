@@ -3,6 +3,7 @@ package me.exellanix.kitpvp;
 import me.exellanix.kitpvp.commands.KitPvP_Command;
 import me.exellanix.kitpvp.commands.Kit_Command;
 import me.exellanix.kitpvp.commands.Repair_Command;
+import me.exellanix.kitpvp.config.KitConfiguration;
 import me.exellanix.kitpvp.player.Blood;
 import me.exellanix.kitpvp.player.FeatherJump;
 import me.exellanix.kitpvp.player.JoinStuff;
@@ -42,6 +43,7 @@ public class KitPvP extends JavaPlugin {
 	private RegionManager regionManager;
     private HashMap<Player, Kit> playerKits;
     private CustomYML flatStorage;
+    private CustomYML kitConfig;
     private Database database;
     private Economy econ;
     private static KitPvP singleton;
@@ -53,8 +55,10 @@ public class KitPvP extends JavaPlugin {
             plugin.getServer().getPluginManager().disablePlugin(this);
         } else {
             singleton = this;
+            kitConfig = new CustomYML(this, "kit_config.yml");
+            kitConfig.saveDefaultConfig();
+
             PluginDescriptionFile pdfFile = getDescription();
-            Logger logger = Logger.getLogger("Minecraft");
 
             registerCommands();
             registerEvents();
@@ -73,16 +77,14 @@ public class KitPvP extends JavaPlugin {
             flatStorage.saveDefaultConfig();
             database = new Database(flatStorage);
 
-
-            logger.info(pdfFile.getName() + " has been enabled! (V." + pdfFile.getVersion());
+            getLogger().info("Enabled!");
         }
 	}
 
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = getDescription();
-		Logger logger = Logger.getLogger("Minecraft");
 
-		logger.info(pdfFile.getName() + " has been disabled! (V." + pdfFile.getVersion());
+		getLogger().info("Disabled.");
 
 	}
 
@@ -128,6 +130,10 @@ public class KitPvP extends JavaPlugin {
 		return playerKits;
 	}
 
+    public void setPlayerKits(HashMap<Player, Kit> playerKits) {
+        this.playerKits = playerKits;
+    }
+
 	public RegionManager getRegionManager() {
 		return regionManager;
 	}
@@ -154,6 +160,10 @@ public class KitPvP extends JavaPlugin {
         }
         econ = rsp.getProvider();
         return econ != null;
+    }
+
+    public CustomYML getKitConfig() {
+        return kitConfig;
     }
 
     public static KitPvP getSingleton() {

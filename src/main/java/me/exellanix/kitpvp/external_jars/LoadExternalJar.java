@@ -113,7 +113,6 @@ public class LoadExternalJar {
         }
         File[] files = file.listFiles();
         if (files != null && files.length > 0) {
-            KitPvP.getSingleton().getKitManager().unregisterAllKits();
             try {
                 for (File f : files) {
                     KitYML kit = getKitYML(new JarFile(f));

@@ -107,10 +107,12 @@ public class Repair_Command implements CommandExecutor {
 		}
 		if (p.hasPermission("kitpvp.repair.equipment")) {
 			for (int i = startFrom; i < p.getInventory().getSize(); i++) {
-				if (repairable.contains(p.getInventory().getItem(i).getType())) {
-					ItemStack item = p.getInventory().getItem(i);
-					item.setDurability((short) 0);
-					p.getInventory().setItem(i, item);
+				if (p.getInventory().getItem(i) != null) {
+					if (repairable.contains(p.getInventory().getItem(i).getType())) {
+						ItemStack item = p.getInventory().getItem(i);
+						item.setDurability((short) 0);
+						p.getInventory().setItem(i, item);
+					}
 				}
 			}
 		}

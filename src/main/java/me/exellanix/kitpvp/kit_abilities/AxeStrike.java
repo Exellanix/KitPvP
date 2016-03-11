@@ -1,6 +1,7 @@
 package me.exellanix.kitpvp.kit_abilities;
 
 import me.exellanix.kitpvp.KitPvP;
+import me.exellanix.kitpvp.config.KitConfiguration;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,6 +26,7 @@ public class AxeStrike implements Ability {
     private List<Action> actions;
     private HashMap<Player, Long> cooldown = new HashMap<>();
     private String name;
+    private KitConfiguration config;
 
     public AxeStrike() {
         setup();
@@ -40,16 +42,13 @@ public class AxeStrike implements Ability {
     public void activateAbility(Player player) {
         if (!cooldown.containsKey(player)) {
             int MaxRange = 8;
-            HashSet<Material> transparentBlocks = new HashSet<>();
-            transparentBlocks.add(Material.AIR);
             for (Block b : player.getLineOfSight((HashSet<Material>) null, MaxRange)) {
                 if (b.getType() != Material.AIR) {
                     LightningStrike ls = player.getWorld().strikeLightningEffect(b.getLocation());
                     List<Entity> nbe = ls.getNearbyEntities(3, 12, 3);
                     for (Entity e : nbe) {
                         if (e instanceof Player && (Player) e != player) {
-                            ((Player) e).damage(5);
-
+                            ((Player) e).damage((int) getConfig().getSettings().get("damage"));
                         }
 
                     }
@@ -57,7 +56,7 @@ public class AxeStrike implements Ability {
                     KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, () -> {
                         cooldown.remove(player);
                         player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Your axe is ready to strike!");
-                    }, 400);
+                    }, (int) getConfig().getSettings().get("cooldown") * 20);
 
                     return;
                 }
@@ -85,6 +84,16 @@ public class AxeStrike implements Ability {
         return name;
     }
 
+    @Override
+    public KitConfiguration getConfig() {
+        return config;
+    }
+
+    @Override
+    public void setConfig(KitConfiguration config) {
+        this.config = config;
+    }
+
     public void setup() {
         ItemStack diamondAxe = new ItemStack(Material.DIAMOND_AXE);
         diamondAxe.addEnchantment(Enchantment.DAMAGE_ALL, 1);
@@ -97,5 +106,12 @@ public class AxeStrike implements Ability {
         list.add(Action.RIGHT_CLICK_AIR);
         list.add(Action.RIGHT_CLICK_BLOCK);
         this.actions = list;
+
+        KitConfiguration config = new KitConfiguration(true, "AxeStrike");
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("damage", 5);
+        values.put("cooldown", 10);
+        config.saveDefaultSettings(values);
+        this.config = config;
     }
 }

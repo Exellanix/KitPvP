@@ -16,7 +16,14 @@ public class MenuInventory {
 
     public MenuInventory(MenuContainer container) {
         this.container = container;
-        size = 0;
+        size = 9;
+        title = "";
+        buttons = new ArrayList<>();
+    }
+
+    public MenuInventory(ArrayList<MenuButton> buttons) {
+        size = buttons.size();
+        calculateSize();
         title = "";
         buttons = new ArrayList<>();
     }
@@ -70,5 +77,14 @@ public class MenuInventory {
 
     public void setContainer(MenuContainer container) {
         this.container = container;
+    }
+
+    public MenuButton getButton(ItemStack stack) {
+        for (MenuButton button : buttons) {
+            if (button.getItem().equals(stack)) {
+                return button;
+            }
+        }
+        return null;
     }
 }

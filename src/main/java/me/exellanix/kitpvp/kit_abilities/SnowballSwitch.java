@@ -1,5 +1,6 @@
 package me.exellanix.kitpvp.kit_abilities;
 
+import me.exellanix.kitpvp.config.KitConfiguration;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,6 +23,7 @@ public class SnowballSwitch implements Ability, Listener {
     private ItemStack item;
     private List<Action> actions;
     private String name;
+    private KitConfiguration config;
 
     public SnowballSwitch() {
         setup();
@@ -52,6 +55,16 @@ public class SnowballSwitch implements Ability, Listener {
         return name;
     }
 
+    @Override
+    public KitConfiguration getConfig() {
+        return config;
+    }
+
+    @Override
+    public void setConfig(KitConfiguration config) {
+        this.config = config;
+    }
+
     private void setup() {
         ItemStack snowball = new ItemStack(Material.SNOW_BALL, 16);
         ItemMeta meta = snowball.getItemMeta();
@@ -63,6 +76,9 @@ public class SnowballSwitch implements Ability, Listener {
         list.add(Action.RIGHT_CLICK_AIR);
         list.add(Action.RIGHT_CLICK_BLOCK);
         actions = list;
+
+        KitConfiguration config = new KitConfiguration(true, "SnowballSwitch");
+        this.config = config;
     }
 
     @EventHandler

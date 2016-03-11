@@ -1,5 +1,6 @@
 package me.exellanix.kitpvp.kit_abilities;
 
+import me.exellanix.kitpvp.config.KitConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
@@ -19,4 +20,8 @@ public interface Ability {
     boolean hasAction(Action action);
 
     String getName();
+
+    KitConfiguration getConfig();
+
+    void setConfig(KitConfiguration config);
 }

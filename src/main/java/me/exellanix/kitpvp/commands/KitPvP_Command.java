@@ -2,6 +2,7 @@ package me.exellanix.kitpvp.commands;
 
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.external_jars.LoadExternalJar;
+import me.exellanix.kitpvp.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -68,13 +69,14 @@ public class KitPvP_Command implements CommandExecutor {
             KitPvP.getSingleton().getLogger().info("Reloading the plugin...");
             KitPvP.getSingleton().getLogger().info("Saving config files...");
             KitPvP.getSingleton().reloadConfig();
-            KitPvP.getSingleton().getPluginDatabase().getFlatStorage().saveConfig();
+            KitPvP.getSingleton().getKitConfig().reloadConfig();
             KitPvP.getSingleton().getPluginDatabase().getFlatStorage().reloadConfig();
             KitPvP.getSingleton().getLogger().info("Reloading abilities and kits...");
             KitPvP.getSingleton().getKitManager().unregisterAllKits();
             KitPvP.getSingleton().getAbilityManager().unregisterAllAbilities();
             KitPvP.getSingleton().getAbilityManager().registerDefaultAbilities();
             KitPvP.getSingleton().getKitManager().registerDefaultKits();
+            KitPvP.getSingleton().getKitManager().reloadPlayerKits();
             LoadExternalJar.reloadJars();
             KitPvP.getSingleton().getLogger().info("Done.");
             player.sendMessage("The plugin has been reloaded!");

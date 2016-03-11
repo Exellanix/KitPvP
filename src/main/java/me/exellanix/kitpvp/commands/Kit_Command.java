@@ -118,7 +118,7 @@ public class Kit_Command implements CommandExecutor, Listener {
             if (KitPvP.getSingleton().getKitManager().hasKit(player, k)) {
                 k.equipKit(player);
                 KitPvP.getSingleton().getPlayerKits().put(player, k);
-                player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + k.getName() + org.bukkit.ChatColor.WHITE + "" + org.bukkit.ChatColor.BOLD + "!");
+                player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + k.getDisplayName() + org.bukkit.ChatColor.WHITE + "" + org.bukkit.ChatColor.BOLD + "!");
             } else {
                 player.sendMessage(ChatColor.BOLD + "You need to buy that kit to use it!");
             }
