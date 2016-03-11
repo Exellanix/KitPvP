@@ -56,22 +56,9 @@ public class BuyKit implements Listener {
             if (kits.contains(event.getCurrentItem())) {
                 MenuSounds.clickButton(player);
                 Kit kit = KitPvP.getSingleton().getKitManager().getKitFromIconBuy(event.getCurrentItem());
-                if (KitPvP.getSingleton().getEconomy().hasAccount(player)) {
-                    if (KitPvP.getSingleton().getEconomy().getBalance(player) >= kit.getPrice()) {
-                        KitPvP.getSingleton().getEconomy().withdrawPlayer(player, kit.getPrice());
-                        KitPvP.getSingleton().getPluginDatabase().addPaidKit(player, kit);
-                        player.sendMessage(ChatColor.BOLD + "You have bought the " + kit.getDisplayName() + "" + ChatColor.WHITE + "" + ChatColor.BOLD + " kit! Equip it in the kit selection menu!");
-                    } else {
-                        player.sendMessage("You do not have enough money to purchase this kit.");
-                    }
-                } else {
-                    player.sendMessage("An error has occurred during your transaction. Please try again.");
-                    KitPvP.getSingleton().plugin.getLogger().warning(player.getName() + " does not have an economy account!");
-                    KitPvP.getSingleton().plugin.getLogger().warning("Make sure you have an economy plugin installed!");
-                }
                 event.setCancelled(true);
-                player.closeInventory();
                 HandlerList.unregisterAll(this);
+                KitPvP.getSingleton().registerEvent(new KitConfirm(player, kit));
             }
         }
     }
