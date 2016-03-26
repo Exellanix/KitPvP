@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by Mac on 3/7/2016.
  */
 public class BasicKit implements Kit {
-    private ArrayList<ItemStack> weapons;
+    private ArrayList<Weapon> weapons;
     private ArrayList<Ability> abilities;
     private ArrayList<String> kitAlias;
     private Armor armor;
@@ -25,7 +25,7 @@ public class BasicKit implements Kit {
     private int price;
     private KitConfiguration configuration;
 
-    public BasicKit(ArrayList<ItemStack> weapons, ArrayList<Ability> abilities,
+    public BasicKit(ArrayList<Weapon> weapons, ArrayList<Ability> abilities,
                     Armor armor, String name, ItemStack icon, boolean isFree, int health, int price) {
         this.weapons = weapons;
         this.abilities = abilities;
@@ -68,14 +68,14 @@ public class BasicKit implements Kit {
     }
 
     @Override
-    public ArrayList<ItemStack> getWeapons() {
+    public ArrayList<Weapon> getWeapons() {
         return weapons;
     }
 
     @Override
     public boolean hasWeapon(ItemStack weapon) {
-        for (ItemStack w : weapons) {
-            if (AlterItem.itemsEqual(w, weapon)) {
+        for (Weapon w : weapons) {
+            if (AlterItem.itemsEqual(w.getWeapon(), weapon)) {
                 return true;
             }
         }
@@ -178,7 +178,7 @@ public class BasicKit implements Kit {
         this.health = health;
     }
 
-    public void setWeapons(ArrayList<ItemStack> weapons) {
+    public void setWeapons(ArrayList<Weapon> weapons) {
         this.weapons = weapons;
     }
 

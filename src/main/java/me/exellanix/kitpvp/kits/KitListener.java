@@ -32,8 +32,8 @@ public class KitListener implements Listener {
         if (event.getWhoClicked() instanceof Player) {
             if (KitPvP.getSingleton().getPlayerKits().containsKey(event.getWhoClicked())) {
                 Kit k = KitPvP.getSingleton().getPlayerKits().get(event.getWhoClicked());
-                for (ItemStack weapon : k.getWeapons()) {
-                    if (AlterItem.itemsEqual(event.getCurrentItem(), weapon)) {
+                for (Weapon weapon : k.getWeapons()) {
+                    if (AlterItem.itemsEqual(event.getCurrentItem(), weapon.getWeapon())) {
                         event.setCancelled(true);
                         event.getWhoClicked().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You cannot move your weapon.");
                         return;

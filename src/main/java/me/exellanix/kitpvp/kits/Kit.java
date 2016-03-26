@@ -19,7 +19,7 @@ public interface Kit {
 
     void setArmor(Armor armor);
 
-    ArrayList<ItemStack> getWeapons();
+    ArrayList<Weapon> getWeapons();
 
     boolean hasWeapon(ItemStack weapon);
 

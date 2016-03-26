@@ -3,6 +3,7 @@ package me.exellanix.kitpvp.commands;
 import java.util.ArrayList;
 
 import me.exellanix.kitpvp.kits.Kit;
+import me.exellanix.kitpvp.kits.Weapon;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -89,8 +90,10 @@ public class Repair_Command implements CommandExecutor {
 		if (p.hasPermission("kitpvp.repair.weapon")) {
 			if (KitPvP.getSingleton().getPlayerKits().containsKey(p)) {
 				Kit kit = KitPvP.getSingleton().getPlayerKits().get(p);
-				for (int i = 0; i < kit.getWeapons().size(); i++) {
-					p.getInventory().setItem(i, kit.getWeapons().get(i));
+				for (Weapon w : kit.getWeapons()) {
+					if (w.isRequip()) {
+						p.getInventory().setItem(w.getLocation(), w.getWeapon());
+					}
 				}
 			}
 		}

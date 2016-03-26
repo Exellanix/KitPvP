@@ -61,8 +61,8 @@ public class DefaultKits {
 
         inventory[0] = diamondSword;
 
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(diamondSword);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, diamondSword));
 
         ArrayList<Ability> abilities = new ArrayList<>();
         Ability soup = KitPvP.getSingleton().getAbilityManager().getAbility("SOUPREGEN");
@@ -131,10 +131,10 @@ public class DefaultKits {
         if (soup != null) {
             abilities.add(soup);
         }
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(woodSword);
-        weapons.add(bow);
-        weapons.add(arrow);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, woodSword));
+        weapons.add(new Weapon(true, 0, bow));
+        weapons.add(new Weapon(false, 17, arrow));
         inv[0] = woodSword;
         inv[1] = bow;
 
@@ -220,8 +220,8 @@ public class DefaultKits {
         if (axeStrike != null) {
             abilities.add(axeStrike);
         }
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(diamondAxe);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, diamondAxe));
         inv[0] = diamondAxe;
 
         String name = ChatColor.YELLOW + "" + ChatColor.BOLD + "Thor";
@@ -270,8 +270,8 @@ public class DefaultKits {
         if (soup != null) {
             abilities.add(soup);
         }
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(diamondSword);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, diamondSword));
         inv[0] = diamondSword;
         inv[1] = feather;
 
@@ -326,8 +326,8 @@ public class DefaultKits {
         if (snowballA != null) {
             abilities.add(snowballA);
         }
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(diamondSword);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, diamondSword));
         inv[0] = diamondSword;
         inv[1] = snowball;
 
@@ -460,9 +460,9 @@ public class DefaultKits {
         if (soup != null) {
             abilities.add(soup);
         }
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(diamondSword);
-        weapons.add(rod);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, diamondSword));
+        weapons.add(new Weapon(true, 1, rod));
         inv[0] = diamondSword;
         inv[1] = rod;
 
@@ -513,8 +513,8 @@ public class DefaultKits {
         Armor armor = new Armor(ironHelmet, ironChestplate, ironLeggings, ironBoots);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(diamondSword);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, diamondSword));
         inv[0] = diamondSword;
 
         String name = ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Pot-Master";
@@ -563,9 +563,9 @@ public class DefaultKits {
         Armor armor = new Armor(ironHelmet, ironChestplate, ironLeggings, ironBoots);
 
         ArrayList<Ability> abilities = new ArrayList<>();
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(sword);
-        weapons.add(rod);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, sword));
+        weapons.add(new Weapon(true, 1, rod));
         inv[0] = sword;
         inv[1] = rod;
 
@@ -639,8 +639,8 @@ public class DefaultKits {
             abilities.add(soup);
         }
 
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(sword);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, sword));
         inv[0] = sword;
         inv[1] = item;
 
@@ -696,8 +696,8 @@ public class DefaultKits {
         if (soup != null) {
             abilities.add(soup);
         }
-        ArrayList<ItemStack> weapons = new ArrayList<>();
-        weapons.add(sword);
+        ArrayList<Weapon> weapons = new ArrayList<>();
+        weapons.add(new Weapon(true, 0, sword));
         inv[0] = sword;
 
         Armor armor = new Armor(helmet, chestplate, leggings, boots);

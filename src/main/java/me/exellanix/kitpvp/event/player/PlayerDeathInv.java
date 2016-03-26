@@ -51,13 +51,6 @@ public class PlayerDeathInv implements Listener {
 		DefaultInvConfigurations.useJoinInv(player);
 	}
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void entityDamage(EntityDamageEvent event) {
-        if (event.isCancelled()) {
-            KitPvP.getSingleton().getLogger().info("cancelled");
-        }
-    }
-
 	@EventHandler
 	public void entityDamagebyEntity(EntityDamageEvent event) {
         if (event instanceof EntityDamageByEntityEvent) {
@@ -73,6 +66,7 @@ public class PlayerDeathInv implements Listener {
                     Player damaged = (Player) event.getEntity();
                     if (damaged.getHealth() <= event.getFinalDamage()) {
                         event.setDamage(0);
+                        KitPvP.getSingleton().getPlayerKits().remove(event.getEntity());
                         damaged.setHealth(damaged.getMaxHealth());
                         for (Player p : Bukkit.getOnlinePlayers()) {
                             if (p != damaged) {
