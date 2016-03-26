@@ -1,5 +1,6 @@
 package me.exellanix.kitpvp.kits;
 
+import me.exellanix.kitpvp.Util.AlterItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -66,5 +67,19 @@ public class Armor {
         player.getInventory().setChestplate(null);
         player.getInventory().setLeggings(null);
         player.getInventory().setBoots(null);
+    }
+
+    public boolean contains(ItemStack itemStack) {
+        if (AlterItem.itemsEqual(helmet, itemStack)) {
+            return true;
+        } else if (AlterItem.itemsEqual(chestplate, itemStack)) {
+            return true;
+        } else if (AlterItem.itemsEqual(leggings, itemStack)) {
+            return true;
+        } else if (AlterItem.itemsEqual(boots, itemStack)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

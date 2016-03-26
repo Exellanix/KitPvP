@@ -4,8 +4,10 @@ import me.exellanix.kitpvp.KitPvP;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -39,6 +41,20 @@ public class AbilityListener implements Listener {
                 event.setCancelled(true);
                 if (!KitPvP.getSingleton().getPlayerKits().get(event.getPlayer()).getWeapons().contains(event.getItemDrop().getItemStack())) {
                     event.getPlayer().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You cannot drop this item.");
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void clickItemWithArmor(InventoryClickEvent event) {
+        if (event.getWhoClicked() instanceof Player) {
+            if (event.getCurrentItem() != null) {
+                if (KitPvP.getSingleton().getAbilityManager().isAbility(event.getCurrentItem())) {
+                    if (KitPvP.getSingleton().getPlayerKits().get(event.getWhoClicked()).getArmor().contains(event.getWhoClicked().getItemOnCursor())) {
+                        event.setCancelled(true);
+                        event.getWhoClicked().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You cannot swap these items.");
+                    }
                 }
             }
         }

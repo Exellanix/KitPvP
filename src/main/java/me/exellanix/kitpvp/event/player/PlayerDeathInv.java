@@ -3,6 +3,7 @@ package me.exellanix.kitpvp.event.player;
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.mojang.authlib.GameProfile;
+import com.sun.javafx.scene.text.HitInfo;
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.CustPlayerConnection;
 import me.exellanix.kitpvp.player.inventory.DefaultInvConfigurations;
@@ -111,7 +112,7 @@ public class PlayerDeathInv implements Listener {
         CraftPlayer newPlayer = new CraftPlayer(((CraftServer)toFake.getServer()), human);
         npcs.add(newPlayer);
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (p != newPlayer) {
+            if (p != newPlayer && p != toFake) {
                 ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, human));
                 ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutNamedEntitySpawn(human));
                 ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityEquipment(human.getId(), 0, original.getEquipment(0)));
