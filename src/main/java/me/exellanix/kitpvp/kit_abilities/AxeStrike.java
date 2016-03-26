@@ -64,7 +64,7 @@ public class AxeStrike implements Ability {
         } else {
             long cooldownTime = System.currentTimeMillis() - cooldown.get(player);
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You can not use that for another "
-                    + (KitPvP.getSingleton().plugin.getConfig().getInt("kits.thor.axe-cooldown") - (cooldownTime / 1000))
+                    + ((int) getConfig().getSettings().get("cooldown") - (cooldownTime / 1000))
                     + " seconds!");
         }
     }

@@ -36,6 +36,9 @@ public class KitPvP_Command implements CommandExecutor {
                         case "reload":
                             reloadCommand(player, command);
                             break;
+                        case "help":
+                            helpCommand(player, command);
+                            break;
                         default:
                     }
                 } else {

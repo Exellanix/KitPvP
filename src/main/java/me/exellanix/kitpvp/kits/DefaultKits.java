@@ -99,7 +99,15 @@ public class DefaultKits {
         for (int i = 2; i < 36; i++) {
             inv[i] = new ItemStack(Material.MUSHROOM_SOUP, 1);
         }
-        inv[17] = new ItemStack(Material.ARROW, 1);
+
+        ItemStack arrow = new ItemStack(Material.ARROW, 1);
+        AlterItem.nameItem(arrow, ChatColor.AQUA + "" + ChatColor.BOLD + "Arrow o' Doom");
+        ArrayList<String> arrowLore = new ArrayList<>();
+        arrowLore.add("");
+        arrowLore.add(ChatColor.GRAY + "Nothing to see here...");
+        AlterItem.addLore(arrow, arrowLore);
+        inv[17] = arrow;
+
         ItemStack chainHelmet = new ItemStack(Material.CHAINMAIL_HELMET);
         ItemStack chainChestplate = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
         ItemStack chainLeggings = new ItemStack(Material.CHAINMAIL_LEGGINGS);
@@ -126,6 +134,7 @@ public class DefaultKits {
         ArrayList<ItemStack> weapons = new ArrayList<>();
         weapons.add(woodSword);
         weapons.add(bow);
+        weapons.add(arrow);
         inv[0] = woodSword;
         inv[1] = bow;
 
@@ -508,7 +517,7 @@ public class DefaultKits {
         weapons.add(diamondSword);
         inv[0] = diamondSword;
 
-        String name = ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Pot Master";
+        String name = ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Pot-Master";
 
         ItemStack icon = AlterItem.nameItem(Material.POTION,
                 ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Pot Master");

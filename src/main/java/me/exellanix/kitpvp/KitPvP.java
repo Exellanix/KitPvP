@@ -3,27 +3,24 @@ package me.exellanix.kitpvp;
 import me.exellanix.kitpvp.commands.KitPvP_Command;
 import me.exellanix.kitpvp.commands.Kit_Command;
 import me.exellanix.kitpvp.commands.Repair_Command;
-import me.exellanix.kitpvp.config.KitConfiguration;
-import me.exellanix.kitpvp.player.Blood;
-import me.exellanix.kitpvp.player.FeatherJump;
-import me.exellanix.kitpvp.player.JoinStuff;
-import me.exellanix.kitpvp.player.PlayerDeathInv;
+import me.exellanix.kitpvp.commands.tabcomplete.KitPvPTab;
+import me.exellanix.kitpvp.commands.tabcomplete.KitTab;
+import me.exellanix.kitpvp.event.player.Blood;
+import me.exellanix.kitpvp.event.player.FeatherJump;
+import me.exellanix.kitpvp.event.player.JoinStuff;
+import me.exellanix.kitpvp.event.player.PlayerDeathInv;
 
 import me.exellanix.kitpvp.database.CustomYML;
 import me.exellanix.kitpvp.database.Database;
-import me.exellanix.kitpvp.kit_abilities.SnowballSwitch;
-import me.exellanix.kitpvp.kit_abilities.SoupRegen;
 import me.exellanix.kitpvp.kits.Kit;
 import me.exellanix.kitpvp.kits.KitManager;
 import me.exellanix.kitpvp.kit_abilities.AbilityManager;
-import me.exellanix.kitpvp.kit_abilities.AxeStrike;
-import me.exellanix.kitpvp.kit_abilities.PyroFire;
-import me.exellanix.kitpvp.kit_abilities.RodHook;
 
 import me.exellanix.kitpvp.regions.RegionManager;
 import me.exellanix.kitpvp.regions.SpawnRegion;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -33,7 +30,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 public class KitPvP extends JavaPlugin {
 	
@@ -63,7 +59,7 @@ public class KitPvP extends JavaPlugin {
             registerCommands();
             registerEvents();
             saveDefaultConfig();
-            generateFood();
+            //generateFood();
             plugin = this;
 
 
@@ -82,16 +78,17 @@ public class KitPvP extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		PluginDescriptionFile pdfFile = getDescription();
-
 		getLogger().info("Disabled.");
-
 	}
 
 	public void registerCommands() {
 		getCommand("kit").setExecutor(new Kit_Command());
+        getCommand("kit").setTabCompleter(new KitTab());
+
 		getCommand("repair").setExecutor(new Repair_Command());
+
         getCommand("kitpvp").setExecutor(new KitPvP_Command());
+        getCommand("kitpvp").setTabCompleter(new KitPvPTab());
 	}
 	public void registerEvents() {
 		PluginManager pm = getServer().getPluginManager();
@@ -102,8 +99,9 @@ public class KitPvP extends JavaPlugin {
 		pm.registerEvents(new FeatherJump(), this);
 		pm.registerEvents(new Blood(), this);
 	}
-	
-	public void generateFood() {
+
+    // TODO Remove if FoodLevelChangeEvent works
+	/*public void generateFood() {
 		getServer().getScheduler().runTaskTimer(this, new Runnable() {
 			@Override
 			public void run() {
@@ -112,7 +110,7 @@ public class KitPvP extends JavaPlugin {
 				}
 			}
 		},0, 20);
-	}
+	}*/
 
 	public AbilityManager getAbilityManager() {
 		return abilityManager;

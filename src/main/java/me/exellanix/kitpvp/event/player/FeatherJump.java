@@ -1,4 +1,4 @@
-package me.exellanix.kitpvp.player;
+package me.exellanix.kitpvp.event.player;
 
 import org.bukkit.event.Listener;
 
