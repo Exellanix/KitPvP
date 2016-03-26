@@ -133,7 +133,7 @@ public class DefaultKits {
         }
         ArrayList<Weapon> weapons = new ArrayList<>();
         weapons.add(new Weapon(true, 0, woodSword));
-        weapons.add(new Weapon(true, 0, bow));
+        weapons.add(new Weapon(true, 1, bow));
         weapons.add(new Weapon(false, 17, arrow));
         inv[0] = woodSword;
         inv[1] = bow;
