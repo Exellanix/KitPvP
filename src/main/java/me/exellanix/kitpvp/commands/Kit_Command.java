@@ -18,14 +18,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class Kit_Command implements CommandExecutor, Listener {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("kit")) {
+		if (cmd.getName().equalsIgnoreCase("kit") && cmd.getAliases().contains(label)) {
 			if (sender instanceof Player) {
 				// /kit -> 0
 				// /kit kitName -> 1
 				// /kit kitName <player> -> 2
 				Player player = (Player) sender;
 				if (args.length == 0 && player.hasPermission("kitpvp.kit.command")) {
-					if (!KitPvP.getSingleton().getPlayerKits().containsKey(player) || player.hasPermission("kitpvp.kit.bypass")) {
+					if (KitPvP.getSingleton().getRegionManager().getRegion("spawn").isInside(player) || !KitPvP.getSingleton().getPlayerKits().containsKey(player) || player.hasPermission("kitpvp.kit.bypass")) {
 						KitPvP.getSingleton().registerEvent(new KitSelect(player));
 					} else {
 						player.sendMessage("You have already chosen your kit!");
@@ -33,7 +33,7 @@ public class Kit_Command implements CommandExecutor, Listener {
 					return true;
 				} else if (args.length == 1 && player.hasPermission("kitpvp.kit.command")) {
 					String kitName = args[0].toLowerCase();
-					if (!KitPvP.getSingleton().getPlayerKits().containsKey(player) || player.hasPermission("kitpvp.kit.bypass")) {
+					if (KitPvP.getSingleton().getRegionManager().getRegion("spawn").isInside(player) || !KitPvP.getSingleton().getPlayerKits().containsKey(player) || player.hasPermission("kitpvp.kit.bypass")) {
 						giveKit(player, kitName);
 					} else {
 						player.sendMessage("You have already chosen your kit!");

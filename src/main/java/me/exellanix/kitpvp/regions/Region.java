@@ -2,6 +2,7 @@ package me.exellanix.kitpvp.regions;
 
 import me.exellanix.kitpvp.kits.Kit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.ArrayList;
 
@@ -20,4 +21,10 @@ public interface Region {
     boolean hasKit(Kit kit);
 
     boolean isInside(Player player);
+
+    String getName();
+
+    ArrayList<EntityDamageEvent.DamageCause> getDamageFlags();
+
+    boolean isDamageAllowed(EntityDamageEvent.DamageCause damage);
 }

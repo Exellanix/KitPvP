@@ -86,7 +86,7 @@ public class PyroFire implements Ability {
         } else {
             long cooldownTime = System.currentTimeMillis() - cooldown.get(player);
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You can not use that for another "
-                    + (20 - (cooldownTime / 1000))
+                    + ((int) getConfig().getSettings().get("cooldown") - (cooldownTime / 1000))
                     + " seconds!");
         }
     }

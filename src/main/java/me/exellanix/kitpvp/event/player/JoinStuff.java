@@ -1,20 +1,17 @@
-package me.exellanix.kitpvp.player;
+package me.exellanix.kitpvp.event.player;
 
 import me.exellanix.kitpvp.KitPvP;
-import me.exellanix.kitpvp.Util.AlterItem;
-import me.exellanix.kitpvp.inventory.DefaultInvConfigurations;
+import me.exellanix.kitpvp.player.inventory.DefaultInvConfigurations;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -67,8 +64,6 @@ public class JoinStuff implements Listener {
 		p.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD
 				+ "Added kits, Pyromancer and Re-crafter!");
 		p.sendMessage(" ");
-		p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD
-				+ "Pyromancers ability is not done yet! Expect it to be done in a few days!");
 		p.chat("/stats");
 		p.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Enjoy your stay!");
 		p.sendMessage(" ");
@@ -82,5 +77,10 @@ public class JoinStuff implements Listener {
 	@EventHandler
 	public void playerKick(PlayerKickEvent event) {
 		KitPvP.getSingleton().getPlayerKits().remove(event.getPlayer());
+	}
+
+	@EventHandler
+	public void playerFood(FoodLevelChangeEvent event) {
+		event.setCancelled(true);
 	}
 }

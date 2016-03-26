@@ -84,14 +84,7 @@ public class Repair_Command implements CommandExecutor {
 	public void repairAll(Player p) {
 		ArrayList<String> out = new ArrayList<>();
 		if (p.hasPermission("kitpvp.repair.armor")) {
-			ItemStack boots = p.getInventory().getBoots();
-			ItemStack chestplate = p.getInventory().getChestplate();
-			ItemStack leggings = p.getInventory().getLeggings();
-			ItemStack helmet = p.getInventory().getHelmet();
-			boots.setDurability((short) 0);
-			chestplate.setDurability((short) 0);
-			leggings.setDurability((short) 0);
-			helmet.setDurability((short) 0);
+			KitPvP.getSingleton().getPlayerKits().get(p).getArmor().resetArmor(p);
 		}
 		if (p.hasPermission("kitpvp.repair.weapon")) {
 			if (KitPvP.getSingleton().getPlayerKits().containsKey(p)) {

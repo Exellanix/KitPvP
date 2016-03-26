@@ -1,6 +1,7 @@
 package me.exellanix.kitpvp.regions;
 
 import me.exellanix.kitpvp.KitPvP;
+import me.exellanix.kitpvp.event.region.RegionListener;
 import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class RegionManager {
 
     public RegionManager() {
         registeredRegions = new ArrayList<>();
+        KitPvP.getSingleton().registerEvent(new RegionListener());
     }
 
     public void registerRegion(Region region) {
@@ -30,5 +32,18 @@ public class RegionManager {
 
     public boolean isRegionRegistered(Region region) {
         return registeredRegions.contains(region);
+    }
+
+    public ArrayList<Region> getRegisteredRegions() {
+        return registeredRegions;
+    }
+
+    public Region getRegion(String name) {
+        for (Region r : registeredRegions) {
+            if (r.getName().equalsIgnoreCase(name)) {
+                return r;
+            }
+        }
+        return null;
     }
 }

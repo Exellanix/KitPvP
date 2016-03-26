@@ -1,10 +1,11 @@
-package me.exellanix.kitpvp.player;
+package me.exellanix.kitpvp.event.player;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
@@ -14,32 +15,33 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 
 public class Blood implements Listener {
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onEntityDamageEvent(EntityDamageByEntityEvent e) {
-		final Entity entity = e.getEntity();
+		if (!e.isCancelled()) {
+			final Entity entity = e.getEntity();
 
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodBody(entity));
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodBody(entity));
 
-		}
-		
-		final float x = (float) entity.getLocation().getX();
-		final float y = (float) entity.getLocation().getY();
-		final float z = (float) entity.getLocation().getZ();
-		
-		for (int i = 0; i < 10; i++) {
+			}
 
-			KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, new Runnable() {
+			final float x = (float) entity.getLocation().getX();
+			final float y = (float) entity.getLocation().getY();
+			final float z = (float) entity.getLocation().getZ();
 
-				public void run() {
-					for (Player p : Bukkit.getOnlinePlayers()) {
-						((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodGround(x,y,z));
+			for (int i = 0; i < 10; i++) {
+
+				KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, new Runnable() {
+
+					public void run() {
+						for (Player p : Bukkit.getOnlinePlayers()) {
+							((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodGround(x, y, z));
+						}
 					}
-				}
-			}, i * 2);
+				}, i * 2);
 
+			}
 		}
-
 	}
 
 	public PacketPlayOutWorldParticles getBloodBody(Entity entity) {
