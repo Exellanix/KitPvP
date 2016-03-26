@@ -47,6 +47,10 @@ public interface Kit {
 
     ArrayList<String> getKitAlias();
 
+    void addKitAlias(ArrayList<String> kitAlias);
+
+    void addKitAlias(String kitAlias);
+
     void setKitAlias(ArrayList<String> kitAlias);
 
     boolean hasAlias(String s);

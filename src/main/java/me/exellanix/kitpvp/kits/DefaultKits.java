@@ -85,7 +85,7 @@ public class DefaultKits {
         BasicKit pvp = new BasicKit(weapons, abilities, armor, org.bukkit.ChatColor.AQUA
                 + "" + org.bukkit.ChatColor.BOLD + "PvP", icon, true, 20, 0);
         pvp.setInventory(inventory);
-        pvp.setKitAlias(nameAlias);
+        pvp.addKitAlias(nameAlias);
 
         return pvp;
     }
@@ -155,7 +155,7 @@ public class DefaultKits {
 
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
         kit.setInventory(inv);
-        kit.setKitAlias(nameAlias);
+        kit.addKitAlias(nameAlias);
 
         return kit;
     }
@@ -244,7 +244,7 @@ public class DefaultKits {
 
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
         kit.setInventory(inv);
-        kit.setKitAlias(nameAlias);
+        kit.addKitAlias(nameAlias);
 
         return kit;
     }
@@ -292,7 +292,7 @@ public class DefaultKits {
 
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
         kit.setInventory(inv);
-        kit.setKitAlias(nameAlias);
+        kit.addKitAlias(nameAlias);
 
         return kit;
     }
@@ -352,7 +352,7 @@ public class DefaultKits {
 
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
         kit.setInventory(inv);
-        kit.setKitAlias(nameAlias);
+        kit.addKitAlias(nameAlias);
 
         KitConfiguration config = new KitConfiguration(false, "Switcher");
         HashMap<String, Object> values = new HashMap<>();
@@ -484,7 +484,7 @@ public class DefaultKits {
 
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
         kit.setInventory(inv);
-        kit.setKitAlias(nameAlias);
+        kit.addKitAlias(nameAlias);
 
         return kit;
     }
@@ -535,7 +535,7 @@ public class DefaultKits {
 
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
         kit.setInventory(inv);
-        kit.setKitAlias(nameAlias);
+        kit.addKitAlias(nameAlias);
 
         return kit;
     }
@@ -586,7 +586,7 @@ public class DefaultKits {
 
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 100, 0);
         kit.setInventory(inv);
-        kit.setKitAlias(nameAlias);
+        kit.addKitAlias(nameAlias);
 
         return kit;
     }
@@ -669,7 +669,7 @@ public class DefaultKits {
 
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, false, 20, 5000);
         kit.setInventory(inv);
-        kit.setKitAlias(nameAlias);
+        kit.addKitAlias(nameAlias);
 
         return kit;
     }
@@ -724,7 +724,7 @@ public class DefaultKits {
 
         BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
         kit.setInventory(inv);
-        kit.setKitAlias(nameAlias);
+        kit.addKitAlias(nameAlias);
 
         return kit;
     }

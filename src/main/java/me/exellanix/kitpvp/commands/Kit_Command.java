@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class Kit_Command implements CommandExecutor, Listener {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("kit") && cmd.getAliases().contains(label)) {
+		if ((cmd.getName().equalsIgnoreCase("kit") && cmd.getAliases().contains(label)) || cmd.getName().equalsIgnoreCase("kit")) {
 			if (sender instanceof Player) {
 				// /kit -> 0
 				// /kit kitName -> 1

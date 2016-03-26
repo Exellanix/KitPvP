@@ -36,6 +36,8 @@ public class BasicKit implements Kit {
         inventory = new ItemStack[36];
         this.health = health;
         this.price = price;
+        kitAlias = new ArrayList<>();
+        kitAlias.add(getName().toUpperCase());
     }
 
     @Override
@@ -155,8 +157,27 @@ public class BasicKit implements Kit {
     }
 
     @Override
+    public void addKitAlias(ArrayList<String> kitAlias) {
+        for (String s : kitAlias) {
+            if (!this.kitAlias.contains(s)) {
+                this.kitAlias.add(s.toUpperCase());
+            }
+        }
+    }
+
+    @Override
+    public void addKitAlias(String kitAlias) {
+        if (!this.kitAlias.contains(kitAlias)) {
+            this.kitAlias.add(kitAlias.toUpperCase());
+        }
+    }
+
+    @Override
     public void setKitAlias(ArrayList<String> kitAlias) {
         this.kitAlias = kitAlias;
+        if (!kitAlias.contains(getName().toUpperCase())) {
+            kitAlias.add(getName().toUpperCase());
+        }
     }
 
     @Override
