@@ -51,9 +51,11 @@ public class AbilityListener implements Listener {
         if (event.getWhoClicked() instanceof Player) {
             if (event.getCurrentItem() != null) {
                 if (KitPvP.getSingleton().getAbilityManager().isAbility(event.getCurrentItem())) {
-                    if (KitPvP.getSingleton().getPlayerKits().get(event.getWhoClicked()).getArmor().contains(event.getWhoClicked().getItemOnCursor())) {
-                        event.setCancelled(true);
-                        event.getWhoClicked().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You cannot swap these items.");
+                    if (event.getCursor() != null) {
+                        if (KitPvP.getSingleton().getPlayerKits().get(event.getWhoClicked()).getArmor().contains(event.getCursor())) {
+                            event.setCancelled(true);
+                            event.getWhoClicked().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You cannot swap these items.");
+                        }
                     }
                 }
             }
