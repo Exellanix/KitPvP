@@ -1,6 +1,7 @@
 package me.exellanix.kitpvp.commands;
 
 import me.exellanix.kitpvp.KitPvP;
+import me.exellanix.kitpvp.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,38 +26,58 @@ public class Soup_Command implements CommandExecutor {
                 if(player.hasPermission("kitpvp.soup")) {
                     if(args.length == 0) {
 
-                        player.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 100, 100)));
-                        player.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 100, 1)));
-                        player.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 100, 255)));
-                        player.sendMessage(ChatColor.AQUA + "Refilling...");
+
                         int openSlots = openSlots(player);
-                        while (KitPvP.getSingleton().getEconomy().getBalance(player) <= ((double) openSlots) * .5) {
-                            openSlots--;
-                        }
-                        if (openSlots > 0) {
-                            delay(player, openSlots);
-                            player.sendMessage(ChatColor.GREEN + "You have refilled " + openSlots + " soups!");
-                            KitPvP.getSingleton().getEconomy().withdrawPlayer(player, ((double) openSlots) * .5);
-                        } else {
-                            player.sendMessage(ChatColor.RED + "You do not have enough money!");
+                        if(openSlots > 0) {
+                            while (KitPvP.getSingleton().getEconomy().getBalance(player) < ((double) openSlots) * .5) {
+                                openSlots--;
+                            }
+                            if (openSlots > 0) {
+
+                                player.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 100, 100)));
+                                player.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 100, 1)));
+                                player.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 100, 255)));
+
+                                delay(player, openSlots, KitPvP.getSingleton().getPlayerKits().get(player), (double) openSlots * .5);
+                                player.sendMessage(ChatColor.GREEN + "You are refilling " + openSlots + " soups!");
+                                KitPvP.getSingleton().getEconomy().withdrawPlayer(player, ((double) openSlots) * .5);
+                            } else {
+                                player.sendMessage(ChatColor.RED + "You do not have enough money!");
+                            }
+                        }else{
+                            player.sendMessage(ChatColor.RED + "You do not have any open slots!");
                         }
                     }else if(args.length == 1) {
                         try {
                             int amount = Integer.parseInt(args[0]);
                             int openSlots = openSlots(player);
-                            while (KitPvP.getSingleton().getEconomy().getBalance(player) <= ((double) amount) * .5) {
-                                amount--;
-                            }
-                            if(amount <= openSlots) {
-                                KitPvP.getSingleton().getEconomy().withdrawPlayer(player, ((double) amount) * .5);
+                            double withdrawn = 0;
+                            if(openSlots > 0) {
+                                while (KitPvP.getSingleton().getEconomy().getBalance(player) < ((double) amount) * .5) {
+                                    amount--;
+                                }
+                                if (amount > 0) {
+
+                                    player.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 100, 100)));
+                                    player.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 100, 1)));
+                                    player.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 100, 255)));
+
+                                    if (amount <= openSlots) {
+                                        withdrawn = ((double) amount) * .5;
+                                        player.sendMessage(ChatColor.GREEN + "Refilling " + amount + " soups!");
+                                        delay(player, amount, KitPvP.getSingleton().getPlayerKits().get(player), withdrawn);
+
+                                    } else {
+                                        withdrawn = ((double) openSlots) * .5;
+                                        player.sendMessage(ChatColor.GREEN + "Refilling " + openSlots + " soups!");
+                                        delay(player, amount, KitPvP.getSingleton().getPlayerKits().get(player), withdrawn);
+                                    }
+                                } else {
+                                    player.sendMessage(ChatColor.RED + "You do not have enough money!");
+                                }
                             }else{
-                                KitPvP.getSingleton().getEconomy().withdrawPlayer(player, ((double) openSlots) * .5);
+                                player.sendMessage(ChatColor.RED + "You do not have any open slots!");
                             }
-                            delay(player, amount);
-                            if(Integer.parseInt(args[0]) > amount) {
-                                player.sendMessage(ChatColor.RED + "You could only afford " + (amount <= openSlots ?amount : openSlots) + " soups!");
-                            }
-                            player.sendMessage(ChatColor.GREEN + "Refilled " + amount + " soups!");
                         }catch(NumberFormatException e) {
                             player.sendMessage(ChatColor.RED + "Please enter a number!");
                         }
@@ -72,14 +93,16 @@ public class Soup_Command implements CommandExecutor {
         return false;
     }
 
-      public void delay(final Player soup, final int amount) {
+      public void delay(final Player soup, final int amount, Kit current, double withdrawn) {
         Bukkit.getServer().getScheduler().runTaskLater(KitPvP.getSingleton(), () -> {
+            if(KitPvP.getSingleton().getPlayerKits().get(soup) != null && current.equals(KitPvP.getSingleton().getPlayerKits().get(soup))) {
+
                 int refilled = 0;
-                for(int i = 0; i < 36; i++) {
-                    if(refilled == amount) {
+                for (int i = 0; i < 36; i++) {
+                    if (refilled == amount) {
                         break;
                     }
-                    if(soup.getInventory().getItem(i) == null) {
+                    if (soup.getInventory().getItem(i) == null) {
 
                         Inventory inv = soup.getInventory();
                         ItemStack mushroomSoup = new ItemStack(Material.MUSHROOM_SOUP);
@@ -90,7 +113,12 @@ public class Soup_Command implements CommandExecutor {
                     }
                 }
 
+                KitPvP.getSingleton().getEconomy().withdrawPlayer(soup, withdrawn);
+                soup.sendMessage(ChatColor.GREEN + "" + withdrawn + " has been taken from your account!");
                 soup.sendMessage(ChatColor.GREEN + "Done!");
+            }else{
+                soup.sendMessage(ChatColor.RED + "Soup refill canceled");
+            }
         }, 100L);
     }
 
