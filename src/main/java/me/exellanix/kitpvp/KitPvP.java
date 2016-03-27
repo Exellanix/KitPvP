@@ -3,10 +3,10 @@ package me.exellanix.kitpvp;
 import me.exellanix.kitpvp.commands.KitPvP_Command;
 import me.exellanix.kitpvp.commands.Kit_Command;
 import me.exellanix.kitpvp.commands.Repair_Command;
+import me.exellanix.kitpvp.commands.Soup_Command;
 import me.exellanix.kitpvp.commands.tabcomplete.KitPvPTab;
 import me.exellanix.kitpvp.commands.tabcomplete.KitTab;
 import me.exellanix.kitpvp.event.player.Blood;
-import me.exellanix.kitpvp.event.player.FeatherJump;
 import me.exellanix.kitpvp.event.player.JoinStuff;
 import me.exellanix.kitpvp.event.player.PlayerDeathInv;
 
@@ -19,8 +19,6 @@ import me.exellanix.kitpvp.kit_abilities.AbilityManager;
 import me.exellanix.kitpvp.regions.RegionManager;
 import me.exellanix.kitpvp.regions.SpawnRegion;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -89,6 +87,8 @@ public class KitPvP extends JavaPlugin {
 
         getCommand("kitpvp").setExecutor(new KitPvP_Command());
         getCommand("kitpvp").setTabCompleter(new KitPvPTab());
+
+        getCommand("soup").setExecutor(new Soup_Command());
 	}
 	public void registerEvents() {
 		PluginManager pm = getServer().getPluginManager();
@@ -96,7 +96,6 @@ public class KitPvP extends JavaPlugin {
 		pm.registerEvents(new PlayerDeathInv(), this);
 		pm.registerEvents(new Kit_Command(), this);
 		pm.registerEvents(new JoinStuff(), this);
-		pm.registerEvents(new FeatherJump(), this);
 		pm.registerEvents(new Blood(), this);
 	}
 

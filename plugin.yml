@@ -1,5 +1,5 @@
 main: me.exellanix.kitpvp.KitPvP
-version: 3.2
+version: 4.0.0
 name: KitPvP
 author: Exellanix
 authors: [Mac_Genius]
@@ -57,6 +57,9 @@ permissions:
   kitpvp.region.bypasskitselect:
     description: Allows players to leave an area without selecting a kit
     default: op
+  kitpvp.soup:
+    description: Allows you to refill your soups
+    default: op
 commands:
   kit:
     description: Gives a list of kits to choose!
@@ -68,6 +71,11 @@ commands:
     desription: Repairs a players armor!
     usage: /<command>
     permission: kitpvp.repair.command
+    permission-message: You do not have permission to do that.
+  soup:
+    description: Refills your soup
+    usage: /<command>
+    permission: kitpvp.soup
     permission-message: You do not have permission to do that.
   kitpvp:
     description: Handles the main commands for the plugin
