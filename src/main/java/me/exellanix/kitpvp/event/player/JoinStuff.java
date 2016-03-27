@@ -59,10 +59,10 @@ public class JoinStuff implements Listener {
 				+ ChatColor.AQUA + "" + ChatColor.BOLD + "-");
 		p.sendMessage(" ");
 		p.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD
-				+ "ExellPvP is still in development, expect bugs and major non-workingness!");
+				+ "ExellPvP is still in development, expect bugs!");
 		p.sendMessage(" ");
 		p.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD
-				+ "Added kits, Pyromancer and Re-crafter!");
+				+ "Debugged some stuff");
 		p.sendMessage(" ");
 		p.chat("/stats");
 		p.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Enjoy your stay!");

@@ -242,7 +242,7 @@ public class DefaultKits {
         ArrayList<String> nameAlias = new ArrayList<>();
         nameAlias.add("THOR");
 
-        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
+        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, false, 20, 250);
         kit.setInventory(inv);
         kit.addKitAlias(nameAlias);
 
@@ -290,7 +290,7 @@ public class DefaultKits {
         nameAlias.add("KANGAROO");
         nameAlias.add("KANG");
 
-        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
+        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, false, 20, 150);
         kit.setInventory(inv);
         kit.addKitAlias(nameAlias);
 
@@ -350,7 +350,7 @@ public class DefaultKits {
         nameAlias.add("SWITCHER");
         nameAlias.add("SWITCH");
 
-        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
+        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, false, 20, 300);
         kit.setInventory(inv);
         kit.addKitAlias(nameAlias);
 
@@ -482,7 +482,7 @@ public class DefaultKits {
         nameAlias.add("FISHERMAN");
         nameAlias.add("FISHER");
 
-        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
+        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, false, 20, 275);
         kit.setInventory(inv);
         kit.addKitAlias(nameAlias);
 
@@ -667,7 +667,7 @@ public class DefaultKits {
         nameAlias.add("PYROMANCER");
         nameAlias.add("PYRO");
 
-        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, false, 20, 5000);
+        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, false, 20, 225);
         kit.setInventory(inv);
         kit.addKitAlias(nameAlias);
 
@@ -722,7 +722,7 @@ public class DefaultKits {
         nameAlias.add("RECRAFT");
         nameAlias.add("RCRAFT");
 
-        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, true, 20, 0);
+        BasicKit kit = new BasicKit(weapons, abilities, armor, name, icon, false, 20, 100);
         kit.setInventory(inv);
         kit.addKitAlias(nameAlias);
 
