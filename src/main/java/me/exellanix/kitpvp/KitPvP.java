@@ -21,15 +21,12 @@ import me.exellanix.kitpvp.regions.SpawnRegion;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
-public class KitPvP extends JavaPlugin {
+public class KitPvP extends JavaPlugin implements KitPvPAPI {
 	
 	public Plugin plugin;
 	private AbilityManager abilityManager;
@@ -70,6 +67,8 @@ public class KitPvP extends JavaPlugin {
             flatStorage = new CustomYML(this, "playerkits.yml");
             flatStorage.saveDefaultConfig();
             database = new Database(flatStorage);
+
+            getServer().getServicesManager().register(KitPvPAPI.class, this, this, ServicePriority.Normal);
 
             getLogger().info("Enabled!");
         }
