@@ -16,7 +16,7 @@ KitPvP is a Spigot plugin designed to dynamically load and manage kits on ExellP
 
 ## An API!
 
-KitPvP now has an API built in which can be accessed from other plugins using Spigot's build in service provider!
+KitPvP now has an API built in which can be accessed from other plugins using Spigot's built in service provider!
 
 Some key components you can access are:
 
@@ -34,7 +34,7 @@ public class ExamplePlugin extends JavaPlugin {
   public void onEnabled() {
     if (!loadAPI()) {
       getLogger().info("Failed to find KitPvP's API!");
-      getPluginManager().disablePlugin(this);
+      getServer().getPluginManager().disablePlugin(this);
     } else {
       // Do other stuff here...
       getLogger().info("Plugin enabled!");
