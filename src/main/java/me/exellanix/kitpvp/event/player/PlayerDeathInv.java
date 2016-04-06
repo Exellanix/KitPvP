@@ -3,10 +3,10 @@ package me.exellanix.kitpvp.event.player;
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.mojang.authlib.GameProfile;
-import com.sun.javafx.scene.text.HitInfo;
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.CustPlayerConnection;
 import me.exellanix.kitpvp.player.inventory.DefaultInvConfigurations;
+import me.exellanix.kitpvp.stats.PlayerStats;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,10 +16,10 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
-import org.bukkit.entity.*;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -66,6 +66,14 @@ public class PlayerDeathInv implements Listener {
                 if (event.getEntity() instanceof Player) {
                     Player damaged = (Player) event.getEntity();
                     if (damaged.getHealth() <= event.getFinalDamage()) {
+                        PlayerStats stats = KitPvP.getSingleton().getPluginDatabase().getPlayerStats(damaged);
+                        if (KitPvP.getSingleton().getPlayerKits().get(damaged) != null) {
+                            String name = KitPvP.getSingleton().getPlayerKits().get(damaged).getName();
+                            int otherName = stats.getKitDeaths().get(name);
+                            stats.getKitDeaths().put(name, otherName + 1);
+                        }
+                        stats.setTotalDeaths(stats.getTotalDeaths() + 1);
+                        KitPvP.getSingleton().getPluginDatabase().updatePlayerStats(stats, damaged);
                         event.setDamage(0);
                         KitPvP.getSingleton().getPlayerKits().remove(event.getEntity());
                         damaged.setHealth(damaged.getMaxHealth());
@@ -78,6 +86,14 @@ public class PlayerDeathInv implements Listener {
                             }
                         }
                         if (event instanceof EntityDamageByEntityEvent) {
+                            if (((EntityDamageByEntityEvent)event).getDamager() instanceof Player) {
+                                PlayerStats stats1 = KitPvP.getSingleton().getPluginDatabase().getPlayerStats((Player)((EntityDamageByEntityEvent) event).getDamager());
+                                if (KitPvP.getSingleton().getPlayerKits().get(((EntityDamageByEntityEvent) event).getDamager()) != null) {
+                                    stats1.getKitKills().put(KitPvP.getSingleton().getPlayerKits().get(((EntityDamageByEntityEvent) event).getDamager()).getName(), stats.getKitKills().get(KitPvP.getSingleton().getPlayerKits().get(((EntityDamageByEntityEvent) event).getDamager()).getName()) + 1);
+                                }
+                                stats1.setTotalKills(stats1.getTotalKills() + 1);
+                                KitPvP.getSingleton().getPluginDatabase().updatePlayerStats(stats1, (Player)((EntityDamageByEntityEvent) event).getDamager());
+                            }
                             spawnFakePlayer(damaged, ((EntityDamageByEntityEvent)event).getDamager(), event.getCause());
                         } else {
                             spawnFakePlayer(damaged, null, event.getCause());

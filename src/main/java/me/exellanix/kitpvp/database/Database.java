@@ -1,45 +1,23 @@
 package me.exellanix.kitpvp.database;
 
-import me.exellanix.kitpvp.KitPvP;
-import me.exellanix.kitpvp.database.flat.LocalHandler;
 import me.exellanix.kitpvp.kits.Kit;
+import me.exellanix.kitpvp.stats.PlayerStats;
 import org.bukkit.entity.Player;
 
 /**
  * Created by Mac on 3/8/2016.
  */
-public class Database {
-    private CustomYML flat;
+public interface Database {
 
-    public Database(CustomYML flat) {
-        this.flat = flat;
-    }
+    void addPaidKit(Player player, Kit kit);
 
-    public void addPaidKit(Player player, Kit kit) {
-        if (KitPvP.getSingleton().plugin.getConfig().getBoolean("Use-MySQL")) {
+    void removePaidKit(Player player, Kit kit);
 
-        } else {
-            LocalHandler.addPaidKit(player, kit);
-        }
-    }
+    boolean hasPaidKit(Player player, Kit kit);
 
-    public void removePaidKit(Player player, Kit kit) {
-        if (KitPvP.getSingleton().plugin.getConfig().getBoolean("Use-MySQL")) {
+    PlayerStats getPlayerStats(Player player);
 
-        } else {
-            LocalHandler.removePaidKit(player, kit);
-        }
-    }
+    void updatePlayerStats(PlayerStats stats, Player player);
 
-    public boolean hasPaidKit(Player player, Kit kit) {
-        if (KitPvP.getSingleton().plugin.getConfig().getBoolean("Use-MySQL")) {
-            return false;
-        } else {
-            return LocalHandler.hasPaidKit(player, kit);
-        }
-    }
-
-    public CustomYML getFlatStorage() {
-        return flat;
-    }
+    void reloadConfigs();
 }

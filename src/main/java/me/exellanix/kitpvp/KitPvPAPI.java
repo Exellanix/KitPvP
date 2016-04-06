@@ -4,6 +4,7 @@ import me.exellanix.kitpvp.kit_abilities.AbilityManager;
 import me.exellanix.kitpvp.kits.Kit;
 import me.exellanix.kitpvp.kits.KitManager;
 import me.exellanix.kitpvp.regions.RegionManager;
+import me.exellanix.kitpvp.stats.PlayerStats;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -19,4 +20,6 @@ public interface KitPvPAPI {
     KitManager getKitManager();
 
     AbilityManager getAbilityManager();
+
+    PlayerStats getPlayerStats(Player player);
 }

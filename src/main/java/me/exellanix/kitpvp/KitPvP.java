@@ -6,6 +6,7 @@ import me.exellanix.kitpvp.commands.Repair_Command;
 import me.exellanix.kitpvp.commands.Soup_Command;
 import me.exellanix.kitpvp.commands.tabcomplete.KitPvPTab;
 import me.exellanix.kitpvp.commands.tabcomplete.KitTab;
+import me.exellanix.kitpvp.database.flat.LocalHandler;
 import me.exellanix.kitpvp.event.player.Blood;
 import me.exellanix.kitpvp.event.player.JoinStuff;
 import me.exellanix.kitpvp.event.player.PlayerDeathInv;
@@ -18,6 +19,7 @@ import me.exellanix.kitpvp.kit_abilities.AbilityManager;
 
 import me.exellanix.kitpvp.regions.RegionManager;
 import me.exellanix.kitpvp.regions.SpawnRegion;
+import me.exellanix.kitpvp.stats.PlayerStats;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -33,7 +35,6 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
 	private KitManager kitManager;
 	private RegionManager regionManager;
     private HashMap<Player, Kit> playerKits;
-    private CustomYML flatStorage;
     private CustomYML kitConfig;
     private Database database;
     private Economy econ;
@@ -64,9 +65,12 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
             regionManager = new RegionManager();
             registerDefaultRegions();
 
-            flatStorage = new CustomYML(this, "playerkits.yml");
-            flatStorage.saveDefaultConfig();
-            database = new Database(flatStorage);
+            if (KitPvP.getSingleton().plugin.getConfig().getBoolean("Use-MySQL")) {
+                // TODO Add support for MySQL
+                database = new LocalHandler();
+            } else {
+                database = new LocalHandler();
+            }
 
             getServer().getServicesManager().register(KitPvPAPI.class, this, this, ServicePriority.Normal);
 
@@ -114,7 +118,12 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
 		return abilityManager;
 	}
 
-	public KitManager getKitManager() {
+    @Override
+    public PlayerStats getPlayerStats(Player player) {
+        return database.getPlayerStats(player);
+    }
+
+    public KitManager getKitManager() {
 		return kitManager;
 	}
 

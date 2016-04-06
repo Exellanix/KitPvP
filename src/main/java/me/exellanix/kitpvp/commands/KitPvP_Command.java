@@ -73,7 +73,7 @@ public class KitPvP_Command implements CommandExecutor {
             KitPvP.getSingleton().getLogger().info("Saving config files...");
             KitPvP.getSingleton().reloadConfig();
             KitPvP.getSingleton().getKitConfig().reloadConfig();
-            KitPvP.getSingleton().getPluginDatabase().getFlatStorage().reloadConfig();
+            KitPvP.getSingleton().getPluginDatabase().reloadConfigs();
             KitPvP.getSingleton().getLogger().info("Reloading abilities and kits...");
             KitPvP.getSingleton().getKitManager().unregisterAllKits();
             KitPvP.getSingleton().getAbilityManager().unregisterAllAbilities();
