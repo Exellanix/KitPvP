@@ -109,7 +109,7 @@ public class AxeStrike implements Ability {
 
         KitConfiguration config = new KitConfiguration(true, "AxeStrike");
         HashMap<String, Object> values = new HashMap<>();
-        values.put("damage", 5);
+        values.put("damage", 7.5);
         values.put("cooldown", 10);
         config.saveDefaultSettings(values);
         this.config = config;

@@ -27,6 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class KitPvP extends JavaPlugin implements KitPvPAPI {
@@ -142,6 +143,8 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
     public HashMap<Player, Kit> getPlayerPrevKit() {
         return playerPrevKit;
     }
+
+    public ArrayList<Player> isDead = new ArrayList<Player>();
 
     public void setPlayerKits(HashMap<Player, Kit> playerKits) {
         this.playerKits = playerKits;

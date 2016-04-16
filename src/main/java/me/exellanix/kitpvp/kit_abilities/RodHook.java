@@ -78,7 +78,7 @@ public class RodHook implements Ability, Listener {
 
         KitConfiguration config = new KitConfiguration(true, "RodHook");
         HashMap<String, Object> values = new HashMap<>();
-        values.put("pull-strength", .75);
+        values.put("pull-strength", 1);
         config.saveDefaultSettings(values);
         this.config = config;
     }

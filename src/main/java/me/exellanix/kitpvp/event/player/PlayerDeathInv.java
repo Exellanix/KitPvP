@@ -73,6 +73,7 @@ public class PlayerDeathInv implements Listener {
                             stats.getKitDeaths().put(name, otherName + 1);
                         }
                         stats.setTotalDeaths(stats.getTotalDeaths() + 1);
+                        KitPvP.getSingleton().isDead.add(damaged);
                         KitPvP.getSingleton().getPluginDatabase().updatePlayerStats(stats, damaged);
                         event.setDamage(0);
                         KitPvP.getSingleton().getPlayerPrevKit().put(damaged, KitPvP.getSingleton().getPlayerKits().get(damaged));
@@ -83,6 +84,7 @@ public class PlayerDeathInv implements Listener {
                                 p.hidePlayer(damaged);
                                 KitPvP.getSingleton().getServer().getScheduler().runTaskLater(KitPvP.getSingleton(), () -> {
                                     p.showPlayer(damaged);
+                                    KitPvP.getSingleton().isDead.remove(damaged);
                                 }, 60);
                             }
                         }
@@ -113,6 +115,7 @@ public class PlayerDeathInv implements Listener {
                         KitPvP.getSingleton().getServer().getScheduler().runTaskLater(KitPvP.getSingleton(), () -> {
                             damaged.teleport(damaged.getWorld().getSpawnLocation());
                             DefaultInvConfigurations.useJoinInv(damaged);
+                            KitPvP.getSingleton().isDead.remove(damaged);
                         }, 60);
                     }
                 }
