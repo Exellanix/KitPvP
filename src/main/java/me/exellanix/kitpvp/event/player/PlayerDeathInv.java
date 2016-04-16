@@ -75,6 +75,7 @@ public class PlayerDeathInv implements Listener {
                         stats.setTotalDeaths(stats.getTotalDeaths() + 1);
                         KitPvP.getSingleton().getPluginDatabase().updatePlayerStats(stats, damaged);
                         event.setDamage(0);
+                        KitPvP.getSingleton().getPlayerPrevKit().put(damaged, KitPvP.getSingleton().getPlayerKits().get(damaged));
                         KitPvP.getSingleton().getPlayerKits().remove(event.getEntity());
                         damaged.setHealth(damaged.getMaxHealth());
                         for (Player p : Bukkit.getOnlinePlayers()) {

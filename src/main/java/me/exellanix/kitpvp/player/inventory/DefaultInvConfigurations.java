@@ -1,5 +1,6 @@
 package me.exellanix.kitpvp.player.inventory;
 
+import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.AlterItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,6 +40,10 @@ public class DefaultInvConfigurations {
         inv.setItem(7, star);
         ItemStack hub = AlterItem.nameItem(Material.WATCH, ChatColor.GOLD + "" + ChatColor.BOLD + "Hub");
         inv.setItem(4, hub);
+        if(KitPvP.getSingleton().getPlayerPrevKit().get(player) != null) {
+            ItemStack prevKit = AlterItem.nameItem(Material.DOUBLE_PLANT, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Play Previous Kit");
+            inv.setItem(2, prevKit);
+        }
         ItemStack skullItem = new ItemStack(Material.SKULL_ITEM, 1, (byte)3);
         SkullMeta  meta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
         meta.setOwner(player.getName());

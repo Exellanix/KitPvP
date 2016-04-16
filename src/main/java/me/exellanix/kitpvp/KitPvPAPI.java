@@ -17,6 +17,8 @@ public interface KitPvPAPI {
 
     HashMap<Player, Kit> getPlayerKits();
 
+    HashMap<Player, Kit> getPlayerPrevKit();
+
     KitManager getKitManager();
 
     AbilityManager getAbilityManager();

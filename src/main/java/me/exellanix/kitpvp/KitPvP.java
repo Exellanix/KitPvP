@@ -9,6 +9,7 @@ import me.exellanix.kitpvp.commands.tabcomplete.KitTab;
 import me.exellanix.kitpvp.database.flat.LocalHandler;
 import me.exellanix.kitpvp.event.player.Blood;
 import me.exellanix.kitpvp.event.player.JoinStuff;
+import me.exellanix.kitpvp.event.player.LastKit;
 import me.exellanix.kitpvp.event.player.PlayerDeathInv;
 
 import me.exellanix.kitpvp.database.CustomYML;
@@ -35,6 +36,7 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
 	private KitManager kitManager;
 	private RegionManager regionManager;
     private HashMap<Player, Kit> playerKits;
+    private HashMap<Player, Kit> playerPrevKit;
     private CustomYML kitConfig;
     private Database database;
     private Economy econ;
@@ -62,6 +64,7 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
             abilityManager = new AbilityManager();
             kitManager = new KitManager();
             playerKits = new HashMap<>();
+            playerPrevKit = new HashMap<>();
             regionManager = new RegionManager();
             registerDefaultRegions();
 
@@ -100,6 +103,7 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
 		pm.registerEvents(new Kit_Command(), this);
 		pm.registerEvents(new JoinStuff(), this);
 		pm.registerEvents(new Blood(), this);
+        pm.registerEvents(new LastKit(), this);
 	}
 
     // TODO Remove if FoodLevelChangeEvent works
@@ -135,6 +139,10 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
 		return playerKits;
 	}
 
+    public HashMap<Player, Kit> getPlayerPrevKit() {
+        return playerPrevKit;
+    }
+
     public void setPlayerKits(HashMap<Player, Kit> playerKits) {
         this.playerKits = playerKits;
     }
@@ -166,6 +174,7 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
         econ = rsp.getProvider();
         return econ != null;
     }
+
 
     public CustomYML getKitConfig() {
         return kitConfig;
