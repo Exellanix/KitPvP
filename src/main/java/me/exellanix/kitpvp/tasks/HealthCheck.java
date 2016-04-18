@@ -69,7 +69,7 @@ public class HealthCheck implements Runnable {
         }
     }
 
-    private void showTint(Player player) {
+    public static void showTint(Player player) {
         if (player.getHealth() <= 3) {
             KitPvP.getSingleton().getTurboAPI().sendBorderTint(player, Packet.BorderTint.DARK);
         } else if (player.getHealth() <= 6) {
