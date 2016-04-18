@@ -1,5 +1,6 @@
 package me.exellanix.kitpvp;
 
+import com.redstonedgaming.turboprotocol.TurboAPI;
 import me.exellanix.kitpvp.commands.KitPvP_Command;
 import me.exellanix.kitpvp.commands.Kit_Command;
 import me.exellanix.kitpvp.commands.Repair_Command;
@@ -21,6 +22,7 @@ import me.exellanix.kitpvp.kit_abilities.AbilityManager;
 import me.exellanix.kitpvp.regions.RegionManager;
 import me.exellanix.kitpvp.regions.SpawnRegion;
 import me.exellanix.kitpvp.stats.PlayerStats;
+import me.exellanix.kitpvp.tasks.HealthCheck;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -41,6 +43,7 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
     private CustomYML kitConfig;
     private Database database;
     private Economy econ;
+    private TurboAPI turboAPI;
     private static KitPvP singleton;
 	
 	public void onEnable() {
@@ -48,17 +51,18 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
             getLogger().warning("Could not setup the economy!");
             getLogger().warning("Make sure you have an economy plugin installed!");
             plugin.getServer().getPluginManager().disablePlugin(this);
+        } else if (!setTurboAPI()) {
+            getLogger().warning("Failed to find TurboProtocol!");
+            getLogger().warning("Make sure it is installed for the plugin to work!");
+            getServer().getPluginManager().disablePlugin(this);
         } else {
             singleton = this;
             kitConfig = new CustomYML(this, "kit_config.yml");
             kitConfig.saveDefaultConfig();
 
-            PluginDescriptionFile pdfFile = getDescription();
-
             registerCommands();
             registerEvents();
             saveDefaultConfig();
-            //generateFood();
             plugin = this;
 
 
@@ -68,6 +72,8 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
             playerPrevKit = new HashMap<>();
             regionManager = new RegionManager();
             registerDefaultRegions();
+
+            getServer().getScheduler().runTaskTimer(this, new HealthCheck(), 0, 1);
 
             if (KitPvP.getSingleton().plugin.getConfig().getBoolean("Use-MySQL")) {
                 // TODO Add support for MySQL
@@ -106,18 +112,6 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
 		pm.registerEvents(new Blood(), this);
         pm.registerEvents(new LastKit(), this);
 	}
-
-    // TODO Remove if FoodLevelChangeEvent works
-	/*public void generateFood() {
-		getServer().getScheduler().runTaskTimer(this, new Runnable() {
-			@Override
-			public void run() {
-				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.setFoodLevel(1000000);
-				}
-			}
-		},0, 20);
-	}*/
 
 	public AbilityManager getAbilityManager() {
 		return abilityManager;
@@ -178,6 +172,19 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
         return econ != null;
     }
 
+    private boolean setTurboAPI() {
+        RegisteredServiceProvider<TurboAPI> api = getServer().getServicesManager().getRegistration(TurboAPI.class);
+        if (api != null) {
+            turboAPI = api.getProvider();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public TurboAPI getTurboAPI() {
+        return turboAPI;
+    }
 
     public CustomYML getKitConfig() {
         return kitConfig;
