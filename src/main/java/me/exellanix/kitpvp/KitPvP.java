@@ -44,6 +44,7 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
     private Database database;
     private Economy econ;
     private TurboAPI turboAPI;
+    private HealthCheck healthCheck;
     private static KitPvP singleton;
 	
 	public void onEnable() {
@@ -73,7 +74,8 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
             regionManager = new RegionManager();
             registerDefaultRegions();
 
-            getServer().getScheduler().runTaskTimer(this, new HealthCheck(), 0, 1);
+            healthCheck = new HealthCheck();
+            getServer().getScheduler().runTaskTimer(this, healthCheck, 0, 1);
 
             if (KitPvP.getSingleton().plugin.getConfig().getBoolean("Use-MySQL")) {
                 // TODO Add support for MySQL
@@ -188,6 +190,10 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
 
     public CustomYML getKitConfig() {
         return kitConfig;
+    }
+
+    public HealthCheck getHealthCheck() {
+        return healthCheck;
     }
 
     public static KitPvP getSingleton() {

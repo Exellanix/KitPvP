@@ -3,6 +3,8 @@ package me.exellanix.kitpvp.event.player;
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.mojang.authlib.GameProfile;
+import com.redstonedgaming.turboprotocol.packet.*;
+import com.redstonedgaming.turboprotocol.packet.Packet;
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.CustPlayerConnection;
 import me.exellanix.kitpvp.player.inventory.DefaultInvConfigurations;
@@ -79,6 +81,7 @@ public class PlayerDeathInv implements Listener {
                         KitPvP.getSingleton().getPlayerPrevKit().put(damaged, KitPvP.getSingleton().getPlayerKits().get(damaged));
                         KitPvP.getSingleton().getPlayerKits().remove(event.getEntity());
                         damaged.setHealth(damaged.getMaxHealth());
+                        KitPvP.getSingleton().getTurboAPI().sendBorderTint(damaged, Packet.BorderTint.OFF);
                         for (Player p : Bukkit.getOnlinePlayers()) {
                             if (p != damaged) {
                                 p.hidePlayer(damaged);

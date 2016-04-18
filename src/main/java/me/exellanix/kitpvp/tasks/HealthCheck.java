@@ -80,4 +80,8 @@ public class HealthCheck implements Runnable {
             KitPvP.getSingleton().getTurboAPI().sendBorderTint(player, Packet.BorderTint.OFF);
         }
     }
+
+    public void removePlayer(Player player) {
+        update.remove(player);
+    }
 }
