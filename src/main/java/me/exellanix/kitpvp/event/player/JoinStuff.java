@@ -73,13 +73,14 @@ public class JoinStuff implements Listener {
 	public void playerLeave(PlayerQuitEvent event) {
 		KitPvP.getSingleton().getPlayerKits().remove(event.getPlayer());
 		KitPvP.getSingleton().getPlayerPrevKit().remove(event.getPlayer());
+		KitPvP.getSingleton().getHealthCheck().removePlayer(event.getPlayer());
 	}
 
 	@EventHandler
 	public void playerKick(PlayerKickEvent event) {
 		KitPvP.getSingleton().getPlayerKits().remove(event.getPlayer());
 		KitPvP.getSingleton().getPlayerPrevKit().remove(event.getPlayer());
-
+		KitPvP.getSingleton().getHealthCheck().removePlayer(event.getPlayer());
 	}
 
 	@EventHandler

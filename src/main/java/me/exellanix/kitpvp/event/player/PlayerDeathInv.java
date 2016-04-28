@@ -3,10 +3,13 @@ package me.exellanix.kitpvp.event.player;
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.mojang.authlib.GameProfile;
+import com.redstonedgaming.turboprotocol.packet.*;
+import com.redstonedgaming.turboprotocol.packet.Packet;
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.CustPlayerConnection;
 import me.exellanix.kitpvp.player.inventory.DefaultInvConfigurations;
 import me.exellanix.kitpvp.stats.PlayerStats;
+import me.exellanix.kitpvp.tasks.HealthCheck;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,10 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -51,6 +51,14 @@ public class PlayerDeathInv implements Listener {
 		player.setMaxHealth(20);
 		DefaultInvConfigurations.useJoinInv(player);
 	}
+
+    @EventHandler
+    public void regainHealth(EntityRegainHealthEvent event) {
+        if (event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
+            HealthCheck.showTint(player);
+        }
+    }
 
 	@EventHandler
 	public void entityDamagebyEntity(EntityDamageEvent event) {
