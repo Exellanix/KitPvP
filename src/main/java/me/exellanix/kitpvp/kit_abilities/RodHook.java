@@ -67,7 +67,8 @@ public class RodHook implements Ability, Listener {
     private void setup() {
         ItemStack rod = new ItemStack(Material.FISHING_ROD);
         ItemMeta meta = rod.getItemMeta();
-        meta.setDisplayName(org.bukkit.ChatColor.AQUA + "" + org.bukkit.ChatColor.BOLD + "Fish & Sticks");
+        meta.spigot().setUnbreakable(true);
+        meta.setDisplayName(org.bukkit.ChatColor.AQUA + "" + org.bukkit.ChatColor.BOLD + "");
         rod.setItemMeta(meta);
         this.item = rod;
 
@@ -78,7 +79,7 @@ public class RodHook implements Ability, Listener {
 
         KitConfiguration config = new KitConfiguration(true, "RodHook");
         HashMap<String, Object> values = new HashMap<>();
-        values.put("pull-strength", 1);
+        values.put("pull-strength", .25);
         config.saveDefaultSettings(values);
         this.config = config;
     }
@@ -92,8 +93,8 @@ public class RodHook implements Ability, Listener {
                 if (AlterItem.itemsEqual(this.item, p.getItemInHand())) {
                     p.sendMessage(ChatColor.GREEN + "GET OVER HERE!");
                     Vector v = p.getLocation().getDirection();
-                    v.multiply(-1 * ((double) getConfig().getSettings().get("pull-strength")));
-                    v.setY(-1 * ((double) getConfig().getSettings().get("pull-strength")));
+                    v.multiply(-4 * ((double) getConfig().getSettings().get("pull-strength")));
+                    v.setY(-4 * ((double) getConfig().getSettings().get("pull-strength")));
                     caught.setVelocity(v);
                 }
             }

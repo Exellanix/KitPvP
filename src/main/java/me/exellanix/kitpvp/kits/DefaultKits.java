@@ -417,6 +417,10 @@ public class DefaultKits {
         ItemStack ironLeggings = new ItemStack(Material.GOLD_LEGGINGS);
         ItemStack ironBoots = new ItemStack(Material.GOLD_BOOTS);
         ItemStack rod = new ItemStack(Material.FISHING_ROD);
+        ItemMeta meta = rod.getItemMeta();
+        meta.spigot().setUnbreakable(true);
+        meta.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Fish & Sticks");
+        rod.setItemMeta(meta);
 
         diamondSword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
         ironHelmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
@@ -428,10 +432,6 @@ public class DefaultKits {
         ItemMeta meta7 = diamondSword.getItemMeta();
         meta7.setDisplayName(org.bukkit.ChatColor.AQUA + "" + org.bukkit.ChatColor.BOLD + "Fish Knife");
         diamondSword.setItemMeta(meta7);
-
-        ItemMeta meta = rod.getItemMeta();
-        meta.setDisplayName(org.bukkit.ChatColor.AQUA + "" + org.bukkit.ChatColor.BOLD + "Fish & Sticks");
-        rod.setItemMeta(meta);
 
         ItemMeta meta4 = ironHelmet.getItemMeta();
         meta4.setDisplayName(org.bukkit.ChatColor.GRAY + "" + org.bukkit.ChatColor.BOLD + "Fisherman's Cap");
