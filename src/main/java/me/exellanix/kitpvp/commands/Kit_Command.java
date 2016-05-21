@@ -3,6 +3,7 @@ package me.exellanix.kitpvp.commands;
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.menus.BuyKit;
 import me.exellanix.kitpvp.menus.KitSelect;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,20 +45,19 @@ public class Kit_Command implements CommandExecutor, Listener {
                     String kitname = args[0].toLowerCase();
                     Player pl = null;
                     for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (p.getName().equals(args[1])) {
-                            pl = p;
-                            break;
+                        if (p.getName().equals(args[0])) {
+							if (pl != null) {
+								KitPvP.getSingleton().givenKit.add(p);
+								giveKit(p, kitname);
+							} else {
+								player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "That player is not online!");
+								break;
+							}
                         }
                     }
-
-                    if (pl != null) {
-                        giveKit(pl, kitname);
-                    } else {
-                        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "That player is not online!");
-                    }
-					return true;
 				} else {
-                    player.sendMessage(cmd.getPermissionMessage());
+                    player.sendMessage(ChatColor.RED + "You do not have permission to do that!");
+					return true;
                 }
 
 			}
@@ -81,7 +81,7 @@ public class Kit_Command implements CommandExecutor, Listener {
 	public void onPlayerInteract2(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 
-		if (p.getItemInHand().getType() == Material.ARROW
+		if (p.getItemInHand().getType() == Material.NETHER_STAR
 				&& (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR)) {
 			if (p.getItemInHand().getItemMeta().getDisplayName().contains("Warps")) {
 
@@ -118,7 +118,11 @@ public class Kit_Command implements CommandExecutor, Listener {
             if (KitPvP.getSingleton().getKitManager().hasKit(player, k)) {
                 k.equipKit(player);
                 KitPvP.getSingleton().getPlayerKits().put(player, k);
-                player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + k.getDisplayName() + org.bukkit.ChatColor.WHITE + "" + org.bukkit.ChatColor.BOLD + "!");
+				if(!KitPvP.getSingleton().givenKit.contains(player)) {
+					player.sendMessage(ChatColor.BOLD + "You have chosen the kit " + k.getDisplayName() + org.bukkit.ChatColor.WHITE + "" + org.bukkit.ChatColor.BOLD + "!");
+				}else{
+					player.sendMessage(ChatColor.BOLD + "You have been given the kit " + k.getDisplayName() + ChatColor.WHITE + "" + ChatColor.BOLD + "!");
+				}
             } else {
                 player.sendMessage(ChatColor.BOLD + "You need to buy that kit to use it!");
             }

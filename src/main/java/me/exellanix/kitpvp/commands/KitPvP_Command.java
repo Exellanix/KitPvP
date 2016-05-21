@@ -3,6 +3,7 @@ package me.exellanix.kitpvp.commands;
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.external_jars.LoadExternalJar;
 import me.exellanix.kitpvp.kits.Kit;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -63,7 +64,7 @@ public class KitPvP_Command implements CommandExecutor {
                 player.sendMessage(s);
             }
         } else {
-            player.sendMessage(command.getPermissionMessage());
+            player.sendMessage(ChatColor.RED + "You do not have permission to do that!");
         }
     }
 

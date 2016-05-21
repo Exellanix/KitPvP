@@ -1,10 +1,7 @@
 package me.exellanix.kitpvp;
 
 import com.redstonedgaming.turboprotocol.TurboAPI;
-import me.exellanix.kitpvp.commands.KitPvP_Command;
-import me.exellanix.kitpvp.commands.Kit_Command;
-import me.exellanix.kitpvp.commands.Repair_Command;
-import me.exellanix.kitpvp.commands.Soup_Command;
+import me.exellanix.kitpvp.commands.*;
 import me.exellanix.kitpvp.commands.tabcomplete.KitPvPTab;
 import me.exellanix.kitpvp.commands.tabcomplete.KitTab;
 import me.exellanix.kitpvp.database.flat.LocalHandler;
@@ -104,6 +101,8 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
         getCommand("kitpvp").setTabCompleter(new KitPvPTab());
 
         getCommand("soup").setExecutor(new Soup_Command());
+
+        getCommand("blood").setExecutor(new Blood_Command());
 	}
 	public void registerEvents() {
 		PluginManager pm = getServer().getPluginManager();
@@ -141,6 +140,10 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
     }
 
     public ArrayList<Player> isDead = new ArrayList<Player>();
+
+    public ArrayList<Player> blood = new ArrayList<Player>();
+
+    public ArrayList<Player> givenKit = new ArrayList<Player>();
 
     public void setPlayerKits(HashMap<Player, Kit> playerKits) {
         this.playerKits = playerKits;

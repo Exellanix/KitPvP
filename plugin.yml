@@ -60,25 +60,33 @@ permissions:
   kitpvp.soup:
     description: Allows you to refill your soups
     default: op
+  kitpvp.blood:
+    description: Allows you to toggle on and off blood
+    default: op
 commands:
   kit:
     description: Gives a list of kits to choose!
     usage: /<command>
     permission: kitpvp.kit.command
-    permission-message: You do not have permission to do that.
+    permission-message: You do not have permission to do that!
     aliases: [kits, k, pvpkits, pvpkit]
   repair:
     desription: Repairs a players armor!
     usage: /<command>
     permission: kitpvp.repair.command
-    permission-message: You do not have permission to do that.
+    permission-message: You do not have permission to do that!
   soup:
     description: Refills your soup
     usage: /<command>
     permission: kitpvp.soup
-    permission-message: You do not have permission to do that.
+    permission-message: You do not have permission to do that!
   kitpvp:
     description: Handles the main commands for the plugin
     usage: /<command>
     permission: kitpvp.kitpvp.command
-    permission-message: You do not have permission to do that.
+    permission-message: You do not have permission to do that!
+  blood:
+    description: Toggle on or off the blood!
+    usage: /<command>
+    permission: kitpvp.toggleblood
+    permission-message: You do not have permission to do that!

@@ -3,6 +3,7 @@ package me.exellanix.kitpvp.regions;
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.kit_abilities.PlayerActivateAbilityEvent;
 import me.exellanix.kitpvp.kits.Kit;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -55,7 +56,7 @@ public class SpawnRegion implements Region, Listener {
                                     Vector vector = new Vector(0, .5, -1);
                                     p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1f);
                                     p.setVelocity(vector);
-                                    p.sendMessage(ChatColor.BOLD + "Fight!");
+                                    p.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Fight!");
                                     PotionEffect effect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 255, true, false);
                                     p.addPotionEffect(effect);
                                     checkedOutNorth.add(p);
@@ -81,7 +82,7 @@ public class SpawnRegion implements Region, Listener {
                                     Vector vector = new Vector(0, .5, 1);
                                     p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1f);
                                     p.setVelocity(vector);
-                                    p.sendMessage(ChatColor.BOLD + "Fight!");
+                                    p.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Fight!");
                                     PotionEffect effect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 255, true, false);
                                     p.addPotionEffect(effect);
                                     checkedOutSouth.add(p);
@@ -104,10 +105,10 @@ public class SpawnRegion implements Region, Listener {
                         } else {
                             KitPvP.getSingleton().getServer().getScheduler().runTask(KitPvP.getSingleton(), () -> {
                                 if(!checkedOutEast.contains(p)) {
-                                    Vector vector = new Vector(-1, .5, 0);
+                                    Vector vector = new Vector(1, .5, 0);
                                     p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1f);
                                     p.setVelocity(vector);
-                                    p.sendMessage(ChatColor.BOLD + "Fight!");
+                                    p.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Fight!");
                                     PotionEffect effect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 255, true, false);
                                     p.addPotionEffect(effect);
                                     checkedOutEast.add(p);
@@ -130,10 +131,10 @@ public class SpawnRegion implements Region, Listener {
                         } else {
                             KitPvP.getSingleton().getServer().getScheduler().runTask(KitPvP.getSingleton(), () -> {
                                 if(!checkedOutWest.contains(p)) {
-                                    Vector vector = new Vector(1, .5, 0);
+                                    Vector vector = new Vector(-1, .5, 0);
                                     p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1f);
                                     p.setVelocity(vector);
-                                    p.sendMessage(ChatColor.BOLD + "Fight!");
+                                    p.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Fight!");
                                     PotionEffect effect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 255, true, false);
                                     p.addPotionEffect(effect);
                                     checkedOutWest.add(p);

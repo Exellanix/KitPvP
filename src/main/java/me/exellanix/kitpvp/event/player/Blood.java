@@ -17,32 +17,34 @@ public class Blood implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onEntityDamageEvent(EntityDamageByEntityEvent e) {
-		if (!e.isCancelled()) {
-			final Entity entity = e.getEntity();
+        if (KitPvP.getSingleton().blood.contains(e.getEntity())) {
+            if (!e.isCancelled()) {
+                final Entity entity = e.getEntity();
 
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodBody(entity));
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodBody(entity));
 
-			}
+                }
 
-			final float x = (float) entity.getLocation().getX();
-			final float y = (float) entity.getLocation().getY();
-			final float z = (float) entity.getLocation().getZ();
+                final float x = (float) entity.getLocation().getX();
+                final float y = (float) entity.getLocation().getY();
+                final float z = (float) entity.getLocation().getZ();
 
-			for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 10; i++) {
 
-				KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, new Runnable() {
+                    KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, new Runnable() {
 
-					public void run() {
-						for (Player p : Bukkit.getOnlinePlayers()) {
-							((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodGround(x, y, z));
-						}
-					}
-				}, i * 2);
+                        public void run() {
+                            for (Player p : Bukkit.getOnlinePlayers()) {
+                                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodGround(x, y, z));
+                            }
+                        }
+                    }, i * 2);
 
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 
 	public PacketPlayOutWorldParticles getBloodBody(Entity entity) {
 

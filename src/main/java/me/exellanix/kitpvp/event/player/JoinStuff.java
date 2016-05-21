@@ -42,6 +42,7 @@ public class JoinStuff implements Listener {
 	@EventHandler
 	public void onPlayerJoinEvent1(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
+		KitPvP.getSingleton().blood.add(p);
 		p.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Welcome, "
 				+ ChatColor.DARK_GREEN + "" + ChatColor.BOLD + p.getName());
 		p.sendMessage(" "); 
@@ -74,6 +75,7 @@ public class JoinStuff implements Listener {
 		KitPvP.getSingleton().getPlayerKits().remove(event.getPlayer());
 		KitPvP.getSingleton().getPlayerPrevKit().remove(event.getPlayer());
 		KitPvP.getSingleton().getHealthCheck().removePlayer(event.getPlayer());
+		KitPvP.getSingleton().givenKit.remove(event.getPlayer());
 	}
 
 	@EventHandler
@@ -81,6 +83,7 @@ public class JoinStuff implements Listener {
 		KitPvP.getSingleton().getPlayerKits().remove(event.getPlayer());
 		KitPvP.getSingleton().getPlayerPrevKit().remove(event.getPlayer());
 		KitPvP.getSingleton().getHealthCheck().removePlayer(event.getPlayer());
+		KitPvP.getSingleton().givenKit.remove(event.getPlayer());
 	}
 
 	@EventHandler

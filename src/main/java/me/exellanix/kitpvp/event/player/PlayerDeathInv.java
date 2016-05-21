@@ -7,6 +7,7 @@ import com.redstonedgaming.turboprotocol.packet.*;
 import com.redstonedgaming.turboprotocol.packet.Packet;
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.Util.CustPlayerConnection;
+import me.exellanix.kitpvp.event.custom.KitPvPDeathEvent;
 import me.exellanix.kitpvp.player.inventory.DefaultInvConfigurations;
 import me.exellanix.kitpvp.stats.PlayerStats;
 import me.exellanix.kitpvp.tasks.HealthCheck;
@@ -82,6 +83,7 @@ public class PlayerDeathInv implements Listener {
                         }
                         stats.setTotalDeaths(stats.getTotalDeaths() + 1);
                         KitPvP.getSingleton().isDead.add(damaged);
+                        KitPvP.getSingleton().givenKit.remove(damaged);
                         KitPvP.getSingleton().getPluginDatabase().updatePlayerStats(stats, damaged);
                         event.setDamage(0);
                         KitPvP.getSingleton().getPlayerPrevKit().put(damaged, KitPvP.getSingleton().getPlayerKits().get(damaged));

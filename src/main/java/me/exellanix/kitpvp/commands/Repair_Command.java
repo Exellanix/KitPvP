@@ -119,28 +119,36 @@ public class Repair_Command implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
 			if (cmd.getName().equalsIgnoreCase("repair")) {
-				if (p.hasPermission("kitpvp.repair.command") || (p.hasPermission("kitpvp.repair.armor") && p.hasPermission("kitpvp.repair.weapon") && p.hasPermission("kitpvp.repair.equipment"))) {
-					int canFix = 0;
-					if (p.hasPermission("kitpvp.repair.armor")) {
-						canFix++;
-					} if (p.hasPermission("kitpvp.repair.weapon")) {
-						canFix++;
-					} if (p.hasPermission("kitpvp.repair.equipment")) {
-						canFix++;
-					}
-					if (canFix > 0) {
-						p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 100, 100)));
-						p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 100, 1)));
-						p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 100, 255)));
-						p.sendMessage(ChatColor.AQUA + "Repairing...");
-						delay(p);
+				if (!KitPvP.getSingleton().getRegionManager().getRegion("spawn").isInside(p)) {
+					if (p.hasPermission("kitpvp.repair.command") || (p.hasPermission("kitpvp.repair.armor") && p.hasPermission("kitpvp.repair.weapon") && p.hasPermission("kitpvp.repair.equipment"))) {
+						int canFix = 0;
+						if (p.hasPermission("kitpvp.repair.armor")) {
+							canFix++;
+						}
+						if (p.hasPermission("kitpvp.repair.weapon")) {
+							canFix++;
+						}
+						if (p.hasPermission("kitpvp.repair.equipment")) {
+							canFix++;
+						}
+						if (canFix > 0) {
+							p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 100, 100)));
+							p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 100, 1)));
+							p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 100, 255)));
+							p.sendMessage(ChatColor.GREEN + "Repairing...");
+							delay(p);
+						} else {
+							p.sendMessage("You do not have the ability to repair any of your equipment.");
+						}
 					} else {
-						p.sendMessage("You do not have the ability to repair any of your equipment.");
+						p.sendMessage(ChatColor.RED + "You do not have permission to do that!");
+						return true;
 					}
-				} else {
-					p.sendMessage(cmd.getPermissionMessage());
+					return true;
+				}else{
+					p.sendMessage(ChatColor.RED + "You can not do this in spawn!");
+					return true;
 				}
-				return true;
 			}
 		}
 		return false;
@@ -150,7 +158,9 @@ public class Repair_Command implements CommandExecutor {
 		Bukkit.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, new Runnable() {
 			public void run() {
 				repairAll(p);
-				p.sendMessage(ChatColor.GREEN + "Repaired!");
+				KitPvP.getSingleton().getEconomy().withdrawPlayer(p, 20);
+				p.sendMessage(ChatColor.GREEN + "20 has been taken from your account!");
+				p.sendMessage(ChatColor.GREEN + "Done!");
 			}
 		}, 100L);
 	}

@@ -24,8 +24,6 @@ public class DefaultInvConfigurations {
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
         }
 
-        player.setAllowFlight(false);
-        player.setFlying(false);
         Inventory inv = player.getInventory();
         inv.clear();
         ItemStack air = new ItemStack(Material.AIR);
@@ -36,12 +34,10 @@ public class DefaultInvConfigurations {
 
         ItemStack chest = AlterItem.nameItem(Material.CHEST, ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Kit Selector");
         inv.setItem(0, chest);
-        ItemStack star= AlterItem.nameItem(Material.NETHER_STAR, ChatColor.YELLOW + "" + ChatColor.BOLD + "Warps");
-        inv.setItem(7, star);
         ItemStack hub = AlterItem.nameItem(Material.WATCH, ChatColor.GOLD + "" + ChatColor.BOLD + "Hub");
         inv.setItem(4, hub);
         if(KitPvP.getSingleton().getPlayerPrevKit().get(player) != null) {
-            ItemStack prevKit = AlterItem.nameItem(Material.DOUBLE_PLANT, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Play Previous Kit");
+            ItemStack prevKit = AlterItem.nameItem(Material.NETHER_STAR, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Play Previous Kit");
             inv.setItem(2, prevKit);
         }
         ItemStack skullItem = new ItemStack(Material.SKULL_ITEM, 1, (byte)3);

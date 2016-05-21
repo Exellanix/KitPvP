@@ -20,7 +20,7 @@ public class LastKit implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        ItemStack prevKit = AlterItem.nameItem(Material.DOUBLE_PLANT, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Play Previous Kit");
+        ItemStack prevKit = AlterItem.nameItem(Material.NETHER_STAR, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Play Previous Kit");
         if(AlterItem.itemsEqual(event.getItem(), prevKit)) {
             Kit k = KitPvP.getSingleton().getPlayerPrevKit().get(player);
             if(k != null) {
