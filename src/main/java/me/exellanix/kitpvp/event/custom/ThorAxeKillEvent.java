@@ -6,19 +6,29 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 /**
- * Created by Brendan on 5/19/2016.
+ * Created by Brendan on 5/25/2016.
  */
-public class KitPvPDeathEvent extends PlayerEvent implements Cancellable {
+public class ThorAxeKillEvent extends PlayerEvent implements Cancellable {
+
     private static final HandlerList handlers = new HandlerList();
 
     private boolean cancelled;
 
     private final Player victim;
+    private final Player user;
+
+    private String deathMessage;
+
+    int damage;
+
     private boolean tagged;
 
-    public KitPvPDeathEvent(Player victim) {
-        super(victim);
+    public ThorAxeKillEvent(Player victim, Player user, String deathMessage, int damage) {
+        super(victim != null ? victim : user);
         this.victim = victim;
+        this.user = user;
+        this.damage = damage;
+        this.deathMessage = deathMessage;
     }
 
     public static HandlerList getHandlerList() {
@@ -42,5 +52,21 @@ public class KitPvPDeathEvent extends PlayerEvent implements Cancellable {
 
     public Player getVictim() {
         return victim;
+    }
+
+    public Player getUser() {
+        return user;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public String getDeathMessage() {
+        return deathMessage;
+    }
+
+    public void setDeathMessage(String deathMessage) {
+        this.deathMessage = deathMessage;
     }
 }

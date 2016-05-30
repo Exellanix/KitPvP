@@ -56,7 +56,7 @@ public class SpawnRegion implements Region, Listener {
                                     Vector vector = new Vector(0, .5, -1);
                                     p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1f);
                                     p.setVelocity(vector);
-                                    p.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Fight!");
+                                    p.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Fight!");
                                     PotionEffect effect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 255, true, false);
                                     p.addPotionEffect(effect);
                                     checkedOutNorth.add(p);
@@ -82,7 +82,7 @@ public class SpawnRegion implements Region, Listener {
                                     Vector vector = new Vector(0, .5, 1);
                                     p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1f);
                                     p.setVelocity(vector);
-                                    p.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Fight!");
+                                    p.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Fight!");
                                     PotionEffect effect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 255, true, false);
                                     p.addPotionEffect(effect);
                                     checkedOutSouth.add(p);
@@ -108,7 +108,7 @@ public class SpawnRegion implements Region, Listener {
                                     Vector vector = new Vector(1, .5, 0);
                                     p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1f);
                                     p.setVelocity(vector);
-                                    p.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Fight!");
+                                    p.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Fight!");
                                     PotionEffect effect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 255, true, false);
                                     p.addPotionEffect(effect);
                                     checkedOutEast.add(p);
@@ -134,7 +134,7 @@ public class SpawnRegion implements Region, Listener {
                                     Vector vector = new Vector(-1, .5, 0);
                                     p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1f);
                                     p.setVelocity(vector);
-                                    p.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Fight!");
+                                    p.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Fight!");
                                     PotionEffect effect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 255, true, false);
                                     p.addPotionEffect(effect);
                                     checkedOutWest.add(p);

@@ -82,6 +82,7 @@ public class PlayerDeathInv implements Listener {
                             stats.getKitDeaths().put(name, otherName + 1);
                         }
                         stats.setTotalDeaths(stats.getTotalDeaths() + 1);
+                        KitPvP.getSingleton().getServer().getPluginManager().callEvent(new KitPvPDeathEvent(damaged));
                         KitPvP.getSingleton().isDead.add(damaged);
                         KitPvP.getSingleton().givenKit.remove(damaged);
                         KitPvP.getSingleton().getPluginDatabase().updatePlayerStats(stats, damaged);

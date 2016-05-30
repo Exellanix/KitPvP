@@ -17,7 +17,6 @@ public class Blood implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onEntityDamageEvent(EntityDamageByEntityEvent e) {
-        if (KitPvP.getSingleton().blood.contains(e.getEntity())) {
             if (!e.isCancelled()) {
                 final Entity entity = e.getEntity();
 
@@ -36,14 +35,21 @@ public class Blood implements Listener {
 
                         public void run() {
                             for (Player p : Bukkit.getOnlinePlayers()) {
-                                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodGround(x, y, z));
+                                if (!KitPvP.getSingleton().blood.contains(p)) {
+                                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(getBloodGround(x, y, z));
+                                }else{
+                                    if(p == e.getEntity()) {
+                                        return;
+                                    }else{
+                                        ((CraftPlayer)p).getHandle().playerConnection.sendPacket(getBloodGround(x, y, z));
+                                    }
+                                }
                             }
                         }
                     }, i * 2);
 
                 }
             }
-        }
     }
 
 	public PacketPlayOutWorldParticles getBloodBody(Entity entity) {

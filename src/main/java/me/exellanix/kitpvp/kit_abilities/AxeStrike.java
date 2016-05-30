@@ -2,7 +2,9 @@ package me.exellanix.kitpvp.kit_abilities;
 
 import me.exellanix.kitpvp.KitPvP;
 import me.exellanix.kitpvp.config.KitConfiguration;
+import me.exellanix.kitpvp.event.custom.ThorAxeKillEvent;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -49,8 +51,11 @@ public class AxeStrike implements Ability {
                     for (Entity e : nbe) {
                         if (e instanceof Player && (Player) e != player) {
                             ((Player) e).damage((int) getConfig().getSettings().get("damage"));
-                        }
 
+                            String str = org.bukkit.ChatColor.DARK_RED + "" + org.bukkit.ChatColor.BOLD + "[DEATH] a player has been killed!";
+                            KitPvP.getSingleton().getServer().getPluginManager().callEvent(new ThorAxeKillEvent((Player)e, player, str, (int)getConfig().getSettings().get("damage")));
+                            Bukkit.getServer().broadcastMessage(str);
+                        }
                     }
                     cooldown.put(player, System.currentTimeMillis());
                     KitPvP.getSingleton().plugin.getServer().getScheduler().runTaskLater(KitPvP.getSingleton().plugin, () -> {

@@ -5,6 +5,7 @@ import me.exellanix.kitpvp.commands.*;
 import me.exellanix.kitpvp.commands.tabcomplete.KitPvPTab;
 import me.exellanix.kitpvp.commands.tabcomplete.KitTab;
 import me.exellanix.kitpvp.database.flat.LocalHandler;
+import me.exellanix.kitpvp.event.custom.Caller;
 import me.exellanix.kitpvp.event.player.Blood;
 import me.exellanix.kitpvp.event.player.JoinStuff;
 import me.exellanix.kitpvp.event.player.LastKit;
@@ -112,6 +113,7 @@ public class KitPvP extends JavaPlugin implements KitPvPAPI {
 		pm.registerEvents(new JoinStuff(), this);
 		pm.registerEvents(new Blood(), this);
         pm.registerEvents(new LastKit(), this);
+        pm.registerEvents(new Caller(), this);
 	}
 
 	public AbilityManager getAbilityManager() {
